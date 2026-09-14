@@ -163,6 +163,15 @@ def oauth_callback():
 def index():
     return jsonify({"status": "ventafacil backend running"}), 200
 
+@app.route("/oauth/login", methods=["GET"])
+def oauth_login():
+    auth_url = (
+        "https://auth.mercadolibre.com.ar/authorization"
+        f"?response_type=code&client_id={CLIENT_ID}"
+        f"&redirect_uri={REDIRECT_URI}"
+    )
+    return f'<h2>Conectar VentaFacil con Mercado Libre</h2><a href="{auth_url}">Autorizar cuenta</a>', 200
+
 
 with app.app_context():
     init_db()
