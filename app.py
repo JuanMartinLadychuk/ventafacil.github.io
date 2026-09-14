@@ -140,10 +140,10 @@ def oauth_callback():
         cur = conn.cursor()
         cur.execute(
             """
-            INSERT INTO ml_tokens (user_id, access_token, refresh_token, expires_at)
-            VALUES (%s, %s, %s, NOW() + (%s || ' seconds')::interval)
+            INSERT INTO ml_tokens (ml_user_id, access_token, refresh_token, expires_in, expires_at, active, created_at, updated_at)
+            VALUES (%s, %s, %s, %s, NOW() + (%s || ' seconds')::interval, 1, NOW(), NOW())
             """,
-            (user_id, access_token, refresh_token, expires_in),
+            (user_id, access_token, refresh_token, expires_in, expires_in),
         )
         conn.commit()
         cur.close()
