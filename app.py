@@ -151,6 +151,9 @@ def oauth_callback():
 
         return "<h2>Autorización exitosa. Ya podés cerrar esta ventana.</h2>", 200
 
+    except requests.exceptions.HTTPError as e:
+        logging.error("Error intercambiando code por token: %s - Respuesta: %s", e, e.response.text)
+        return "<h2>Error al procesar la autorización</h2>", 500
     except Exception as e:
         logging.error("Error intercambiando code por token: %s", e)
         return "<h2>Error al procesar la autorización</h2>", 500
