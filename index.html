@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VentaFácil — Sistema de gestión para comercios</title>
+<meta name="description" content="Cargá inventario, registrá ventas y coordiná pedidos con tus proveedores desde un solo lugar. Pensado para kioscos, boutiques y comercios de barrio en Argentina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#171f18;
+    --ink-800:#1f2a20;
+    --ink-700:#2a382b;
+    --ink-600:#3a4c3b;
+    --paper:#f4efdf;
+    --paper-dim:rgba(244,239,223,0.66);
+    --paper-faint:rgba(244,239,223,0.4);
+    --brass:#cf9a45;
+    --brass-light:#e7c37f;
+    --clay:#b5573a;
+    --moss:#8ea076;
+    --line:rgba(244,239,223,0.14);
+    --radius-card:14px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink-900);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    margin:0;
+    letter-spacing:-0.01em;
+    font-weight:600;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  img,svg{display:block;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+  .muted{color:var(--paper-dim);}
+
+  button:focus-visible, a:focus-visible{
+    outline:2px solid var(--brass-light);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:13px 24px;
+    border-radius:8px;
+    border:none;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    text-decoration:none;
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .btn-primary{background:var(--brass); color:#241a08;}
+  .btn-primary:hover{background:var(--brass-light);}
+  .btn-ghost{background:transparent; color:var(--paper); border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:rgba(244,239,223,0.4);}
+
+  header.site-nav{padding:22px 0 0;}
+  .nav-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding-bottom:22px;
+    border-bottom:1px solid var(--line);
+  }
+  .nav-left{display:flex;align-items:center;gap:38px;}
+  .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;}
+  .wordmark .tag-mark{width:12px;height:12px;border:1.6px solid var(--brass);border-radius:2px;position:relative;transform:rotate(45deg);}
+  .wordmark .tag-mark::after{content:"";position:absolute;top:-3px;left:2.5px;width:3px;height:3px;border-radius:50%;background:var(--brass);}
+  .nav-links{display:flex;gap:28px;list-style:none;margin:0;padding:0;}
+  .nav-links a{font-size:14.5px;color:var(--paper-dim);text-decoration:none;transition:color .15s;}
+  .nav-links a:hover{color:var(--paper);}
+  .nav-right{display:flex;gap:10px;align-items:center;}
+  .nav-right .btn{padding:10px 18px;font-size:14px;}
+
+  @media(max-width:760px){
+    .nav-links{display:none;}
+    .nav-right .btn-ghost{display:none;}
+  }
+
+  .hero{padding:72px 0 96px;}
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.08fr 0.92fr;
+    gap:64px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(32px,4vw,48px);
+    line-height:1.12;
+    max-width:600px;
+  }
+  .hero p.lead{
+    margin-top:22px;
+    font-size:17.5px;
+    color:var(--paper-dim);
+    max-width:460px;
+  }
+  .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+  .hero-note{margin-top:22px;font-size:13.5px;color:var(--paper-dim);}
+  .hero-count{
+    display:flex;
+    gap:28px;
+    margin-top:44px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    max-width:460px;
+  }
+  .hero-count div .n{font-family:'Fraunces',serif;font-size:24px;font-weight:600;}
+  .hero-count div .l{font-size:12.5px;color:var(--paper-dim);margin-top:2px;}
+
+  /* ---- Escena de vidriera: etiqueta + ticket ---- */
+  .scene{
+    position:relative;
+    min-height:420px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .price-tag{
+    position:relative;
+    width:250px;
+    background:var(--brass-light);
+    color:#302007;
+    padding:22px 26px 22px 40px;
+    clip-path:polygon(22px 0, 100% 0, 100% 100%, 22px 100%, 0 50%);
+    transform:rotate(-6deg);
+    animation:tag-settle .6s cubic-bezier(.2,.8,.3,1) both;
+  }
+  .price-tag::before{
+    content:"";
+    position:absolute;
+    left:9px; top:50%;
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--ink-900);
+    transform:translateY(-50%);
+  }
+  .price-tag .p-label{font-size:12px;color:#5a4110;margin-bottom:6px;}
+  .price-tag .p-name{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1.2;}
+  .price-tag .p-price{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;margin-top:10px;}
+  .price-tag .p-sub{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#5a4110;margin-top:2px;}
+
+  .receipt{
+    position:relative;
+    width:220px;
+    background:#efe6cd;
+    color:#2a2211;
+    font-family:'IBM Plex Mono',monospace;
+    padding:20px 20px 30px;
+    margin:-30px 0 0 190px;
+    transform:rotate(4deg);
+    box-shadow:0 24px 40px rgba(0,0,0,0.35);
+    animation:receipt-settle .6s .12s cubic-bezier(.2,.8,.3,1) both;
+  }
+  .receipt::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:-9px; height:18px;
+    background:radial-gradient(circle at 9px 0, transparent 9px, #efe6cd 9.5px);
+    background-size:18px 18px;
+    background-repeat:repeat-x;
+  }
+  .receipt .r-head{font-size:11px;letter-spacing:0.02em;text-align:center;border-bottom:1px dashed rgba(42,34,17,0.35);padding-bottom:10px;margin-bottom:10px;}
+  .receipt .r-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;}
+  .receipt .r-row .k{color:rgba(42,34,17,0.6);}
+  .receipt .r-total{display:flex;justify-content:space-between;font-size:13px;font-weight:600;border-top:1px dashed rgba(42,34,17,0.35);margin-top:8px;padding-top:8px;}
+
+  @keyframes tag-settle{from{opacity:0;transform:rotate(-6deg) translateY(-14px);}to{opacity:1;transform:rotate(-6deg) translateY(0);}}
+  @keyframes receipt-settle{from{opacity:0;transform:rotate(4deg) translateY(14px);}to{opacity:1;transform:rotate(4deg) translateY(0);}}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero p.lead{max-width:none;}
+    .scene{margin-top:20px;min-height:360px;}
+    .receipt{margin-left:130px;}
+  }
+  @media(max-width:460px){
+    .receipt{margin-left:70px;width:190px;}
+    .price-tag{width:210px;}
+  }
+
+  section{padding:74px 0;}
+  .section-head{max-width:560px;margin-bottom:46px;}
+  .section-head .kicker{color:var(--brass-light);font-size:14.5px;font-weight:600;margin-bottom:10px;}
+  .section-head h2{font-size:clamp(25px,2.8vw,34px);}
+  .section-head p{margin-top:14px;color:var(--paper-dim);font-size:16px;}
+
+  /* ---- Módulos como planilla de mercadería, no cards de SaaS ---- */
+  .modules-list{border-top:1px solid var(--line);}
+  .module-row{
+    display:grid;
+    grid-template-columns:56px 220px 1fr;
+    gap:26px;
+    align-items:start;
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .module-icon{
+    width:40px;height:40px;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .module-row h3{font-size:18px;font-weight:600;}
+  .module-row p{color:var(--paper-dim);font-size:14.5px;margin:6px 0 0;max-width:460px;}
+
+  @media(max-width:760px){
+    .module-row{grid-template-columns:40px 1fr;}
+    .module-row h3{grid-column:2;}
+    .module-row p{grid-column:2;}
+  }
+
+  /* ---- Cómo funciona ---- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+  .step{position:relative;padding-right:30px;}
+  .step-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;font-weight:600;
+    color:var(--brass-light);
+    margin-bottom:16px;
+  }
+  .step h3{font-size:17.5px;}
+  .step p{color:var(--paper-dim);font-size:14.5px;margin:9px 0 0;}
+  .step-line{position:absolute;top:9px;left:calc(100% - 30px + 17px);width:30px;height:1px;background:var(--line);}
+  .step:last-child .step-line{display:none;}
+
+  @media(max-width:800px){
+    .steps{grid-template-columns:1fr;gap:34px;}
+    .step-line{display:none;}
+    .step{padding-right:0;}
+  }
+
+  /* ---- Confianza ---- */
+  .trust-band{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:40px 0;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:34px;
+  }
+  .trust-item h4{font-family:'Fraunces',serif;font-size:16.5px;font-weight:600;margin:0 0 8px;}
+  .trust-item p{font-size:13.8px;color:var(--paper-dim);margin:0;}
+
+  @media(max-width:800px){.trust-band{grid-template-columns:1fr;}}
+
+  /* ---- Recursos / contenido ---- */
+  .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .article-card{
+    border:1px solid var(--line);
+    border-radius:var(--radius-card);
+    padding:24px;
+  }
+  .article-card .a-meta{font-size:12.5px;color:var(--brass-light);margin-bottom:12px;}
+  .article-card h3{font-size:17px;line-height:1.3;}
+  .article-card p{color:var(--paper-dim);font-size:14px;margin:10px 0 0;}
+  .article-card .a-read{display:inline-block;margin-top:16px;font-size:13.5px;font-weight:600;color:var(--brass-light);text-decoration:none;}
+
+  @media(max-width:900px){.articles-grid{grid-template-columns:1fr;}}
+
+  /* ---- FAQ ---- */
+  .faq{max-width:760px;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-item summary{
+    cursor:pointer;
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 0;
+    font-family:'Fraunces',serif;
+    font-size:16.5px;
+    font-weight:600;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary .plus{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--brass-light);flex-shrink:0;margin-left:16px;}
+  .faq-item[open] summary .plus{transform:rotate(45deg);}
+  .faq-item p{color:var(--paper-dim);font-size:14.8px;margin:0 0 22px;max-width:620px;}
+
+  /* ---- CTA final ---- */
+  .cta-final{
+    background:var(--ink-800);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:56px;
+    text-align:center;
+  }
+  .cta-final h2{font-size:clamp(25px,3.2vw,32px);max-width:600px;margin:0 auto 16px;}
+  .cta-final p{color:var(--paper-dim);font-size:16px;max-width:460px;margin:0 auto 30px;}
+
+  /* ---- Soporte ---- */
+  .support-box{
+    background:var(--ink-800);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:44px;
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:44px;
+  }
+  .support-info h2{font-size:clamp(23px,2.6vw,28px);}
+  .support-info p{color:var(--paper-dim);font-size:15px;margin-top:14px;max-width:340px;}
+  .support-info .support-addr{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:22px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13.5px;
+    color:var(--brass-light);
+    text-decoration:none;
+  }
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;color:var(--paper-dim);margin-bottom:7px;}
+  .field input,.field textarea{
+    width:100%;
+    background:var(--ink-900);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    color:var(--paper);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:14.5px;
+  }
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--brass);}
+  .field textarea{resize:vertical;min-height:100px;}
+  .support-note{font-size:12.5px;color:var(--paper-dim);margin-top:4px;}
+  .form-status{font-size:13.5px;margin-top:14px;min-height:18px;}
+  .form-status.ok{color:var(--moss);}
+  .form-status.err{color:var(--clay);}
+
+  @media(max-width:800px){
+    .support-box{grid-template-columns:1fr;padding:32px;}
+  }
+
+  footer{padding:44px 0 50px;border-top:1px solid var(--line);}
+  .footer-row{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;}
+  .footer-links{display:flex;gap:22px;list-style:none;margin:0;padding:0;}
+  .footer-links a{font-size:13.5px;color:var(--paper-dim);text-decoration:none;}
+  .footer-links a:hover{color:var(--paper);}
+  footer .muted{font-size:13.5px;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap">
+    <nav class="nav-bar">
+      <div class="nav-left">
+        <div class="wordmark"><span class="tag-mark"></span>VentaFácil</div>
+        <ul class="nav-links">
+          <li><a href="#modulos">Funciones</a></li>
+          <li><a href="#como-funciona">Cómo funciona</a></li>
+          <li><a href="#recursos">Recursos</a></li>
+          <li><a href="#preguntas">Preguntas</a></li>
+          <li><a href="#soporte">Soporte</a></li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <a href="#" class="btn btn-ghost">Ingresar</a>
+        <a href="#cta" class="btn btn-primary">Empezar gratis</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Manejá tu comercio sin perder de vista ni un producto</h1>
+        <p class="lead">Cargá inventario, registrá ventas y coordiná pedidos con tus proveedores desde un solo lugar. Sin planillas sueltas, sin depender de la memoria.</p>
+        <div class="hero-cta">
+          <a href="#cta" class="btn btn-primary">Empezar gratis</a>
+          <a href="#modulos" class="btn btn-ghost">Ver qué incluye</a>
+        </div>
+        <p class="hero-note">No pedimos tarjeta para probarlo.</p>
+        <div class="hero-count">
+          <div><div class="n mono">248</div><div class="l">productos en un inventario típico</div></div>
+          <div><div class="n mono">5</div><div class="l">minutos para cargar el primero</div></div>
+          <div><div class="n mono">0</div><div class="l">planillas de Excel necesarias</div></div>
+        </div>
+      </div>
+
+      <div class="scene" role="img" aria-label="Una etiqueta de precio y un ticket de venta con las estadísticas del inventario: stock crítico, productos totales y valor del inventario">
+        <div class="price-tag">
+          <div class="p-label">Remera básica — talle M</div>
+          <div class="p-name">SKU 00214</div>
+          <div class="p-price">$7.430</div>
+          <div class="p-sub">margen 38% · quedan 6</div>
+        </div>
+        <div class="receipt">
+          <div class="r-head">RESUMEN DE HOY</div>
+          <div class="r-row"><span class="k">Stock crítico</span><span>3</span></div>
+          <div class="r-row"><span class="k">Productos totales</span><span>248</span></div>
+          <div class="r-row"><span class="k">Precio promedio</span><span>$7.430</span></div>
+          <div class="r-total"><span>Valor inventario</span><span>$1,84M</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="modulos">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Todo el negocio, en un solo sistema</div>
+        <h2>Cinco secciones que cubren el día a día</h2>
+        <p>Cada módulo hace una cosa concreta. Entrás, resolvés y volvés a lo tuyo.</p>
+      </div>
+
+      <div class="modules-list">
+        <div class="module-row">
+          <div class="module-icon" style="background:var(--brass);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 11L12 4L21 11" stroke="#241a08" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10V20H19V10" stroke="#241a08" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Dashboard</h3>
+          <p>Stock crítico, valor total del inventario y precio promedio, de un vistazo, apenas entrás.</p>
+        </div>
+
+        <div class="module-row">
+          <div class="module-icon" style="background:var(--moss);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="7" width="16" height="13" rx="1.5" stroke="#182014" stroke-width="1.8"/><path d="M8 7V5a4 4 0 0 1 8 0v2" stroke="#182014" stroke-width="1.8"/></svg>
+          </div>
+          <h3>Inventario</h3>
+          <p>Organizá productos por categoría, subcategoría y variante, y calculá el precio de venta con margen automático o individual.</p>
+        </div>
+
+        <div class="module-row">
+          <div class="module-icon" style="background:var(--clay);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="20" r="1.4" fill="#2a1004"/><circle cx="18" cy="20" r="1.4" fill="#2a1004"/><path d="M2 3H4.5L7 15H19L21 7H6" stroke="#2a1004" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Ventas</h3>
+          <p>Registrá cada venta y dejá que el stock se descuente solo, sin recalcular nada a mano.</p>
+        </div>
+
+        <div class="module-row">
+          <div class="module-icon" style="background:#7d8fb8;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="9" width="13" height="8" rx="1.2" stroke="#161b28" stroke-width="1.8"/><path d="M15 12H18.5L21 15V17H15V12Z" stroke="#161b28" stroke-width="1.8" stroke-linejoin="round"/><circle cx="6.5" cy="19.5" r="1.5" stroke="#161b28" stroke-width="1.6"/><circle cx="17.5" cy="19.5" r="1.5" stroke="#161b28" stroke-width="1.6"/></svg>
+          </div>
+          <h3>Proveedores</h3>
+          <p>Guardá sus datos y mandales pedidos, consultas de stock o reclamos por mail con plantillas ya armadas.</p>
+        </div>
+
+        <div class="module-row">
+          <div class="module-icon" style="background:var(--brass-light);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#302007" stroke-width="1.8"/><path d="M19.4 13.5C19.6 12.7 19.6 11.9 19.4 11.1L21.2 9.6L19.7 6.9L17.5 7.6C16.9 7.1 16.2 6.6 15.5 6.4L15 4H12L11.5 6.4C10.8 6.6 10.1 7.1 9.5 7.6L7.3 6.9L5.8 9.6L7.6 11.1C7.4 11.9 7.4 12.7 7.6 13.5L5.8 15L7.3 17.7L9.5 17C10.1 17.5 10.8 18 11.5 18.2L12 20.6H15L15.5 18.2C16.2 18 16.9 17.5 17.5 17L19.7 17.7L21.2 15L19.4 13.5Z" stroke="#302007" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Configuración</h3>
+          <p>Definí cómo se calculan los márgenes de venta y qué puede ver o hacer cada persona del equipo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Empezar te lleva minutos</div>
+        <h2>Tres pasos y ya estás gestionando</h2>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num mono">01</div>
+          <h3>Creá tu cuenta</h3>
+          <p>Con tu correo y una contraseña alcanza. Nada de formularios eternos.</p>
+          <div class="step-line"></div>
+        </div>
+        <div class="step">
+          <div class="step-num mono">02</div>
+          <h3>Cargá tu inventario</h3>
+          <p>Sumá tus productos, categorías y proveedores. Podés hacerlo de a poco.</p>
+          <div class="step-line"></div>
+        </div>
+        <div class="step">
+          <div class="step-num mono">03</div>
+          <h3>Gestioná el día a día</h3>
+          <p>Ventas, stock y pedidos a proveedores, todo desde el mismo panel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipo">
+    <div class="wrap">
+      <div class="trust-band">
+        <div class="trust-item">
+          <h4>Permisos por persona</h4>
+          <p>Elegís qué módulos ve cada usuario. El resto del equipo entra y ve solo lo que le corresponde.</p>
+        </div>
+        <div class="trust-item">
+          <h4>Márgenes automáticos</h4>
+          <p>Definís el porcentaje una vez y el precio de venta se calcula solo en cada producto nuevo.</p>
+        </div>
+        <div class="trust-item">
+          <h4>Plantillas de correo</h4>
+          <p>Pedido, consulta de stock, confirmación o reclamo: elegís la plantilla y solo completás el detalle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recursos">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Para leer antes de abrir la caja</div>
+        <h2>Notas sobre gestión de stock</h2>
+        <p>Guías cortas basadas en problemas reales de comercios chicos.</p>
+      </div>
+
+      <div class="articles-grid">
+        <div class="article-card">
+          <div class="a-meta mono">6 min de lectura</div>
+          <h3>Cómo controlar el stock sin perder ventas por faltantes</h3>
+          <p>Señales tempranas de que un producto se va a agotar, y cómo fijar un punto de reposición sin sobre-stockear.</p>
+          <a href="#" class="a-read">Leer la nota</a>
+        </div>
+        <div class="article-card">
+          <div class="a-meta mono">4 min de lectura</div>
+          <h3>Cuándo pedirle mercadería a tus proveedores</h3>
+          <p>Una forma simple de calcular cuánto pedir según lo que se vendió el mes anterior, sin planillas complicadas.</p>
+          <a href="#" class="a-read">Leer la nota</a>
+        </div>
+        <div class="article-card">
+          <div class="a-meta mono">5 min de lectura</div>
+          <h3>Errores comunes al fijar precios de venta</h3>
+          <p>Por qué el margen fijo no siempre funciona igual para todas las categorías, y cómo ajustarlo por producto.</p>
+          <a href="#" class="a-read">Leer la nota</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="preguntas">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Antes de empezar</div>
+        <h2>Preguntas frecuentes</h2>
+      </div>
+
+      <div class="faq">
+        <details class="faq-item">
+          <summary>¿Necesito tarjeta de crédito para probarlo?<span class="plus">+</span></summary>
+          <p>No. Creás la cuenta con tu correo y podés cargar inventario y ventas sin ingresar ningún medio de pago.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Sirve para más de un local?<span class="plus">+</span></summary>
+          <p>Sí, podés dar de alta a las personas de cada local y definir qué módulos ve cada una desde Configuración.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Puedo importar el inventario que ya tengo en una planilla?<span class="plus">+</span></summary>
+          <p>Sí, se puede cargar por planilla al empezar y después seguir sumando productos a mano cuando haga falta.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cuánto cuesta?<span class="plus">+</span></summary>
+          <p>Por ahora VentaFácil es gratuito, sin planes pagos ni límites de productos. Si eso cambia más adelante, te avisamos con tiempo.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta">
+    <div class="wrap">
+      <div class="cta-final">
+        <h2>Dejá de anotar el stock en la cabeza</h2>
+        <p>Armá tu cuenta ahora y cargá tu primer producto en menos de cinco minutos.</p>
+        <a href="#" class="btn btn-primary">Crear mi cuenta gratis</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="soporte">
+    <div class="wrap">
+      <div class="support-box">
+        <div class="support-info">
+          <h2>¿Trabaste con algo?</h2>
+          <p>Contanos qué te pasó y te respondemos por correo, normalmente el mismo día hábil.</p>
+        </div>
+
+        <form id="support-form" novalidate>
+          <div class="field">
+            <label for="s-name">Nombre</label>
+            <input type="text" id="s-name" name="name" placeholder="Tu nombre" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="s-email">Tu correo</label>
+            <input type="email" id="s-email" name="email" placeholder="nombre@tucomercio.com" autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="s-msg">Mensaje</label>
+            <textarea id="s-msg" name="message" placeholder="Contanos qué necesitás"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+          <p class="support-note">Se abre tu programa de correo con el mensaje ya armado, dirigido a soporte.</p>
+          <p class="form-status" id="s-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  document.getElementById('support-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('s-name').value.trim();
+    var email = document.getElementById('s-email').value.trim();
+    var msg = document.getElementById('s-msg').value.trim();
+    var status = document.getElementById('s-status');
+
+    if(!name || !email || !msg){
+      status.textContent = 'Completá nombre, correo y mensaje antes de enviar.';
+      status.className = 'form-status err';
+      return;
+    }
+
+    var subject = 'Soporte VentaFácil — ' + name;
+    var body = 'Nombre: ' + name + '\nCorreo: ' + email + '\n\n' + msg;
+    var mailto = 'mailto:ladychukjuanmartin@gmail.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+
+    window.location.href = mailto;
+    status.textContent = 'Abriendo tu programa de correo…';
+    status.className = 'form-status ok';
+  });
+</script>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>
+      <div class="wordmark" style="font-size:16px;"><span class="tag-mark"></span>VentaFácil</div>
+      <p class="muted">© 2026 VentaFácil — Sistema de gestión para comercios.</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#">Privacidad</a></li>
+      <li><a href="#">Términos</a></li>
+      <li><a href="#soporte">Contacto</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
