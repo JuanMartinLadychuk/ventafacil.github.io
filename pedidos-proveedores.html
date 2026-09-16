@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuándo pedirle mercadería a tus proveedores — VentaFácil</title>
+<meta name="description" content="Una forma simple de calcular cuánto pedir según lo que se vendió el mes anterior, sin planillas complicadas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/x-icon" href="../icon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#171f18; --ink-800:#1f2a20; --ink-700:#2a382b;
+    --paper:#f4efdf; --paper-dim:rgba(244,239,223,0.66); --paper-faint:rgba(244,239,223,0.4);
+    --brass:#cf9a45; --brass-light:#e7c37f; --clay:#b5573a; --moss:#8ea076;
+    --line:rgba(244,239,223,0.14); --radius-card:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--ink-900); color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces', serif; margin:0; letter-spacing:-0.01em; font-weight:600;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+  .muted{color:var(--paper-dim);}
+  button:focus-visible, a:focus-visible{outline:2px solid var(--brass-light); outline-offset:3px; border-radius:4px;}
+  @media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:8px;border:none;font-family:'IBM Plex Sans', sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s ease, border-color .15s ease;}
+  .btn-primary{background:var(--brass); color:#241a08;}
+  .btn-primary:hover{background:var(--brass-light);}
+
+  header.site-nav{padding:22px 0 0;}
+  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line);}
+  .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;text-decoration:none;}
+  .wordmark .tag-mark{width:12px;height:12px;border:1.6px solid var(--brass);border-radius:2px;position:relative;transform:rotate(45deg);}
+  .wordmark .tag-mark::after{content:"";position:absolute;top:-3px;left:2.5px;width:3px;height:3px;border-radius:50%;background:var(--brass);}
+  .back-link{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--paper-dim);text-decoration:none;}
+  .back-link:hover{color:var(--paper);}
+
+  article{padding:56px 0 84px;}
+  .art-head{max-width:700px;margin:0 auto 40px;}
+  .art-meta{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--brass-light);margin-bottom:18px;flex-wrap:wrap;}
+  .art-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--paper-faint);}
+  .art-head h1{font-size:clamp(28px,4.2vw,42px);line-height:1.15;}
+  .art-head .lead{margin-top:18px;font-size:17.5px;color:var(--paper-dim);}
+
+  .art-body{max-width:700px;margin:0 auto;}
+  .art-body p{font-size:16.5px;color:var(--paper);margin:0 0 22px;}
+  .art-body p.muted-p{color:var(--paper-dim);}
+  .art-body h2{font-size:clamp(21px,2.6vw,26px);margin:44px 0 16px;}
+  .art-body ul,.art-body ol{margin:0 0 22px;padding-left:22px;color:var(--paper);font-size:16.5px;}
+  .art-body li{margin-bottom:10px;}
+  .art-body strong{color:var(--brass-light);font-weight:600;}
+
+  .callout{
+    background:var(--ink-800); border:1px solid var(--line); border-left:3px solid var(--moss);
+    border-radius:10px; padding:22px 24px; margin:32px 0; font-size:15.5px; color:var(--paper-dim);
+  }
+  .callout strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:16px;margin-bottom:6px;}
+
+  .steps-mini{list-style:none;margin:0 0 28px;padding:0;counter-reset:step;}
+  .steps-mini li{counter-increment:step;position:relative;padding:16px 0 16px 42px;border-bottom:1px solid var(--line);font-size:16px;}
+  .steps-mini li:last-child{border-bottom:none;}
+  .steps-mini li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--brass-light);}
+  .steps-mini strong{display:block;color:var(--paper);margin-bottom:4px;}
+  .steps-mini span{color:var(--paper-dim);font-size:14.8px;}
+
+  .cta-box{
+    background:var(--ink-800); border:1px solid var(--line); border-radius:20px;
+    padding:40px; text-align:center; margin-top:56px; max-width:700px; margin-left:auto; margin-right:auto;
+  }
+  .cta-box h2{font-size:clamp(22px,3vw,27px);margin-bottom:12px;}
+  .cta-box p{color:var(--paper-dim);font-size:15.5px;max-width:420px;margin:0 auto 26px;}
+
+  .related{border-top:1px solid var(--line);padding:50px 0;}
+  .related-head{font-size:13px;color:var(--brass-light);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:22px;}
+  .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .related-card{border:1px solid var(--line);border-radius:var(--radius-card);padding:22px;text-decoration:none;display:block;}
+  .related-card .r-meta{font-size:12px;color:var(--brass-light);font-family:'IBM Plex Mono',monospace;margin-bottom:8px;}
+  .related-card h3{font-size:16px;color:var(--paper);line-height:1.3;}
+
+  footer{padding:36px 0 50px;border-top:1px solid var(--line);}
+  .footer-row{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;}
+  footer .muted{font-size:13.5px;}
+
+  @media(max-width:700px){
+    article{padding:40px 0 60px;}
+    .related-grid{grid-template-columns:1fr;}
+    .cta-box{padding:30px;}
+  }
+  @media(max-width:520px){
+    .nav-bar{flex-wrap:wrap;gap:12px;}
+    .art-meta{font-size:12px;}
+    .art-body p, .art-body ul, .art-body ol{font-size:15.5px;}
+    .steps-mini li{padding-left:36px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap nav-bar">
+    <a href="../index.html" class="wordmark"><span class="tag-mark"></span>VentaFácil</a>
+    <a href="../index.html#recursos" class="back-link">← Volver a Recursos</a>
+  </div>
+</header>
+
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono">
+          <span>NOTAS</span><span class="dot"></span><span>4 min de lectura</span>
+        </div>
+        <h1>Cuándo pedirle mercadería a tus proveedores</h1>
+        <p class="lead">Una forma simple de calcular cuánto pedir según lo que se vendió el mes anterior, sin planillas complicadas.</p>
+      </div>
+
+      <div class="art-body">
+        <p>Pedir mercadería "a ojo" funciona hasta que deja de funcionar: un mes pedís de más y te queda plata inmovilizada en el depósito, al siguiente pedís de menos y te quedás sin el producto que más se vende. La solución no es complicarse con fórmulas, es mirar un solo número con cabeza: <strong>lo que realmente se vendió el mes anterior</strong>.</p>
+
+        <h2>El cálculo de base, sin vueltas</h2>
+        <p>Para cada producto, tomá las unidades vendidas en las últimas cuatro semanas. Ese número es tu punto de partida para el próximo pedido, ajustado por dos cosas:</p>
+
+        <ol class="steps-mini">
+          <li><strong>Estacionalidad</strong><span>¿El mes que viene se parece al anterior, o hay un evento que cambia la demanda (vuelta al cole, día de la madre, cambio de estación)?</span></li>
+          <li><strong>Tendencia</strong><span>¿Las ventas de ese producto vienen subiendo o bajando mes a mes? Si vienen subiendo, pedí un poco más que el promedio; si vienen bajando, un poco menos.</span></li>
+          <li><strong>Tiempo de entrega</strong><span>Sumá stock extra si tu proveedor tarda semanas en entregar, para no quedarte corto mientras esperás el próximo envío.</span></li>
+        </ol>
+
+        <div class="callout">
+          <strong>Ejemplo rápido</strong>
+          Si un producto vendió 40 unidades el mes pasado y no hay ningún evento especial en el calendario, pedir entre 35 y 45 unidades para el próximo mes es un punto de partida razonable. No hace falta más precisión que esa.
+        </div>
+
+        <h2>Separá "lo que siempre se vende" de "lo que fue una racha"</h2>
+        <p>No todos los productos merecen el mismo criterio. Los que venden de forma constante mes a mes se pueden pedir casi en piloto automático, siguiendo el promedio reciente. Los que tuvieron un pico puntual (una publicación que funcionó bien, una changüí de precio) necesitan que revises si ese pico se va a repetir antes de pedir la misma cantidad otra vez.</p>
+
+        <h2>La trampa más común: pedir por intuición cuando ya tenés los datos</h2>
+        <p class="muted-p">Muchos comercios chicos siguen pidiendo "lo de siempre" porque nunca se sentaron a mirar cuánto se vendió realmente. El problema no es falta de información, es que esa información vive dispersa entre la caja, el cuaderno y la memoria del dueño. En cuanto las ventas quedan registradas en un solo lugar, calcular cuánto pedir deja de ser una adivinanza.</p>
+
+        <h2>Automatizá el pedido en sí, no solo el cálculo</h2>
+        <p>Una vez que sabés cuánto necesitás, el siguiente paso es mandarle el pedido al proveedor sin perder tiempo redactando el mail cada vez. Una plantilla con los datos del proveedor, los productos y las cantidades ya cargadas achica ese trámite a un par de clics.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>VentaFácil te muestra cuánto se vendió, listo para pedir</h2>
+        <p>El módulo de Proveedores usa tus propias ventas registradas y te deja mandar el pedido con una plantilla ya armada.</p>
+        <a href="../index.html#cta" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="control-stock.html">
+          <div class="r-meta">6 min de lectura</div>
+          <h3>Cómo controlar el stock sin perder ventas por faltantes</h3>
+        </a>
+        <a class="related-card" href="errores-precios.html">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Errores comunes al fijar precios de venta</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>
+      <a href="../index.html" class="wordmark" style="font-size:16px;"><span class="tag-mark"></span>VentaFácil</a>
+      <p class="muted">© 2026 VentaFácil — Sistema de gestión para comercios.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

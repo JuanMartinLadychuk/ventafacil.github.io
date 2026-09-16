@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo controlar el stock sin perder ventas por faltantes — VentaFácil</title>
+<meta name="description" content="Señales tempranas de que un producto se va a agotar, y cómo fijar un punto de reposición sin sobre-stockear.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/x-icon" href="../icon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#171f18; --ink-800:#1f2a20; --ink-700:#2a382b;
+    --paper:#f4efdf; --paper-dim:rgba(244,239,223,0.66); --paper-faint:rgba(244,239,223,0.4);
+    --brass:#cf9a45; --brass-light:#e7c37f; --clay:#b5573a; --moss:#8ea076;
+    --line:rgba(244,239,223,0.14); --radius-card:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--ink-900); color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces', serif; margin:0; letter-spacing:-0.01em; font-weight:600;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+  .muted{color:var(--paper-dim);}
+  button:focus-visible, a:focus-visible{outline:2px solid var(--brass-light); outline-offset:3px; border-radius:4px;}
+  @media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:8px;border:none;font-family:'IBM Plex Sans', sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s ease, border-color .15s ease;}
+  .btn-primary{background:var(--brass); color:#241a08;}
+  .btn-primary:hover{background:var(--brass-light);}
+
+  header.site-nav{padding:22px 0 0;}
+  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line);}
+  .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;text-decoration:none;}
+  .wordmark .tag-mark{width:12px;height:12px;border:1.6px solid var(--brass);border-radius:2px;position:relative;transform:rotate(45deg);}
+  .wordmark .tag-mark::after{content:"";position:absolute;top:-3px;left:2.5px;width:3px;height:3px;border-radius:50%;background:var(--brass);}
+  .back-link{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--paper-dim);text-decoration:none;}
+  .back-link:hover{color:var(--paper);}
+
+  article{padding:56px 0 84px;}
+  .art-head{max-width:700px;margin:0 auto 40px;}
+  .art-meta{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--brass-light);margin-bottom:18px;flex-wrap:wrap;}
+  .art-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--paper-faint);}
+  .art-head h1{font-size:clamp(28px,4.2vw,42px);line-height:1.15;}
+  .art-head .lead{margin-top:18px;font-size:17.5px;color:var(--paper-dim);}
+
+  .art-body{max-width:700px;margin:0 auto;}
+  .art-body p{font-size:16.5px;color:var(--paper);margin:0 0 22px;}
+  .art-body p.muted-p{color:var(--paper-dim);}
+  .art-body h2{font-size:clamp(21px,2.6vw,26px);margin:44px 0 16px;}
+  .art-body ul,.art-body ol{margin:0 0 22px;padding-left:22px;color:var(--paper);font-size:16.5px;}
+  .art-body li{margin-bottom:10px;}
+  .art-body strong{color:var(--brass-light);font-weight:600;}
+
+  .callout{
+    background:var(--ink-800); border:1px solid var(--line); border-left:3px solid var(--brass);
+    border-radius:10px; padding:22px 24px; margin:32px 0; font-size:15.5px; color:var(--paper-dim);
+  }
+  .callout strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:16px;margin-bottom:6px;}
+
+  .example-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:14.5px;}
+  .example-table th,.example-table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);}
+  .example-table th{color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;}
+  .example-table td{color:var(--paper-dim);}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:28px 0;}
+  .table-scroll .example-table{margin:0;min-width:480px;}
+
+  .cta-box{
+    background:var(--ink-800); border:1px solid var(--line); border-radius:20px;
+    padding:40px; text-align:center; margin-top:56px; max-width:700px; margin-left:auto; margin-right:auto;
+  }
+  .cta-box h2{font-size:clamp(22px,3vw,27px);margin-bottom:12px;}
+  .cta-box p{color:var(--paper-dim);font-size:15.5px;max-width:420px;margin:0 auto 26px;}
+
+  .related{border-top:1px solid var(--line);padding:50px 0;}
+  .related-head{font-size:13px;color:var(--brass-light);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:22px;}
+  .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .related-card{border:1px solid var(--line);border-radius:var(--radius-card);padding:22px;text-decoration:none;display:block;}
+  .related-card .r-meta{font-size:12px;color:var(--brass-light);font-family:'IBM Plex Mono',monospace;margin-bottom:8px;}
+  .related-card h3{font-size:16px;color:var(--paper);line-height:1.3;}
+
+  footer{padding:36px 0 50px;border-top:1px solid var(--line);}
+  .footer-row{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;}
+  footer .muted{font-size:13.5px;}
+
+  @media(max-width:700px){
+    article{padding:40px 0 60px;}
+    .related-grid{grid-template-columns:1fr;}
+    .cta-box{padding:30px;}
+  }
+  @media(max-width:520px){
+    .nav-bar{flex-wrap:wrap;gap:12px;}
+    .art-meta{font-size:12px;}
+    .art-body p, .art-body ul, .art-body ol{font-size:15.5px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap nav-bar">
+    <a href="../index.html" class="wordmark"><span class="tag-mark"></span>VentaFácil</a>
+    <a href="../index.html#recursos" class="back-link">← Volver a Recursos</a>
+  </div>
+</header>
+
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono">
+          <span>NOTAS</span><span class="dot"></span><span>6 min de lectura</span>
+        </div>
+        <h1>Cómo controlar el stock sin perder ventas por faltantes</h1>
+        <p class="lead">Señales tempranas de que un producto se va a agotar, y cómo fijar un punto de reposición sin sobre-stockear.</p>
+      </div>
+
+      <div class="art-body">
+        <p>El faltante de stock no avisa el día que pasa: avisa semanas antes, en la velocidad con la que un producto se mueve. El problema es que la mayoría de los comercios chicos se enteran recién cuando el cliente pregunta y la respuesta es "no queda". Para entonces ya perdiste la venta, y probablemente al cliente.</p>
+
+        <h2>La señal que casi nadie mira</h2>
+        <p>No es el stock actual lo que importa, es la <strong>velocidad de salida</strong>: cuántas unidades se venden por semana comparadas con lo que queda en el estante. Un producto con 10 unidades no está "bien" ni "mal" en el vacío; depende de si esas 10 unidades duran dos semanas o dos días.</p>
+
+        <div class="callout">
+          <strong>Regla rápida</strong>
+          Si el stock actual te alcanza para menos de lo que tarda tu proveedor en reponer, ya estás atrasado con el pedido, aunque el estante todavía se vea lleno.
+        </div>
+
+        <h2>Cómo fijar un punto de reposición real</h2>
+        <p>El punto de reposición es la cantidad de stock en la que tenés que hacer el pedido para que no llegues a cero. Se arma con dos datos que ya tenés, aunque no los hayas anotado en ningún lado:</p>
+        <ul>
+          <li><strong>Consumo diario promedio:</strong> unidades vendidas en las últimas semanas, dividido por los días transcurridos.</li>
+          <li><strong>Tiempo de reposición del proveedor:</strong> cuántos días pasan desde que hacés el pedido hasta que el producto está en el mostrador.</li>
+        </ul>
+        <p>El punto de reposición sale de multiplicar esos dos números. Si a eso le sumás un pequeño colchón para picos de demanda imprevistos, tenés un número que te avisa a tiempo, no cuando ya es tarde.</p>
+
+        <div class="table-scroll">
+          <table class="example-table">
+            <thead>
+              <tr><th>Producto</th><th>Consumo diario</th><th>Reposición proveedor</th><th>Punto de reposición</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Remera básica M</td><td>2 un./día</td><td>5 días</td><td>10 un. + colchón</td></tr>
+              <tr><td>Buzo canguro L</td><td>0.5 un./día</td><td>10 días</td><td>5 un. + colchón</td></tr>
+              <tr><td>Medias pack x3</td><td>4 un./día</td><td>3 días</td><td>12 un. + colchón</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>El otro lado: cuando el problema es sobre-stockear</h2>
+        <p>Pedir de más se siente más seguro que pedir de menos, pero tiene un costo silencioso: capital inmovilizado en productos que tardan meses en venderse, espacio de depósito ocupado y, en indumentaria, el riesgo de que el producto quede fuera de temporada antes de rotar.</p>
+        <p class="muted-p">Un punto de reposición bien calculado resuelve los dos problemas a la vez: te avisa antes de quedarte sin stock, y te evita pedir "por las dudas" cantidades que después no rotan.</p>
+
+        <h2>Ponelo en práctica sin planillas</h2>
+        <p>Esto que parece un cálculo de planilla es, en el fondo, lo que hace automáticamente un dashboard de inventario: cruza lo que se vendió con lo que queda y te marca el stock crítico antes de que se convierta en un "no tenemos" frente al cliente.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Dejá que VentaFácil calcule el stock crítico por vos</h2>
+        <p>Cargá tu inventario una vez y el dashboard te va a mostrar qué productos están por agotarse, sin que tengas que hacer la cuenta a mano.</p>
+        <a href="../index.html#cta" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="pedidos-proveedores.html">
+          <div class="r-meta">4 min de lectura</div>
+          <h3>Cuándo pedirle mercadería a tus proveedores</h3>
+        </a>
+        <a class="related-card" href="errores-precios.html">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Errores comunes al fijar precios de venta</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>
+      <a href="../index.html" class="wordmark" style="font-size:16px;"><span class="tag-mark"></span>VentaFácil</a>
+      <p class="muted">© 2026 VentaFácil — Sistema de gestión para comercios.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
