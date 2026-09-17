@@ -209,6 +209,57 @@ def ml_webhook_check():
     return jsonify({"status": "alive"}), 200
 
 
+@app.route("/api/ml/notifications", methods=["GET"])
+def get_ml_notifications():
+    """Notificaciones de ML (recibidas por /ml/webhook) que el escritorio
+    todavía no proceso. Las consume notificaciones.py (polling cada 60s)
+    para avisar sin que el usuario tenga que entrar a cada pestaña de ML a
+    revisar manualmente."""
+    ml_user_id = request.args.get("ml_user_id")
+    limit = request.args.get("limit", 50, type=int)
+    if not ml_user_id:
+        return jsonify({"error": "falta ml_user_id"}), 400
+
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT id, resource, topic, sent, received FROM ml_notifications "
+        "WHERE user_id = %s AND processed = FALSE ORDER BY created_at ASC LIMIT %s",
+        (ml_user_id, limit),
+    )
+    filas = cur.fetchall()
+    cur.close()
+    conn.close()
+    notifications = [
+        {
+            "id": fila[0], "resource": fila[1], "topic": fila[2],
+            "sent": fila[3].isoformat() if fila[3] else None,
+            "received": fila[4].isoformat() if fila[4] else None,
+        }
+        for fila in filas
+    ]
+    return jsonify({"notifications": notifications}), 200
+
+
+@app.route("/api/ml/notifications/ack", methods=["POST"])
+def ack_ml_notifications():
+    """Marca como procesadas las notificaciones que el escritorio ya
+    convirtió en un aviso local, para no repetirlas en el próximo polling."""
+    data = request.get_json(silent=True) or {}
+    ids = data.get("ids") or []
+    if not ids:
+        return jsonify({"status": "ok", "actualizadas": 0}), 200
+
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("UPDATE ml_notifications SET processed = TRUE WHERE id = ANY(%s)", (ids,))
+    actualizadas = cur.rowcount
+    conn.commit()
+    cur.close()
+    conn.close()
+    return jsonify({"status": "ok", "actualizadas": actualizadas}), 200
+
+
 # ---------------------------------------------------------------------------
 # OAuth con Mercado Libre
 # ---------------------------------------------------------------------------
