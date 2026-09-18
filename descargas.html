@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descargas — VentaFácil</title>
+<meta name="description" content="Descargá VentaFácil para tu sistema operativo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/x-icon" href="icon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#171f18; --ink-800:#1f2a20; --ink-700:#2a382b;
+    --paper:#f4efdf; --paper-dim:rgba(244,239,223,0.66); --paper-faint:rgba(244,239,223,0.4);
+    --brass:#cf9a45; --brass-light:#e7c37f; --clay:#b5573a; --moss:#8ea076;
+    --line:rgba(244,239,223,0.14); --radius-card:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--ink-900); color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces', serif; margin:0; letter-spacing:-0.01em; font-weight:600;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+  .muted{color:var(--paper-dim);}
+  button:focus-visible, a:focus-visible{outline:2px solid var(--brass-light); outline-offset:3px; border-radius:4px;}
+  @media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:8px;border:none;font-family:'IBM Plex Sans', sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s ease, border-color .15s ease, opacity .15s ease;}
+  .btn-primary{background:var(--brass); color:#241a08;}
+  .btn-primary:hover{background:var(--brass-light);}
+  .btn-disabled{background:transparent;border:1px solid var(--line);color:var(--paper-faint);cursor:default;pointer-events:none;}
+
+  header.site-nav{padding:22px 0;border-bottom:1px solid var(--line);}
+  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1140px;margin:0 auto;padding:0 24px;}
+  .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--paper);}
+  .wordmark .tag-mark{width:12px;height:12px;border:1.6px solid var(--brass);border-radius:2px;position:relative;transform:rotate(45deg);}
+  .wordmark .tag-mark::after{content:"";position:absolute;top:-3px;left:2.5px;width:3px;height:3px;border-radius:50%;background:var(--brass);}
+  .back-link{font-size:14px;color:var(--paper-dim);text-decoration:none;}
+  .back-link:hover{color:var(--paper);}
+
+  main{padding:64px 0 90px;}
+  .head{max-width:620px;margin:0 auto 56px;text-align:center;}
+  .head .kicker{color:var(--brass-light);font-size:14.5px;font-weight:600;margin-bottom:12px;}
+  .head h1{font-size:clamp(30px,4.2vw,42px);}
+  .head p{margin-top:16px;color:var(--paper-dim);font-size:16.5px;}
+  .head .ver{display:inline-block;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--paper-dim);border:1px solid var(--line);border-radius:20px;padding:6px 14px;}
+
+  /* ---- Contador de descargas ---- */
+  .counter-box{
+    display:inline-flex;align-items:baseline;gap:8px;margin-top:18px;margin-left:10px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .counter-num{font-size:16px;font-weight:600;color:var(--brass-light);}
+  .counter-label{font-size:12.5px;color:var(--paper-dim);}
+
+  /* ---- Gate de términos y condiciones ---- */
+  .terms-gate{
+    max-width:560px;margin:0 auto 36px;background:var(--ink-800);border:1px solid var(--line);
+    border-radius:12px;padding:18px 20px;
+  }
+  .terms-check{display:flex;align-items:flex-start;gap:12px;font-size:14.5px;color:var(--paper-dim);cursor:pointer;}
+  .terms-check input{margin-top:3px;width:16px;height:16px;accent-color:var(--brass);flex-shrink:0;cursor:pointer;}
+  .terms-check a{color:var(--brass-light);text-decoration:underline;}
+  .terms-warn{min-height:18px;margin:10px 0 0;font-size:13px;color:var(--clay);}
+
+  .btn.is-locked{opacity:0.5;cursor:not-allowed;}
+
+  /* ---- Grilla de plataformas: cada .platform-card es una distribución.
+         Para sumar una nueva (Linux, macOS, ARM, portable, etc.) copiar
+         un bloque .platform-card completo y cambiar sus datos. ---- */
+  .platforms{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:920px;margin:0 auto;}
+  .platform-card{
+    border:1px solid var(--line); border-radius:var(--radius-card);
+    padding:28px 24px; display:flex; flex-direction:column; align-items:flex-start;
+    background:var(--ink-800);
+  }
+  .platform-card.is-disabled{opacity:0.55;}
+  .p-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;background:var(--ink-700);}
+  .platform-card h3{font-size:18px;margin-bottom:6px;}
+  .p-status{font-size:12.5px;color:var(--brass-light);font-family:'IBM Plex Mono',monospace;margin-bottom:14px;}
+  .platform-card.is-disabled .p-status{color:var(--paper-faint);}
+  .p-req{font-size:13px;color:var(--paper-dim);margin:0 0 20px;}
+  .platform-card .btn{width:100%;}
+
+  @media(max-width:800px){.platforms{grid-template-columns:1fr;max-width:420px;}}
+
+  .steps-box{
+    max-width:700px;margin:64px auto 0;border-top:1px solid var(--line);padding-top:48px;
+  }
+  .steps-box h2{font-size:clamp(21px,2.6vw,26px);margin-bottom:24px;text-align:center;}
+  .steps-list{counter-reset:step;padding:0;margin:0;list-style:none;}
+  .steps-list li{
+    counter-increment:step;position:relative;padding:0 0 22px 42px;
+    color:var(--paper-dim);font-size:15px;
+  }
+  .steps-list li::before{
+    content:counter(step);position:absolute;left:0;top:-2px;
+    width:26px;height:26px;border-radius:50%;border:1px solid var(--brass);
+    color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .steps-list strong{color:var(--paper);}
+
+  .note-box{
+    max-width:700px;margin:40px auto 0;background:var(--ink-800);border:1px solid var(--line);
+    border-left:3px solid var(--brass);border-radius:10px;padding:20px 22px;font-size:14.5px;color:var(--paper-dim);
+  }
+  .note-box strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:15.5px;margin-bottom:6px;}
+
+  footer{padding:36px 0 50px;border-top:1px solid var(--line);}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;max-width:1140px;margin:0 auto;padding:0 24px;}
+  .footer-links{display:flex;gap:22px;list-style:none;margin:0;padding:0;}
+  .footer-links a{font-size:13.5px;color:var(--paper-dim);text-decoration:none;}
+  .footer-links a:hover{color:var(--paper);}
+  footer .muted{font-size:13.5px;}
+
+  @media(max-width:480px){
+    main{padding:44px 0 60px;}
+    .head{margin-bottom:36px;}
+    .head .ver{margin-left:0;}
+    .counter-box{display:flex;justify-content:center;margin:10px 0 0;}
+    .terms-gate{padding:16px;}
+    .terms-check{font-size:14px;}
+    .platform-card{padding:22px 18px;}
+    .steps-box{margin-top:44px;padding-top:36px;}
+    .steps-list li{padding-left:36px;}
+    .note-box{padding:16px 18px;}
+    .footer-row{flex-direction:column;align-items:flex-start;gap:12px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-bar">
+    <a href="index.html" class="wordmark"><span class="tag-mark"></span>VentaFácil</a>
+    <a href="index.html" class="back-link">← Volver al inicio</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="head">
+      <div class="kicker">Versión de prueba</div>
+      <h1>Descargá VentaFácil</h1>
+      <p>Elegí tu sistema operativo. La app se actualiza sola una vez instalada.</p>
+      <span class="ver mono">v0.0.1</span>
+      <span class="counter-box" id="contador-descargas">
+        <span class="counter-num mono" id="contador-num">—</span>
+        <span class="counter-label">descargas totales</span>
+      </span>
+    </div>
+
+    <div class="terms-gate">
+      <label class="terms-check">
+        <input type="checkbox" id="acepta-terminos">
+        <span>Leí y acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos y Condiciones</a> de VentaFácil, incluyendo que esta es una versión de prueba.</span>
+      </label>
+      <p class="terms-warn" id="terms-warn" role="alert"></p>
+    </div>
+
+    <div class="platforms">
+
+      <!-- Plataforma: Windows (disponible) -->
+      <div class="platform-card">
+        <div class="p-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 5.5L10.5 4.4V11.4H3V5.5Z" fill="#e7c37f"/><path d="M11.5 4.3L21 3V11.3H11.5V4.3Z" fill="#e7c37f"/><path d="M3 12.4H10.5V19.5L3 18.4V12.4Z" fill="#e7c37f"/><path d="M11.5 12.4H21V20.9L11.5 19.6V12.4Z" fill="#e7c37f"/></svg>
+        </div>
+        <h3>Windows</h3>
+        <div class="p-status">DISPONIBLE</div>
+        <p class="p-req">Windows 10 o superior, 64 bits.</p>
+        <a href="https://github.com/JuanMartinLadychuk/ventafacil.github.io/releases/download/0.0.1/VentaFacil.Version.0.0.1.rar" class="btn btn-primary" data-download>Descargar .rar</a>
+      </div>
+
+      <!-- Plataforma: macOS (próximamente) -->
+      <div class="platform-card is-disabled">
+        <div class="p-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M16.5 12.3C16.5 9.8 18.5 8.6 18.6 8.5C17.4 6.8 15.6 6.5 15 6.5C13.5 6.3 12 7.4 11.3 7.4C10.5 7.4 9.3 6.5 8 6.5C6.3 6.5 4.8 7.5 3.9 9C2.1 12.1 3.4 16.7 5.2 19.2C6 20.4 7 21.8 8.3 21.7C9.5 21.7 10 20.9 11.4 20.9C12.8 20.9 13.2 21.7 14.5 21.7C15.9 21.7 16.7 20.5 17.5 19.3C18.4 17.9 18.8 16.6 18.8 16.5C18.8 16.5 16.5 15.6 16.5 12.3Z" fill="#f4efdf"/><path d="M13.9 5C14.5 4.3 14.9 3.3 14.8 2.3C13.9 2.3 12.8 2.9 12.2 3.6C11.6 4.2 11.2 5.2 11.3 6.1C12.3 6.2 13.3 5.6 13.9 5Z" fill="#f4efdf"/></svg>
+        </div>
+        <h3>macOS</h3>
+        <div class="p-status">PRÓXIMAMENTE</div>
+        <p class="p-req">Todavía no hay build para macOS.</p>
+        <span class="btn btn-disabled">Avisamos cuando esté</span>
+      </div>
+
+      <!-- Plataforma: Linux (próximamente) -->
+      <div class="platform-card is-disabled">
+        <div class="p-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="13.5" rx="5" ry="6.5" fill="#f4efdf"/><circle cx="10" cy="12" r="0.8" fill="#171f18"/><circle cx="14" cy="12" r="0.8" fill="#171f18"/><path d="M9 20C9 21 10.3 22 12 22C13.7 22 15 21 15 20" stroke="#f4efdf" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Linux</h3>
+        <div class="p-status">PRÓXIMAMENTE</div>
+        <p class="p-req">Todavía no hay build para Linux.</p>
+        <span class="btn btn-disabled">Avisamos cuando esté</span>
+      </div>
+
+      <!-- Para sumar una distribución nueva: copiar uno de los bloques
+           <div class="platform-card">...</div> de arriba, cambiar ícono,
+           nombre, estado (DISPONIBLE / PRÓXIMAMENTE), requisito y el
+           href del botón. Si el botón descarga algo de verdad, agregarle
+           el atributo data-download para que quede sujeto al gate de
+           Términos y Condiciones. -->
+
+    </div>
+
+    <div class="steps-box">
+      <h2>Cómo instalarlo en Windows</h2>
+      <ol class="steps-list">
+        <li>Descargá el archivo <strong>.rar</strong> con el botón de arriba.</li>
+        <li>Descomprimilo con 7-Zip o WinRAR en la carpeta donde querés dejar la app.</li>
+        <li>Abrí la carpeta descomprimida y ejecutá <strong>VentaFacil.exe</strong>.</li>
+        <li>Windows puede mostrar un aviso de "editor desconocido" la primera vez: elegí <strong>Más información → Ejecutar de todas formas</strong>.</li>
+      </ol>
+    </div>
+
+    <div class="note-box">
+      <strong>Sobre esta versión</strong>
+      VentaFácil está en etapa de prueba: podés encontrar errores o cambios frecuentes entre versiones. Una vez instalada, la app avisa sola cuando hay una actualización nueva disponible.
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-row">
+    <p class="muted">© 2026 VentaFácil</p>
+    <ul class="footer-links">
+      <li><a href="terminos.html">Términos</a></li>
+      <li><a href="index.html#soporte">Contacto</a></li>
+      <li><a href="index.html">Inicio</a></li>
+    </ul>
+  </div>
+</footer>
+<script>
+  // Gate de Términos y Condiciones: bloquea la descarga real hasta que
+  // se tilde el checkbox. No usa pointer-events:none a propósito, así
+  // el click sigue disparando y se puede avisar por qué no descargó.
+  (function(){
+    var checkbox = document.getElementById('acepta-terminos');
+    var warn = document.getElementById('terms-warn');
+    var downloadLinks = document.querySelectorAll('[data-download]');
+
+    function actualizarEstado(){
+      downloadLinks.forEach(function(a){
+        a.classList.toggle('is-locked', !checkbox.checked);
+      });
+      if(checkbox.checked){ warn.textContent = ''; }
+    }
+
+    checkbox.addEventListener('change', actualizarEstado);
+
+    downloadLinks.forEach(function(a){
+      a.addEventListener('click', function(e){
+        if(!checkbox.checked){
+          e.preventDefault();
+          warn.textContent = 'Tenés que aceptar los Términos y Condiciones antes de descargar.';
+          checkbox.focus();
+        }
+      });
+    });
+
+    actualizarEstado();
+  })();
+
+  // Contador de descargas: suma el download_count real de cada asset
+  // de cada Release en GitHub (dato que GitHub ya mide solo). Si la
+  // API no responde (rate limit, sin conexión), se oculta el contador
+  // en vez de mostrar un número roto.
+  (function(){
+    var numEl = document.getElementById('contador-num');
+    var boxEl = document.getElementById('contador-descargas');
+    fetch('https://api.github.com/repos/JuanMartinLadychuk/ventafacil.github.io/releases')
+      .then(function(r){ if(!r.ok) throw new Error('respuesta no ok'); return r.json(); })
+      .then(function(releases){
+        var total = 0;
+        (releases || []).forEach(function(rel){
+          (rel.assets || []).forEach(function(asset){ total += asset.download_count || 0; });
+        });
+        numEl.textContent = total.toLocaleString('es-AR');
+      })
+      .catch(function(){
+        boxEl.style.display = 'none';
+      });
+  })();
+</script>
+
+</body>
+</html>

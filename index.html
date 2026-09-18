@@ -124,6 +124,7 @@
   .hero-note{margin-top:22px;font-size:13.5px;color:var(--paper-dim);}
   .hero-count{
     display:flex;
+    flex-wrap:wrap;
     gap:28px;
     margin-top:44px;
     padding-top:28px;
@@ -201,6 +202,12 @@
   @media(max-width:460px){
     .receipt{margin-left:70px;width:190px;}
     .price-tag{width:210px;}
+    .hero{padding:52px 0 64px;}
+    .hero-count{gap:22px;margin-top:32px;padding-top:22px;}
+    .hero-cta{gap:10px;}
+    .hero-cta .btn{flex:1 1 auto;}
+    section{padding:52px 0;}
+    .cta-final{padding:34px 22px;}
   }
 
   section{padding:74px 0;}
@@ -380,7 +387,7 @@
         </ul>
       </div>
       <div class="nav-right">
-        <a href="en-desarrollo.html" class="btn btn-primary">Probar la app</a>
+        <a href="descargas.html" class="btn btn-primary">Probar la app</a>
       </div>
     </nav>
   </div>
@@ -393,7 +400,7 @@
         <h1>Manejá tu comercio sin perder de vista ni un producto</h1>
         <p class="lead">Cargá inventario, registrá ventas y coordiná pedidos con tus proveedores desde un solo lugar. Sin planillas sueltas, sin depender de la memoria.</p>
         <div class="hero-cta">
-          <a href="en-desarrollo.html" class="btn btn-primary">Probar la app</a>
+          <a href="descargas.html" class="btn btn-primary">Probar la app</a>
           <a href="#modulos" class="btn btn-ghost">Ver qué incluye</a>
         </div>
         <p class="hero-note">No pedimos tarjeta para probarlo.</p>
@@ -535,19 +542,19 @@
           <div class="a-meta mono">6 min de lectura</div>
           <h3>Cómo controlar el stock sin perder ventas por faltantes</h3>
           <p>Señales tempranas de que un producto se va a agotar, y cómo fijar un punto de reposición sin sobre-stockear.</p>
-          <a href="notas/control-stock.html" class="a-read">Leer la nota</a>
+          <a href="control-stock.html" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">4 min de lectura</div>
           <h3>Cuándo pedirle mercadería a tus proveedores</h3>
           <p>Una forma simple de calcular cuánto pedir según lo que se vendió el mes anterior, sin planillas complicadas.</p>
-          <a href="notas/pedidos-proveedores.html" class="a-read">Leer la nota</a>
+          <a href="pedidos-proveedores.html" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">5 min de lectura</div>
           <h3>Errores comunes al fijar precios de venta</h3>
           <p>Por qué el margen fijo no siempre funciona igual para todas las categorías, y cómo ajustarlo por producto.</p>
-          <a href="notas/errores-precios.html" class="a-read">Leer la nota</a>
+          <a href="errores-precios.html" class="a-read">Leer la nota</a>
         </div>
       </div>
     </div>
@@ -586,7 +593,7 @@
       <div class="cta-final">
         <h2>Dejá de anotar el stock en la cabeza</h2>
         <p>Armá tu cuenta ahora y cargá tu primer producto en menos de cinco minutos.</p>
-        <a href="en-desarrollo.html" class="btn btn-primary">Probar la app</a>
+        <a href="descargas.html" class="btn btn-primary">Probar la app</a>
       </div>
     </div>
   </section>
