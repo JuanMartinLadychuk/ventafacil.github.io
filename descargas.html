@@ -17,6 +17,8 @@
     --line:rgba(244,239,223,0.14); --radius-card:14px;
   }
   *{box-sizing:border-box;}
+  html{overflow-x:hidden;}
+  body{overflow-wrap:break-word;}
   html{scroll-behavior:smooth;}
   body{
     margin:0; background:var(--ink-900); color:var(--paper);
@@ -36,7 +38,7 @@
   .btn-disabled{background:transparent;border:1px solid var(--line);color:var(--paper-faint);cursor:default;pointer-events:none;}
 
   header.site-nav{padding:22px 0;border-bottom:1px solid var(--line);}
-  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1140px;margin:0 auto;padding:0 24px;}
+  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;max-width:1140px;margin:0 auto;padding:0 24px;}
   .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--paper);}
   .wordmark .tag-mark{width:12px;height:12px;border:1.6px solid var(--brass);border-radius:2px;position:relative;transform:rotate(45deg);}
   .wordmark .tag-mark::after{content:"";position:absolute;top:-3px;left:2.5px;width:3px;height:3px;border-radius:50%;background:var(--brass);}
@@ -174,7 +176,7 @@
         <h3>Windows</h3>
         <div class="p-status">DISPONIBLE</div>
         <p class="p-req">Windows 10 o superior, 64 bits.</p>
-        <a href="https://github.com/JuanMartinLadychuk/ventafacil.github.io/releases/download/0.0.1/VentaFacil-Instalador.exe" class="btn btn-primary" data-download>Descargar .rar</a>
+        <a href="https://github.com/JuanMartinLadychuk/ventafacil.github.io/releases/download/0.0.1/VentaFacil.Version.0.0.1.rar" class="btn btn-primary" data-download>Descargar .rar</a>
       </div>
 
       <!-- Plataforma: macOS (próximamente) -->

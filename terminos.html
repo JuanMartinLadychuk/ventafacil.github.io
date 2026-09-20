@@ -24,6 +24,8 @@
   }
 
   *{box-sizing:border-box;}
+  html{overflow-x:hidden;}
+  body{overflow-wrap:break-word;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
@@ -50,7 +52,7 @@
   }
 
   header.site-nav{padding:22px 0;border-bottom:1px solid var(--line);}
-  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:760px;margin:0 auto;padding:0 24px;}
+  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;max-width:760px;margin:0 auto;padding:0 24px;}
   .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--paper);}
   .wordmark .tag-mark{width:12px;height:12px;border:1.6px solid var(--brass);border-radius:2px;position:relative;transform:rotate(45deg);}
   .wordmark .tag-mark::after{content:"";position:absolute;top:-3px;left:2.5px;width:3px;height:3px;border-radius:50%;background:var(--brass);}
