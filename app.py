@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+from urllib.parse import quote
 from datetime import datetime, timedelta
 
 from flask import Flask, request, jsonify
@@ -65,6 +66,17 @@ def init_tokens_table():
             created_at TIMESTAMP DEFAULT NOW(),
             updated_at TIMESTAMP DEFAULT NOW()
         )
+    """)
+    # installation_id: identifica a QUÉ instalación de VentaFacil (negocio)
+    # pertenece este token. Antes no existía, así que /api/ml/latest
+    # devolvía "la cuenta conectada más reciente" a nivel de TODO el
+    # backend, sin importar qué negocio la había autorizado — cualquier
+    # instalación que tocara "refrescar" se podía terminar vinculando a la
+    # cuenta de Mercado Libre de otro negocio distinto, si esa había sido
+    # la última en autorizarse globalmente. Ver oauth_login/oauth_callback/
+    # latest_account más abajo.
+    cur.execute("""
+        ALTER TABLE ml_tokens ADD COLUMN IF NOT EXISTS installation_id VARCHAR(64)
     """)
     conn.commit()
     cur.close()
@@ -266,11 +278,27 @@ def ack_ml_notifications():
 
 @app.route("/oauth/login", methods=["GET"])
 def oauth_login():
+    # state = installation_id que manda el escritorio (ver ml_client.py:
+    # obtener_url_autorizacion). Mercado Libre lo devuelve tal cual en
+    # /oauth/callback, así que es como este backend —compartido entre
+    # todas las instalaciones de VentaFacil— sabe a qué negocio pertenece
+    # la cuenta que se está por autorizar. Sin esto no hay forma de saber
+    # "la cuenta que autorizó ESTE negocio" vs. "la cuenta que autorizó
+    # cualquier otro negocio", que es el bug que esto resuelve.
+    state = request.args.get("state", "")
     auth_url = (
         "https://auth.mercadolibre.com.ar/authorization"
         f"?response_type=code&client_id={CLIENT_ID}"
         f"&redirect_uri={REDIRECT_URI}"
     )
+    if state:
+        auth_url += f"&state={quote(state)}"
+    else:
+        # Instalación vieja que todavía no manda state (versión del
+        # escritorio anterior a este fix): se deja seguir para no romper
+        # la conexión, pero sin state /api/ml/latest no va a poder
+        # devolverle su cuenta más adelante (ver latest_account).
+        logging.warning("oauth_login sin 'state': el escritorio que llama es de una versión vieja")
     cuerpo = f"""
         <h1>Conectar con Mercado Libre</h1>
         <p>Vas a autorizar a VentaFacil a acceder a tu cuenta de Mercado Libre
@@ -285,6 +313,10 @@ def oauth_login():
 def oauth_callback():
     code = request.args.get("code")
     error = request.args.get("error")
+    # Mercado Libre devuelve acá, sin modificar, el mismo 'state' que se
+    # mandó en /oauth/login (ver ahí arriba). Lo guardamos junto con el
+    # token para poder filtrar por instalación en latest_account.
+    installation_id = request.args.get("state") or None
 
     if error:
         logging.error("Error en OAuth callback: %s", error)
@@ -338,14 +370,27 @@ def oauth_callback():
 
         conn = get_connection()
         cur = conn.cursor()
-        cur.execute("UPDATE ml_tokens SET active=0 WHERE ml_user_id=%s AND active=1", (ml_user_id,))
+        # Antes esto desactivaba por ml_user_id: si dos negocios distintos
+        # conectaban la MISMA cuenta de ML (o si esto se usaba sin filtrar
+        # por instalación, como hasta este fix), un negocio podía desactivar
+        # sin querer el token vigente de otro. Ahora se desactiva por
+        # installation_id, así que solo afecta al token anterior de ESTE
+        # negocio, si lo tenía.
+        if installation_id:
+            cur.execute(
+                "UPDATE ml_tokens SET active=0 WHERE installation_id=%s AND active=1",
+                (installation_id,),
+            )
+        else:
+            cur.execute("UPDATE ml_tokens SET active=0 WHERE ml_user_id=%s AND active=1", (ml_user_id,))
         cur.execute(
             """
             INSERT INTO ml_tokens (ml_user_id, nickname, access_token, refresh_token,
-                                    expires_in, expires_at, active, created_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, NOW() + (%s || ' seconds')::interval, 1, NOW(), NOW())
+                                    expires_in, expires_at, active, installation_id,
+                                    created_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s, NOW() + (%s || ' seconds')::interval, 1, %s, NOW(), NOW())
             """,
-            (ml_user_id, nickname, access_token, refresh_token, expires_in, expires_in),
+            (ml_user_id, nickname, access_token, refresh_token, expires_in, expires_in, installation_id),
         )
         conn.commit()
         cur.close()
@@ -375,13 +420,32 @@ def oauth_callback():
 
 @app.route("/api/ml/latest", methods=["GET"])
 def latest_account():
-    """Devuelve la cuenta de ML autorizada más recientemente (para que el
-    escritorio pueda vincularse después de que el usuario autoriza desde el
-    navegador, ya que ese paso no pasa por la app de escritorio)."""
+    """Devuelve la cuenta de ML autorizada más recientemente PARA ESTA
+    INSTALACIÓN (filtrando por installation_id/state).
+
+    Antes filtraba solo por active=1 y devolvía la más reciente de TODA la
+    tabla, sin importar qué instalación la había autorizado. Como este
+    backend es compartido entre todas las instalaciones de VentaFacil, eso
+    hacía que cualquier negocio que tocara "Ya autoricé, refrescar" se
+    pudiera terminar vinculando a la cuenta de Mercado Libre de OTRO
+    negocio, si esa había sido la última en autorizarse a nivel global.
+    """
+    installation_id = request.args.get("state")
+    if not installation_id:
+        # Sin identificar la instalación no hay forma segura de responder:
+        # devolver "la más reciente de todas" es exactamente el bug que
+        # esto arregla, así que se prefiere fallar en vez de filtrar mal.
+        return jsonify({
+            "error": "falta 'state' (id de instalación); actualizá VentaFacil a la versión "
+                     "que manda este parámetro"
+        }), 400
+
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
-        "SELECT ml_user_id, nickname FROM ml_tokens WHERE active=1 ORDER BY created_at DESC LIMIT 1"
+        "SELECT ml_user_id, nickname FROM ml_tokens "
+        "WHERE active=1 AND installation_id=%s ORDER BY created_at DESC LIMIT 1",
+        (installation_id,),
     )
     row = cur.fetchone()
     cur.close()
