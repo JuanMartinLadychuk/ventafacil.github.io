@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cómo controlar el stock sin perder ventas por faltantes — VentaFácil</title>
-<meta name="description" content="Señales tempranas de que un producto se va a agotar, y cómo fijar un punto de reposición sin sobre-stockear.">
+<title>Devoluciones y cambios: cómo manejarlos sin descuadrar la caja — VentaFácil</title>
+<meta name="description" content="La diferencia entre anular una venta entera y devolver solo una parte, y por qué esa diferencia importa para tus reportes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -59,7 +59,7 @@
   .art-body strong{color:var(--brass-light);font-weight:600;}
 
   .callout{
-    background:var(--ink-800); border:1px solid var(--line); border-left:3px solid var(--brass);
+    background:var(--ink-800); border:1px solid var(--line); border-left:3px solid var(--moss);
     border-radius:10px; padding:22px 24px; margin:32px 0; font-size:15.5px; color:var(--paper-dim);
   }
   .callout strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:16px;margin-bottom:6px;}
@@ -118,55 +118,43 @@
     <div class="wrap">
       <div class="art-head">
         <div class="art-meta mono">
-          <span>NOTAS</span><span class="dot"></span><span>6 min de lectura</span>
+          <span>NOTAS</span><span class="dot"></span><span>4 min de lectura</span>
         </div>
-        <h1>Cómo controlar el stock sin perder ventas por faltantes</h1>
-        <p class="lead">Señales tempranas de que un producto se va a agotar, y cómo fijar un punto de reposición sin sobre-stockear.</p>
+        <h1>Devoluciones y cambios: cómo manejarlos sin descuadrar la caja</h1>
+        <p class="lead">La diferencia entre anular una venta entera y devolver solo una parte, y por qué esa diferencia importa para tus reportes.</p>
       </div>
 
       <div class="art-body">
-        <p>El faltante de stock no avisa el día que pasa: avisa semanas antes, en la velocidad con la que un producto se mueve. El problema es que la mayoría de los comercios chicos se enteran recién cuando el cliente pregunta y la respuesta es "no queda". Para entonces ya perdiste la venta, y probablemente al cliente.</p>
+        <p>Un cliente devuelve un solo producto de una compra de diez, y la reacción más común es anular toda la venta para "arreglarla". El problema es que anular entero borra el detalle de qué se vendió bien y qué se devolvió, y deja el historial de ventas menos preciso de lo que era antes de intentar corregirlo.</p>
 
-        <h2>La señal que casi nadie mira</h2>
-        <p>No es el stock actual lo que importa, es la <strong>velocidad de salida</strong>: cuántas unidades se venden por semana comparadas con lo que queda en el estante. Un producto con 10 unidades no está "bien" ni "mal" en el vacío; depende de si esas 10 unidades duran dos semanas o dos días.</p>
+        <h2>Anular no es lo mismo que devolver una parte</h2>
+        <p>Son dos situaciones distintas que conviene no mezclar:</p>
+        <ul>
+          <li><strong>Anular una venta:</strong> tiene sentido cuando la venta entera fue un error — se cobró de más, se cargó mal, no correspondía. Deja la venta completa sin efecto.</li>
+          <li><strong>Devolver parte de una venta:</strong> el cliente se queda con la mayoría de lo que compró y devuelve solo uno o dos productos, o parte de la cantidad de uno. La venta sigue vigente por el resto.</li>
+        </ul>
+        <p>Forzar el primer camino para resolver el segundo caso te obliga después a recrear a mano la venta "buena" que quedó, con el riesgo de cargarla distinto a como fue en realidad.</p>
 
         <div class="callout">
-          <strong>Regla rápida</strong>
-          Si el stock actual te alcanza para menos de lo que tarda tu proveedor en reponer, ya estás atrasado con el pedido, aunque el estante todavía se vea lleno.
+          <strong>Por qué importa para tus números</strong>
+          Una devolución parcial bien registrada repone el stock del producto devuelto y descuenta ese monto puntual del total de la venta, sin tocar el resto. Así tus reportes de rentabilidad y tu caja del día siguen reflejando lo que realmente pasó, sin un agujero ni un doble conteo.
         </div>
 
-        <h2>Cómo fijar un punto de reposición real</h2>
-        <p>El punto de reposición es la cantidad de stock en la que tenés que hacer el pedido para que no llegues a cero. Se arma con dos datos que ya tenés, aunque no los hayas anotado en ningún lado:</p>
+        <h2>Qué dejar anotado en cada devolución</h2>
+        <p>Más allá de qué producto y cuánta cantidad, vale la pena registrar el motivo. No cambia el número de la caja, pero con el tiempo te dice cosas que un total no muestra:</p>
         <ul>
-          <li><strong>Consumo diario promedio:</strong> unidades vendidas en las últimas semanas, dividido por los días transcurridos.</li>
-          <li><strong>Tiempo de reposición del proveedor:</strong> cuántos días pasan desde que hacés el pedido hasta que el producto está en el mostrador.</li>
+          <li>Si un producto puntual se devuelve mucho más que el resto (posible problema de calidad o de talle mal indicado).</li>
+          <li>Si las devoluciones se concentran en un vendedor o turno en particular.</li>
+          <li>Si hay un patrón de "compra de más, devuelve después" que valga la pena conversar con ese cliente.</li>
         </ul>
-        <p>El punto de reposición sale de multiplicar esos dos números. Si a eso le sumás un pequeño colchón para picos de demanda imprevistos, tenés un número que te avisa a tiempo, no cuando ya es tarde.</p>
 
-        <div class="table-scroll">
-          <table class="example-table">
-            <thead>
-              <tr><th>Producto</th><th>Consumo diario</th><th>Reposición proveedor</th><th>Punto de reposición</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Remera básica M</td><td>2 un./día</td><td>5 días</td><td>10 un. + colchón</td></tr>
-              <tr><td>Buzo canguro L</td><td>0.5 un./día</td><td>10 días</td><td>5 un. + colchón</td></tr>
-              <tr><td>Medias pack x3</td><td>4 un./día</td><td>3 días</td><td>12 un. + colchón</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>El otro lado: cuando el problema es sobre-stockear</h2>
-        <p>Pedir de más se siente más seguro que pedir de menos, pero tiene un costo silencioso: capital inmovilizado en productos que tardan meses en venderse, espacio de depósito ocupado y, en indumentaria, el riesgo de que el producto quede fuera de temporada antes de rotar.</p>
-        <p class="muted-p">Un punto de reposición bien calculado resuelve los dos problemas a la vez: te avisa antes de quedarte sin stock, y te evita pedir "por las dudas" cantidades que después no rotan.</p>
-
-        <h2>Ponelo en práctica sin planillas</h2>
-        <p>Esto que parece un cálculo de planilla es, en el fondo, lo que hace automáticamente un dashboard de inventario: cruza lo que se vendió con lo que queda y te marca el stock crítico antes de que se convierta en un "no tenemos" frente al cliente.</p>
-      </div>
+        <h2>Lo que la devolución parcial no resuelve sola</h2>
+        <p class="muted-p">Si la venta original tuvo factura electrónica, la devolución en el sistema no genera por sí sola la nota de crédito correspondiente ante el organismo fiscal — eso sigue siendo un trámite aparte que hay que gestionar en paralelo. La devolución en el sistema ordena tu stock y tu caja; la parte impositiva todavía te toca a vos.</p>
+</div>
 
       <div class="cta-box">
-        <h2>Dejá que VentaFácil calcule el stock crítico por vos</h2>
-        <p>Cargá tu inventario una vez y el dashboard te va a mostrar qué productos están por agotarse, sin que tengas que hacer la cuenta a mano.</p>
+        <h2>Registrá devoluciones parciales sin anular toda la venta</h2>
+        <p>Devolvé solo los ítems que corresponde, con el stock y los reportes actualizados solos.</p>
         <a href="index.html#cta" class="btn btn-primary">Probar la app</a>
       </div>
     </div>
@@ -176,17 +164,13 @@
     <div class="wrap">
       <div class="related-head">Seguí leyendo</div>
       <div class="related-grid">
-        <a class="related-card" href="pedidos-proveedores.html">
-          <div class="r-meta">4 min de lectura</div>
-          <h3>Cuándo pedirle mercadería a tus proveedores</h3>
-        </a>
-        <a class="related-card" href="errores-precios.html">
+        <a class="related-card" href="cuenta-corriente.html">
           <div class="r-meta">5 min de lectura</div>
-          <h3>Errores comunes al fijar precios de venta</h3>
+          <h3>Cómo manejar el fiado sin que se te escape de las manos</h3>
         </a>
-        <a class="related-card" href="liquidacion-stock.html">
+        <a class="related-card" href="punto-equilibrio.html">
           <div class="r-meta">5 min de lectura</div>
-          <h3>Qué hacer con el stock que no se vende antes de perderlo del todo</h3>
+          <h3>Punto de equilibrio: cuánto necesitás vender para no perder plata</h3>
         </a>
       </div>
     </div>

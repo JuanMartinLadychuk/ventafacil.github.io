@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Términos y Condiciones — VentaFácil</title>
-<meta name="description" content="Términos y condiciones de uso de VentaFácil, sistema de gestión para comercios.">
+<title>Política de Privacidad — VentaFácil</title>
+<meta name="description" content="Qué datos carga VentaFácil, para qué se usan y cómo pedir que se eliminen.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -71,6 +71,12 @@
   section li{margin-bottom:8px;}
   section strong{color:var(--paper);font-weight:600;}
 
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 12px;}
+  .priv-table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px;}
+  .priv-table th,.priv-table td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .priv-table th{color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;}
+  .priv-table td{color:var(--paper-dim);}
+
   footer{padding:36px 0 50px;border-top:1px solid var(--line);}
   .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;max-width:760px;margin:0 auto;padding:0 24px;}
   .footer-links{display:flex;gap:22px;list-style:none;margin:0;padding:0;}
@@ -98,63 +104,71 @@
 <main>
   <div class="wrap">
     <div class="doc-head">
-      <h1>Términos y Condiciones</h1>
+      <h1>Política de Privacidad</h1>
       <p class="updated">Última actualización: septiembre de 2026</p>
     </div>
 
     <section>
-      <h2>1. Aceptación de los términos</h2>
-      <p>Al descargar, instalar o usar VentaFácil ("la app", "el servicio") aceptás estos Términos y Condiciones. Si no estás de acuerdo, no debés instalar ni usar la app.</p>
+      <h2>1. Qué es este documento</h2>
+      <p>Esta política explica qué datos carga VentaFácil ("la app") cuando la instalás y usás, para qué se usan y qué control tenés sobre ellos. Se complementa con los <a href="terminos.html">Términos y Condiciones</a>, que rigen el uso de la app en general.</p>
     </section>
 
     <section>
-      <h2>2. Qué es VentaFácil</h2>
-      <p>VentaFácil es un sistema de gestión pensado para comercios (kioscos, boutiques y negocios de barrio) que permite cargar inventario, registrar ventas y coordinar pedidos con proveedores. Actualmente se distribuye como versión de prueba, para que puedas evaluarla antes de un eventual lanzamiento estable.</p>
+      <h2>2. Dónde vive tu información</h2>
+      <p>VentaFácil es una aplicación de escritorio: el inventario, las ventas, los clientes y proveedores que cargás se guardan en la base de datos de tu propia instalación (local o en tu red), no en un servidor nuestro. No tenemos acceso de rutina a esos datos.</p>
     </section>
 
     <section>
-      <h2>3. Versión de prueba</h2>
-      <p>Al tocar "Probar la app" estás descargando una versión en desarrollo. Esto implica que:</p>
-      <ul>
-        <li>Puede contener errores, funciones incompletas o cambios frecuentes entre versiones.</li>
-        <li>No garantizamos disponibilidad continua ni ausencia de interrupciones.</li>
-        <li>Los datos que cargues (inventario, ventas, proveedores) pueden verse afectados por actualizaciones durante esta etapa de prueba. Te recomendamos no depender exclusivamente de la app para información crítica del negocio mientras dure esta fase.</li>
-      </ul>
+      <h2>3. Qué datos se cargan y con qué fin</h2>
+      <div class="table-scroll">
+        <table class="priv-table">
+          <thead>
+            <tr><th>Dato</th><th>Para qué se usa</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Inventario, precios y proveedores</td><td>Gestión de stock, márgenes y pedidos dentro de la app.</td></tr>
+            <tr><td>Ventas y cuenta corriente de clientes</td><td>Historial de ventas, fiado, devoluciones y reportes de rentabilidad.</td></tr>
+            <tr><td>Correo de clientes (si lo cargás)</td><td>Solo si activás el recordatorio de saldo vencido por correo; no se usa para nada más.</td></tr>
+            <tr><td>Credenciales de terceros (Mercado Libre, Mercado Pago, SMTP)</td><td>Conectar esas integraciones desde tu propia instalación; se guardan cifradas.</td></tr>
+            <tr><td>Correo y mensaje del formulario de soporte</td><td>Responder tu consulta por correo. No se almacena en ningún otro lado.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section>
-      <h2>4. Uso permitido</h2>
-      <p>Te comprometés a usar VentaFácil de forma lícita y a no intentar vulnerar su funcionamiento, realizar ingeniería inversa con fines de explotación comercial no autorizada, ni distribuir la app sin nuestro consentimiento.</p>
+      <h2>4. Integraciones con terceros</h2>
+      <p>Si activás la sincronización con Mercado Libre, el cobro con Mercado Pago Point u otra terminal, o el envío de correos por SMTP, esos datos (productos, ventas, mensajes) se comparten con esos servicios según lo que vos mismo configures. Cada uno tiene su propia política de privacidad; VentaFácil no controla qué hacen esos terceros con la información una vez enviada.</p>
     </section>
 
     <section>
-      <h2>5. Cuenta y datos cargados</h2>
-      <p>Sos responsable de la información que cargues en la app (productos, precios, datos de proveedores, etc.) y de mantener la confidencialidad de tus credenciales de acceso, si aplica. Podés eliminar tu cuenta y tus datos en cualquier momento contactándonos por los medios indicados más abajo.</p>
+      <h2>5. Cómo se protegen las credenciales</h2>
+      <p>Los tokens y contraseñas de integraciones (Mercado Pago, SMTP) se guardan cifrados, no en texto plano, usando el gestor de credenciales de tu sistema operativo cuando está disponible. Sos responsable de la seguridad del equipo o red donde corre la app y de tus propias credenciales de acceso.</p>
     </section>
 
     <section>
-      <h2>6. Propiedad intelectual</h2>
-      <p>El código, diseño, nombre y marca de VentaFácil son propiedad de sus desarrolladores. Esta licencia de uso no transfiere ningún derecho de propiedad intelectual sobre la app.</p>
+      <h2>6. Analítica y descargas</h2>
+      <p>La página de descargas muestra un contador público de descargas totales, calculado con datos de GitHub sobre los instaladores publicados. No identifica quién descarga ni recolecta datos personales para ese conteo.</p>
     </section>
 
     <section>
-      <h2>7. Límite de responsabilidad</h2>
-      <p>VentaFácil se ofrece "tal cual", sin garantías de ningún tipo durante esta etapa de prueba. No nos responsabilizamos por pérdidas de datos, interrupciones del servicio o decisiones comerciales tomadas en base a la información de la app.</p>
+      <h2>7. Menores de edad</h2>
+      <p>VentaFácil está pensado para uso comercial y no está dirigido a menores de edad. No solicitamos deliberadamente datos de menores.</p>
     </section>
 
     <section>
-      <h2>8. Cambios en estos términos</h2>
-      <p>Podemos actualizar estos Términos y Condiciones a medida que la app evolucione. Si hay cambios importantes, lo vamos a indicar en esta misma página con la fecha de actualización.</p>
+      <h2>8. Tus derechos sobre los datos</h2>
+      <p>Como los datos de tu negocio quedan en tu propia instalación, tenés control directo para editarlos o eliminarlos en cualquier momento desde la app. Si nos escribiste por el formulario de soporte y querés que eliminemos ese intercambio de nuestro correo, pedilo por el mismo medio.</p>
     </section>
 
     <section>
-      <h2>9. Ley aplicable</h2>
-      <p>Estos términos se rigen por las leyes de la República Argentina.</p>
+      <h2>9. Cambios en esta política</h2>
+      <p>Podemos actualizar esta Política de Privacidad a medida que la app sume funciones o integraciones nuevas. Los cambios importantes se van a indicar en esta misma página con la fecha de actualización.</p>
     </section>
 
     <section>
       <h2>10. Contacto</h2>
-      <p>Ante cualquier consulta sobre estos términos, escribinos a <a href="mailto:ladychukjuanmartin@gmail.com">ladychukjuanmartin@gmail.com</a>.</p>
+      <p>Ante cualquier consulta sobre privacidad o tus datos, escribinos a <a href="mailto:ladychukjuanmartin@gmail.com">ladychukjuanmartin@gmail.com</a>.</p>
     </section>
   </div>
 </main>
@@ -163,7 +177,7 @@
   <div class="footer-row">
     <p class="muted">© 2026 VentaFácil</p>
     <ul class="footer-links">
-      <li><a href="privacidad.html">Privacidad</a></li>
+      <li><a href="terminos.html">Términos</a></li>
       <li><a href="index.html#soporte">Contacto</a></li>
       <li><a href="index.html">Inicio</a></li>
     </ul>
