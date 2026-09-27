@@ -136,9 +136,9 @@
 
       <li>
         <strong>"VentaFácil ya se está ejecutando" / "Cierre la aplicación antes de continuar"</strong>
-        <p>Aparece si estás instalando una actualización mientras VentaFácil ya está abierto en tu equipo.</p>
+        <p>Aparece si estás instalando una actualización mientras VentaFácil ya está abierto en tu equipo. El instalador suele ofrecerse a cerrarla él solo; si no puede, te lo pide a vos.</p>
         <span class="fix-label">Qué hacer</span>
-        <p>Cerrá la app por completo (revisá también la bandeja de íconos junto al reloj) y volvé a tocar el instalador.</p>
+        <p>Dejá que el instalador la cierre, o cerrala vos por completo (revisá también la bandeja de íconos junto al reloj) y volvé a tocar el instalador.</p>
       </li>
 
       <li>
@@ -164,59 +164,64 @@
     </ul>
 
     <div class="tech-section">
-      <h2>Códigos de retorno para publicación en Microsoft Partner Center</h2>
-      <p>Esta sección es técnica: sirve para completar el formulario de Partner Center al publicar VentaFácil como app Win32. VentaFácil usa Inno Setup, así que estos son los valores reales que devuelve el instalador en cada escenario.</p>
+      <h2>Códigos de salida del instalador</h2>
+      <p>Esta sección es técnica: son los códigos reales que devuelve <code class="tech-code">VentaFacil-Instalador.exe</code> (Inno Setup) al terminar, útiles si necesitás cargarlos en una herramienta de distribución (Intune, Partner Center, etc.) o para diagnosticar un instalador que falló en un equipo.</p>
 
       <div class="table-scroll">
         <table class="tech-table">
           <thead>
-            <tr><th>Escenario (Partner Center)</th><th>Código</th><th>Por qué</th></tr>
+            <tr><th>Código</th><th>Cuándo aparece</th><th>Qué significa</th></tr>
           </thead>
           <tbody>
             <tr>
-              <td>La instalación se realizó correctamente</td>
               <td class="tech-code">0</td>
-              <td>Código nativo de Inno Setup para éxito.</td>
+              <td>Al terminar sin problemas</td>
+              <td>Instalación completa.</td>
             </tr>
             <tr>
-              <td>Reinicio requerido</td>
-              <td class="tech-code">3010</td>
-              <td>Inno no lo devuelve solo: hace falta agregar <code class="tech-code">/RESTARTEXITCODE=3010</code> al comando de instalación (ver más abajo).</td>
-            </tr>
-            <tr>
-              <td>El usuario ha cancelado la instalación</td>
-              <td class="tech-code">2</td>
-              <td>Canceló antes de empezar a copiar archivos. (El código <code class="tech-code">5</code> cubre cancelar durante la instalación, si el formulario permite más de un valor.)</td>
-            </tr>
-            <tr>
-              <td>La instalación ya está en curso</td>
               <td class="tech-code">1</td>
-              <td>Inno usa este código genérico de "no se pudo inicializar" para este caso, entre otros.</td>
+              <td>Setup no llegó a inicializarse</td>
+              <td>Por ejemplo, dos instancias del instalador corriendo a la vez, o el .exe descargado está dañado.</td>
             </tr>
             <tr>
-              <td>El espacio en disco está lleno</td>
+              <td class="tech-code">2</td>
+              <td>Cancelado antes de instalar</td>
+              <td>El usuario tocó Cancelar o "No" antes de que Setup empezara a copiar archivos.</td>
+            </tr>
+            <tr>
               <td class="tech-code">3</td>
-              <td>Código de Inno para error fatal preparando la instalación (incluye falta de espacio).</td>
+              <td>Error preparando la siguiente etapa</td>
+              <td>Rarísimo: solo pasa por falta de memoria o recursos de Windows.</td>
             </tr>
             <tr>
-              <td>Se ha rechazado el paquete durante la instalación</td>
               <td class="tech-code">4</td>
-              <td>Código de Inno para error fatal durante la instalación real (por ejemplo, un antivirus bloqueando un archivo).</td>
+              <td>Error fatal durante la instalación</td>
+              <td>Por ejemplo, un antivirus bloqueó un archivo a mitad de la copia.</td>
             </tr>
             <tr>
-              <td>La aplicación ya existe</td>
-              <td class="tech-code">—</td>
-              <td>Inno no distingue este caso de forma nativa. Dejar en blanco si el campo es opcional; si es obligatorio, usar <code class="tech-code">0</code>, ya que reinstalar encima no falla.</td>
+              <td class="tech-code">5</td>
+              <td>Cancelado durante la instalación</td>
+              <td>El usuario tocó Cancelar o Abortar mientras se copiaban los archivos.</td>
             </tr>
             <tr>
-              <td>Error de red</td>
-              <td class="tech-code">—</td>
-              <td>El instalador no depende de conexión a internet, así que este escenario no debería ocurrir. Dejar en blanco.</td>
+              <td class="tech-code">6</td>
+              <td>Terminado por el depurador</td>
+              <td>Solo puede pasar compilando el instalador en una PC de desarrollo, nunca en la versión distribuida.</td>
             </tr>
             <tr>
-              <td>Escenarios varios / otros</td>
-              <td class="tech-code">—</td>
-              <td>Completar solo los que Partner Center marque como obligatorios.</td>
+              <td class="tech-code">7</td>
+              <td>No se puede continuar (etapa de preparación)</td>
+              <td>Sin espacio en disco, o VentaFácil seguía abierto y no se pudo (o no se quiso) cerrarlo.</td>
+            </tr>
+            <tr>
+              <td class="tech-code">8</td>
+              <td>Igual que el 7, pero hace falta reiniciar</td>
+              <td>Poco común: Windows necesita un reinicio para poder resolver el problema detectado.</td>
+            </tr>
+            <tr>
+              <td class="tech-code">3010</td>
+              <td>Solo si se instala con el flag de abajo</td>
+              <td>No es un código nativo de Inno Setup: instalación terminada bien, pero falta reiniciar Windows para completarla.</td>
             </tr>
           </tbody>
         </table>
@@ -224,6 +229,7 @@
 
       <p class="cmd-label">Comando de instalación (para que el 3010 funcione):</p>
       <pre class="cmd-block"><code>VentaFacil-Instalador.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTEXITCODE=3010</code></pre>
+      <p class="cmd-note">Sin <code class="tech-code">/RESTARTEXITCODE=3010</code>, Setup no distingue "terminó bien pero falta reiniciar" con un código propio.</p>
 
       <p class="cmd-label">Comando de desinstalación:</p>
       <pre class="cmd-block"><code>"%ProgramFiles%\VentaFácil\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</code></pre>
