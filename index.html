@@ -11,418 +11,372 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink-900:#171f18;
-    --ink-800:#1f2a20;
-    --ink-700:#2a382b;
-    --ink-600:#3a4c3b;
-    --paper:#f4efdf;
-    --paper-dim:rgba(244,239,223,0.66);
-    --paper-faint:rgba(244,239,223,0.4);
-    --brass:#cf9a45;
-    --brass-light:#e7c37f;
-    --clay:#b5573a;
-    --moss:#8ea076;
-    --line:rgba(244,239,223,0.14);
-    --radius-card:14px;
+    --ink-900:#171f18; --ink-800:#1f2a20; --ink-700:#2a382b; --ink-600:#3a4c3b;
+    --paper:#f4efdf; --paper-dim:rgba(244,239,223,0.66); --paper-faint:rgba(244,239,223,0.4);
+    --brass:#cf9a45; --brass-light:#e7c37f; --clay:#b5573a; --moss:#8ea076;
+    --line:rgba(244,239,223,0.14); --radius-card:14px;
   }
-
   *{box-sizing:border-box;}
-  html{overflow-x:hidden;}
-  body{overflow-wrap:break-word;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--ink-900);
-    color:var(--paper);
-    font-family:'IBM Plex Sans', sans-serif;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3{
-    font-family:'Fraunces', serif;
-    margin:0;
-    letter-spacing:-0.01em;
-    font-weight:600;
-  }
+  html{overflow-x:hidden; scroll-behavior:smooth;}
+  body{overflow-wrap:break-word; margin:0; background:var(--ink-900); color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif; line-height:1.62; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Fraunces', serif; margin:0; letter-spacing:-0.01em; font-weight:600;}
   .mono{font-family:'IBM Plex Mono', monospace;}
   a{color:inherit;}
   img,svg{display:block;}
   .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
   .muted{color:var(--paper-dim);}
+  button:focus-visible, a:focus-visible{outline:2px solid var(--brass-light); outline-offset:3px; border-radius:4px;}
+  @media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}}
 
-  button:focus-visible, a:focus-visible{
-    outline:2px solid var(--brass-light);
-    outline-offset:3px;
-    border-radius:4px;
+  /* Restaura el color de link "brass" que usaban las páginas de texto/artículos */
+  .art-body a, .callout a, .note-box a, .cmd-note a,
+  #page-terminos a, #page-privacidad a, #page-codigos-error .doc-head a{
+    color:var(--brass-light);
   }
 
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
-  }
-
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:13px 24px;
-    border-radius:8px;
-    border:none;
-    font-family:'IBM Plex Sans', sans-serif;
-    font-size:15px;
-    font-weight:600;
-    cursor:pointer;
-    text-decoration:none;
-    transition:background .15s ease, border-color .15s ease, color .15s ease;
-  }
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:8px;border:none;font-family:'IBM Plex Sans', sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s ease, border-color .15s ease, color .15s ease;}
   .btn-primary{background:var(--brass); color:#241a08;}
   .btn-primary:hover{background:var(--brass-light);}
   .btn-ghost{background:transparent; color:var(--paper); border:1px solid var(--line);}
   .btn-ghost:hover{border-color:rgba(244,239,223,0.4);}
+  .btn-disabled{background:transparent;border:1px solid var(--line);color:var(--paper-faint);cursor:default;pointer-events:none;}
 
+  /* ---- Header / navegación (única, se comparte en todas las "páginas") ---- */
   header.site-nav{padding:22px 0 0;}
-  .nav-bar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-    padding-bottom:22px;
-    border-bottom:1px solid var(--line);
-    flex-wrap:wrap;
-  }
+  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
   .nav-left{display:flex;align-items:center;gap:38px;}
-  .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;}
+  .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--paper);cursor:pointer;background:none;border:none;padding:0;}
   .wordmark .tag-mark{width:12px;height:12px;border:1.6px solid var(--brass);border-radius:2px;position:relative;transform:rotate(45deg);}
   .wordmark .tag-mark::after{content:"";position:absolute;top:-3px;left:2.5px;width:3px;height:3px;border-radius:50%;background:var(--brass);}
   .nav-links{display:flex;gap:28px;list-style:none;margin:0;padding:0;}
-  .nav-links a{font-size:14.5px;color:var(--paper-dim);text-decoration:none;transition:color .15s;}
+  .nav-links a{font-size:14.5px;color:var(--paper-dim);text-decoration:none;transition:color .15s;cursor:pointer;}
   .nav-links a:hover{color:var(--paper);}
   .nav-right{display:flex;gap:10px;align-items:center;}
   .nav-right .btn{padding:10px 18px;font-size:14px;}
 
-  .nav-toggle{
-    display:none;
-    align-items:center;
-    justify-content:center;
-    width:40px;height:40px;
-    background:transparent;
-    border:1px solid var(--line);
-    border-radius:8px;
-    cursor:pointer;
-    padding:0;
-    flex-shrink:0;
-  }
+  .nav-toggle{display:none;align-items:center;justify-content:center;width:40px;height:40px;background:transparent;border:1px solid var(--line);border-radius:8px;cursor:pointer;padding:0;flex-shrink:0;}
   .nav-toggle svg{display:block;}
   .nav-toggle .icon-close{display:none;}
   body.nav-open .nav-toggle .icon-menu{display:none;}
   body.nav-open .nav-toggle .icon-close{display:block;}
-
   .nav-mobile-panel{display:none;}
 
   @media(max-width:760px){
     .nav-links{display:none;}
     .nav-right .btn-ghost{display:none;}
     .nav-toggle{display:flex;}
-
-    .nav-mobile-panel{
-      display:block;
-      max-height:0;
-      overflow:hidden;
-      transition:max-height .22s ease;
-    }
+    .nav-mobile-panel{display:block;max-height:0;overflow:hidden;transition:max-height .22s ease;}
     body.nav-open .nav-mobile-panel{max-height:360px;}
-    .nav-mobile-panel ul{
-      list-style:none;margin:0;padding:18px 0 22px;
-      display:flex;flex-direction:column;gap:4px;
-    }
-    .nav-mobile-panel a{
-      display:block;padding:11px 4px;font-size:16px;
-      color:var(--paper-dim);text-decoration:none;
-      border-bottom:1px solid var(--line);
-    }
+    .nav-mobile-panel ul{list-style:none;margin:0;padding:18px 0 22px;display:flex;flex-direction:column;gap:4px;}
+    .nav-mobile-panel a{display:block;padding:11px 4px;font-size:16px;color:var(--paper-dim);text-decoration:none;border-bottom:1px solid var(--line);cursor:pointer;}
     .nav-mobile-panel a:hover{color:var(--paper);}
     .nav-mobile-panel .nav-mobile-cta{margin-top:14px;}
     .nav-mobile-panel .btn{width:100%;}
   }
 
-  .hero{padding:72px 0 96px;}
-  .hero-grid{
-    display:grid;
-    grid-template-columns:1.08fr 0.92fr;
-    gap:64px;
-    align-items:center;
-  }
-  .hero h1{
-    font-size:clamp(32px,4vw,48px);
-    line-height:1.12;
-    max-width:600px;
-  }
-  .hero p.lead{
-    margin-top:22px;
-    font-size:17.5px;
-    color:var(--paper-dim);
-    max-width:460px;
-  }
-  .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
-  .hero-note{margin-top:22px;font-size:13.5px;color:var(--paper-dim);}
-  .hero-count{
-    display:flex;
-    flex-wrap:wrap;
-    gap:28px;
-    margin-top:44px;
-    padding-top:28px;
-    border-top:1px solid var(--line);
-    max-width:460px;
-  }
-  .hero-count div .n{font-family:'Fraunces',serif;font-size:24px;font-weight:600;}
-  .hero-count div .l{font-size:12.5px;color:var(--paper-dim);margin-top:2px;}
+  .back-link{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--paper-dim);text-decoration:none;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;}
+  .back-link:hover{color:var(--paper);}
 
-  /* ---- Escena de vidriera: etiqueta + ticket ---- */
-  .scene{
-    position:relative;
-    min-height:420px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .price-tag{
-    position:relative;
-    width:250px;
-    background:var(--brass-light);
-    color:#302007;
-    padding:22px 26px 22px 40px;
-    clip-path:polygon(22px 0, 100% 0, 100% 100%, 22px 100%, 0 50%);
-    transform:rotate(-6deg);
-    animation:tag-settle .6s cubic-bezier(.2,.8,.3,1) both;
-  }
-  .price-tag::before{
-    content:"";
-    position:absolute;
-    left:9px; top:50%;
-    width:8px; height:8px;
-    border-radius:50%;
-    background:var(--ink-900);
-    transform:translateY(-50%);
-  }
-  .price-tag .p-label{font-size:12px;color:#5a4110;margin-bottom:6px;}
-  .price-tag .p-name{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1.2;}
-  .price-tag .p-price{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;margin-top:10px;}
-  .price-tag .p-sub{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#5a4110;margin-top:2px;}
+  /* ---- Cada "página" es una section que se muestra u oculta con JS ---- */
+  .page{display:none;}
+  .page.is-active{display:block;}
 
-  .receipt{
-    position:relative;
-    width:220px;
-    background:#efe6cd;
-    color:#2a2211;
-    font-family:'IBM Plex Mono',monospace;
-    padding:20px 20px 30px;
-    margin:-30px 0 0 190px;
-    transform:rotate(4deg);
-    box-shadow:0 24px 40px rgba(0,0,0,0.35);
-    animation:receipt-settle .6s .12s cubic-bezier(.2,.8,.3,1) both;
+  footer{padding:44px 0 50px;border-top:1px solid var(--line);}
+  .footer-row{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;}
+  .footer-links{display:flex;gap:22px;list-style:none;margin:0;padding:0;flex-wrap:wrap;}
+  .footer-links a{font-size:13.5px;color:var(--paper-dim);text-decoration:none;cursor:pointer;}
+  .footer-links a:hover{color:var(--paper);}
+  footer .muted{font-size:13.5px;margin-top:10px;}
+
+  /* ================= #page-index ================= */
+  #page-index{
+    .hero{padding:72px 0 96px;}
+    .hero-grid{display:grid;grid-template-columns:1.08fr 0.92fr;gap:64px;align-items:center;}
+    .hero h1{font-size:clamp(32px,4vw,48px);line-height:1.12;max-width:600px;}
+    .hero p.lead{margin-top:22px;font-size:17.5px;color:var(--paper-dim);max-width:460px;}
+    .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+    .hero-note{margin-top:22px;font-size:13.5px;color:var(--paper-dim);}
+    .hero-count{display:flex;flex-wrap:wrap;gap:28px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line);max-width:460px;}
+    .hero-count div .n{font-family:'Fraunces',serif;font-size:24px;font-weight:600;}
+    .hero-count div .l{font-size:12.5px;color:var(--paper-dim);margin-top:2px;}
+
+    .scene{position:relative;min-height:420px;display:flex;align-items:center;justify-content:center;}
+    .price-tag{position:relative;width:250px;background:var(--brass-light);color:#302007;padding:22px 26px 22px 40px;clip-path:polygon(22px 0, 100% 0, 100% 100%, 22px 100%, 0 50%);transform:rotate(-6deg);animation:tag-settle .6s cubic-bezier(.2,.8,.3,1) both;}
+    .price-tag::before{content:"";position:absolute;left:9px; top:50%;width:8px; height:8px;border-radius:50%;background:var(--ink-900);transform:translateY(-50%);}
+    .price-tag .p-label{font-size:12px;color:#5a4110;margin-bottom:6px;}
+    .price-tag .p-name{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1.2;}
+    .price-tag .p-price{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;margin-top:10px;}
+    .price-tag .p-sub{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#5a4110;margin-top:2px;}
+
+    .receipt{position:relative;width:220px;background:#efe6cd;color:#2a2211;font-family:'IBM Plex Mono',monospace;padding:20px 20px 30px;margin:-30px 0 0 190px;transform:rotate(4deg);box-shadow:0 24px 40px rgba(0,0,0,0.35);animation:receipt-settle .6s .12s cubic-bezier(.2,.8,.3,1) both;}
+    .receipt::after{content:"";position:absolute; left:0; right:0; bottom:-9px; height:18px;background:radial-gradient(circle at 9px 0, transparent 9px, #efe6cd 9.5px);background-size:18px 18px;background-repeat:repeat-x;}
+    .receipt .r-head{font-size:11px;letter-spacing:0.02em;text-align:center;border-bottom:1px dashed rgba(42,34,17,0.35);padding-bottom:10px;margin-bottom:10px;}
+    .receipt .r-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;}
+    .receipt .r-row .k{color:rgba(42,34,17,0.6);}
+    .receipt .r-total{display:flex;justify-content:space-between;font-size:13px;font-weight:600;border-top:1px dashed rgba(42,34,17,0.35);margin-top:8px;padding-top:8px;}
+
+    @media(max-width:900px){
+      .hero-grid{grid-template-columns:1fr;}
+      .hero p.lead{max-width:none;}
+      .scene{margin-top:20px;min-height:360px;}
+      .receipt{margin-left:130px;}
+    }
+    @media(max-width:520px){
+      .scene{flex-direction:column;gap:22px;min-height:0;padding:8px 0 4px;}
+      .price-tag{margin:0;width:min(250px,78vw);}
+      .receipt{margin:6px 0 0;width:min(220px,72vw);}
+    }
+    @media(max-width:460px){
+      .hero{padding:52px 0 64px;}
+      .hero-count{gap:22px;margin-top:32px;padding-top:22px;}
+      .hero-cta{gap:10px;}
+      .hero-cta .btn{flex:1 1 auto;}
+      .cta-final{padding:34px 22px;}
+    }
+
+    section{padding:74px 0;}
+    @media(max-width:460px){ section{padding:52px 0;} }
+    .section-head{max-width:560px;margin-bottom:46px;}
+    .section-head .kicker{color:var(--brass-light);font-size:14.5px;font-weight:600;margin-bottom:10px;}
+    .section-head h2{font-size:clamp(25px,2.8vw,34px);}
+    .section-head p{margin-top:14px;color:var(--paper-dim);font-size:16px;}
+
+    .modules-list{border-top:1px solid var(--line);}
+    .module-row{display:grid;grid-template-columns:56px 220px 1fr;gap:26px;align-items:start;padding:26px 0;border-bottom:1px solid var(--line);}
+    .module-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .module-row h3{font-size:18px;font-weight:600;}
+    .module-row p{color:var(--paper-dim);font-size:14.5px;margin:6px 0 0;max-width:460px;}
+    @media(max-width:760px){
+      .module-row{grid-template-columns:40px 1fr;}
+      .module-row h3{grid-column:2;}
+      .module-row p{grid-column:2;}
+    }
+
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+    .step{position:relative;padding-right:30px;}
+    .step-num{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--brass-light);margin-bottom:16px;}
+    .step h3{font-size:17.5px;}
+    .step p{color:var(--paper-dim);font-size:14.5px;margin:9px 0 0;}
+    .step-line{position:absolute;top:9px;left:calc(100% - 30px + 17px);width:30px;height:1px;background:var(--line);}
+    .step:last-child .step-line{display:none;}
+    @media(max-width:800px){
+      .steps{grid-template-columns:1fr;gap:34px;}
+      .step-line{display:none;}
+      .step{padding-right:0;}
+    }
+
+    .trust-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:40px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:34px;}
+    .trust-item h4{font-family:'Fraunces',serif;font-size:16.5px;font-weight:600;margin:0 0 8px;}
+    .trust-item p{font-size:13.8px;color:var(--paper-dim);margin:0;}
+    @media(max-width:800px){.trust-band{grid-template-columns:1fr;}}
+
+    .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+    .article-card{border:1px solid var(--line);border-radius:var(--radius-card);padding:24px;}
+    .article-card .a-meta{font-size:12.5px;color:var(--brass-light);margin-bottom:12px;}
+    .article-card h3{font-size:17px;line-height:1.3;}
+    .article-card p{color:var(--paper-dim);font-size:14px;margin:10px 0 0;}
+    .article-card .a-read{display:inline-block;margin-top:16px;font-size:13.5px;font-weight:600;color:var(--brass-light);text-decoration:none;cursor:pointer;}
+    @media(max-width:900px){.articles-grid{grid-template-columns:1fr;}}
+
+    .faq{max-width:760px;}
+    .faq-item{border-bottom:1px solid var(--line);}
+    .faq-item summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-family:'Fraunces',serif;font-size:16.5px;font-weight:600;}
+    .faq-item summary::-webkit-details-marker{display:none;}
+    .faq-item summary .plus{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--brass-light);flex-shrink:0;margin-left:16px;}
+    .faq-item[open] summary .plus{transform:rotate(45deg);}
+    .faq-item p{color:var(--paper-dim);font-size:14.8px;margin:0 0 22px;max-width:620px;}
+
+    .cta-final{background:var(--ink-800);border:1px solid var(--line);border-radius:20px;padding:56px;text-align:center;}
+    .cta-final h2{font-size:clamp(25px,3.2vw,32px);max-width:600px;margin:0 auto 16px;}
+    .cta-final p{color:var(--paper-dim);font-size:16px;max-width:460px;margin:0 auto 30px;}
+
+    .support-box{background:var(--ink-800);border:1px solid var(--line);border-radius:20px;padding:44px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:44px;}
+    .support-info h2{font-size:clamp(23px,2.6vw,28px);}
+    .support-info p{color:var(--paper-dim);font-size:15px;margin-top:14px;max-width:340px;}
+    .field{margin-bottom:16px;}
+    .field label{display:block;font-size:13px;color:var(--paper-dim);margin-bottom:7px;}
+    .field input,.field textarea{width:100%;background:var(--ink-900);border:1px solid var(--line);border-radius:8px;padding:12px 14px;color:var(--paper);font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;}
+    .field input:focus,.field textarea:focus{outline:none;border-color:var(--brass);}
+    .field textarea{resize:vertical;min-height:100px;}
+    .support-note{font-size:12.5px;color:var(--paper-dim);margin-top:4px;}
+    .form-status{font-size:13.5px;margin-top:14px;min-height:18px;}
+    .form-status.ok{color:var(--moss);}
+    .form-status.err{color:var(--clay);}
+    @media(max-width:800px){.support-box{grid-template-columns:1fr;padding:32px;}}
   }
-  .receipt::after{
-    content:"";
-    position:absolute; left:0; right:0; bottom:-9px; height:18px;
-    background:radial-gradient(circle at 9px 0, transparent 9px, #efe6cd 9.5px);
-    background-size:18px 18px;
-    background-repeat:repeat-x;
-  }
-  .receipt .r-head{font-size:11px;letter-spacing:0.02em;text-align:center;border-bottom:1px dashed rgba(42,34,17,0.35);padding-bottom:10px;margin-bottom:10px;}
-  .receipt .r-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;}
-  .receipt .r-row .k{color:rgba(42,34,17,0.6);}
-  .receipt .r-total{display:flex;justify-content:space-between;font-size:13px;font-weight:600;border-top:1px dashed rgba(42,34,17,0.35);margin-top:8px;padding-top:8px;}
 
   @keyframes tag-settle{from{opacity:0;transform:rotate(-6deg) translateY(-14px);}to{opacity:1;transform:rotate(-6deg) translateY(0);}}
   @keyframes receipt-settle{from{opacity:0;transform:rotate(4deg) translateY(14px);}to{opacity:1;transform:rotate(4deg) translateY(0);}}
 
-  @media(max-width:900px){
-    .hero-grid{grid-template-columns:1fr;}
-    .hero p.lead{max-width:none;}
-    .scene{margin-top:20px;min-height:360px;}
-    .receipt{margin-left:130px;}
-  }
-  @media(max-width:520px){
-    /* Por debajo de este ancho, el precio+ticket ya no entran cómodos
-       uno al lado del otro: se apilan centrados en vez de arriesgar
-       que el flex los achique de más o desborde en pantallas muy chicas. */
-    .scene{flex-direction:column;gap:22px;min-height:0;padding:8px 0 4px;}
-    .price-tag{margin:0;width:min(250px,78vw);}
-    .receipt{margin:6px 0 0;width:min(220px,72vw);}
-  }
-  @media(max-width:400px){
-    .wordmark{font-size:17px;gap:7px;}
-    .nav-right{gap:8px;}
-    .nav-right .btn{padding:9px 14px;font-size:13.5px;}
-  }
-  @media(max-width:460px){
-    .hero{padding:52px 0 64px;}
-    .hero-count{gap:22px;margin-top:32px;padding-top:22px;}
-    .hero-cta{gap:10px;}
-    .hero-cta .btn{flex:1 1 auto;}
-    section{padding:52px 0;}
-    .cta-final{padding:34px 22px;}
-  }
-
-  section{padding:74px 0;}
-  .section-head{max-width:560px;margin-bottom:46px;}
-  .section-head .kicker{color:var(--brass-light);font-size:14.5px;font-weight:600;margin-bottom:10px;}
-  .section-head h2{font-size:clamp(25px,2.8vw,34px);}
-  .section-head p{margin-top:14px;color:var(--paper-dim);font-size:16px;}
-
-  /* ---- Módulos como planilla de mercadería, no cards de SaaS ---- */
-  .modules-list{border-top:1px solid var(--line);}
-  .module-row{
-    display:grid;
-    grid-template-columns:56px 220px 1fr;
-    gap:26px;
-    align-items:start;
-    padding:26px 0;
-    border-bottom:1px solid var(--line);
-  }
-  .module-icon{
-    width:40px;height:40px;border-radius:9px;
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-  }
-  .module-row h3{font-size:18px;font-weight:600;}
-  .module-row p{color:var(--paper-dim);font-size:14.5px;margin:6px 0 0;max-width:460px;}
-
-  @media(max-width:760px){
-    .module-row{grid-template-columns:40px 1fr;}
-    .module-row h3{grid-column:2;}
-    .module-row p{grid-column:2;}
+  /* ================= #page-descargas ================= */
+  #page-descargas{
+    main{padding:64px 0 90px;}
+    .head{max-width:620px;margin:0 auto 56px;text-align:center;}
+    .head .kicker{color:var(--brass-light);font-size:14.5px;font-weight:600;margin-bottom:12px;}
+    .head h1{font-size:clamp(30px,4.2vw,42px);}
+    .head p{margin-top:16px;color:var(--paper-dim);font-size:16.5px;}
+    .head .ver{display:inline-block;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--paper-dim);border:1px solid var(--line);border-radius:20px;padding:6px 14px;}
+    .counter-box{display:inline-flex;align-items:baseline;gap:8px;margin-top:18px;margin-left:10px;font-family:'IBM Plex Mono',monospace;}
+    .counter-num{font-size:16px;font-weight:600;color:var(--brass-light);}
+    .counter-label{font-size:12.5px;color:var(--paper-dim);}
+    .terms-gate{max-width:560px;margin:0 auto 36px;background:var(--ink-800);border:1px solid var(--line);border-radius:12px;padding:18px 20px;}
+    .terms-check{display:flex;align-items:flex-start;gap:12px;font-size:14.5px;color:var(--paper-dim);cursor:pointer;}
+    .terms-check input{margin-top:3px;width:16px;height:16px;accent-color:var(--brass);flex-shrink:0;cursor:pointer;}
+    .terms-check a{color:var(--brass-light);text-decoration:underline;cursor:pointer;}
+    .terms-warn{min-height:18px;margin:10px 0 0;font-size:13px;color:var(--clay);}
+    .btn.is-locked{opacity:0.5;cursor:not-allowed;}
+    .platforms{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:920px;margin:0 auto;}
+    .platform-card{border:1px solid var(--line); border-radius:var(--radius-card);padding:28px 24px; display:flex; flex-direction:column; align-items:flex-start;background:var(--ink-800);}
+    .platform-card.is-disabled{opacity:0.55;}
+    .p-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;background:var(--ink-700);}
+    .platform-card h3{font-size:18px;margin-bottom:6px;}
+    .p-status{font-size:12.5px;color:var(--brass-light);font-family:'IBM Plex Mono',monospace;margin-bottom:14px;}
+    .platform-card.is-disabled .p-status{color:var(--paper-faint);}
+    .p-req{font-size:13px;color:var(--paper-dim);margin:0 0 20px;}
+    .platform-card .btn{width:100%;}
+    @media(max-width:800px){.platforms{grid-template-columns:1fr;max-width:420px;}}
+    .steps-box{max-width:700px;margin:64px auto 0;border-top:1px solid var(--line);padding-top:48px;}
+    .steps-box h2{font-size:clamp(21px,2.6vw,26px);margin-bottom:24px;text-align:center;}
+    .steps-list{counter-reset:step;padding:0;margin:0;list-style:none;}
+    .steps-list li{counter-increment:step;position:relative;padding:0 0 22px 42px;color:var(--paper-dim);font-size:15px;}
+    .steps-list li::before{content:counter(step);position:absolute;left:0;top:-2px;width:26px;height:26px;border-radius:50%;border:1px solid var(--brass);color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+    .steps-list strong{color:var(--paper);}
+    .note-box{max-width:700px;margin:40px auto 0;background:var(--ink-800);border:1px solid var(--line);border-left:3px solid var(--brass);border-radius:10px;padding:20px 22px;font-size:14.5px;color:var(--paper-dim);}
+    .note-box strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:15.5px;margin-bottom:6px;}
+    @media(max-width:480px){
+      main{padding:44px 0 60px;}
+      .head{margin-bottom:36px;}
+      .head .ver{margin-left:0;}
+      .counter-box{display:flex;justify-content:center;margin:10px 0 0;}
+      .terms-gate{padding:16px;}
+      .terms-check{font-size:14px;}
+      .platform-card{padding:22px 18px;}
+      .steps-box{margin-top:44px;padding-top:36px;}
+      .steps-list li{padding-left:36px;}
+      .note-box{padding:16px 18px;}
+    }
   }
 
-  /* ---- Cómo funciona ---- */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
-  .step{position:relative;padding-right:30px;}
-  .step-num{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:14px;font-weight:600;
-    color:var(--brass-light);
-    margin-bottom:16px;
+  /* ================= #page-terminos y #page-privacidad (y doc-head compartido con codigos-error) ================= */
+  #page-terminos, #page-privacidad, #page-codigos-error{
+    main{padding:64px 0 90px;}
+    .doc-head{margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid var(--line);}
+    .doc-head h1{font-size:clamp(28px,4vw,38px);}
+    .doc-head .updated{margin-top:14px;font-size:13.5px;color:var(--paper-dim);font-family:'IBM Plex Mono',monospace;}
+    .doc-head p{margin-top:14px;color:var(--paper-dim);font-size:15.5px;max-width:560px;}
+    @media(max-width:600px){ main{padding:44px 0 60px;} .doc-head{margin-bottom:30px;padding-bottom:22px;} }
   }
-  .step h3{font-size:17.5px;}
-  .step p{color:var(--paper-dim);font-size:14.5px;margin:9px 0 0;}
-  .step-line{position:absolute;top:9px;left:calc(100% - 30px + 17px);width:30px;height:1px;background:var(--line);}
-  .step:last-child .step-line{display:none;}
-
-  @media(max-width:800px){
-    .steps{grid-template-columns:1fr;gap:34px;}
-    .step-line{display:none;}
-    .step{padding-right:0;}
+  #page-terminos, #page-privacidad{
+    .wrap{max-width:760px;}
+    section{margin-bottom:38px;}
+    section h2{font-size:19px;margin-bottom:14px;}
+    section p, section li{color:var(--paper-dim);font-size:15px;margin:0 0 12px;}
+    section ul{padding-left:20px;margin:0 0 12px;}
+    section li{margin-bottom:8px;}
+    section strong{color:var(--paper);font-weight:600;}
+    @media(max-width:600px){ section{margin-bottom:30px;} }
   }
-
-  /* ---- Confianza ---- */
-  .trust-band{
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    padding:40px 0;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:34px;
-  }
-  .trust-item h4{font-family:'Fraunces',serif;font-size:16.5px;font-weight:600;margin:0 0 8px;}
-  .trust-item p{font-size:13.8px;color:var(--paper-dim);margin:0;}
-
-  @media(max-width:800px){.trust-band{grid-template-columns:1fr;}}
-
-  /* ---- Recursos / contenido ---- */
-  .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-  .article-card{
-    border:1px solid var(--line);
-    border-radius:var(--radius-card);
-    padding:24px;
-  }
-  .article-card .a-meta{font-size:12.5px;color:var(--brass-light);margin-bottom:12px;}
-  .article-card h3{font-size:17px;line-height:1.3;}
-  .article-card p{color:var(--paper-dim);font-size:14px;margin:10px 0 0;}
-  .article-card .a-read{display:inline-block;margin-top:16px;font-size:13.5px;font-weight:600;color:var(--brass-light);text-decoration:none;}
-
-  @media(max-width:900px){.articles-grid{grid-template-columns:1fr;}}
-
-  /* ---- FAQ ---- */
-  .faq{max-width:760px;}
-  .faq-item{border-bottom:1px solid var(--line);}
-  .faq-item summary{
-    cursor:pointer;
-    list-style:none;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 0;
-    font-family:'Fraunces',serif;
-    font-size:16.5px;
-    font-weight:600;
-  }
-  .faq-item summary::-webkit-details-marker{display:none;}
-  .faq-item summary .plus{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--brass-light);flex-shrink:0;margin-left:16px;}
-  .faq-item[open] summary .plus{transform:rotate(45deg);}
-  .faq-item p{color:var(--paper-dim);font-size:14.8px;margin:0 0 22px;max-width:620px;}
-
-  /* ---- CTA final ---- */
-  .cta-final{
-    background:var(--ink-800);
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:56px;
-    text-align:center;
-  }
-  .cta-final h2{font-size:clamp(25px,3.2vw,32px);max-width:600px;margin:0 auto 16px;}
-  .cta-final p{color:var(--paper-dim);font-size:16px;max-width:460px;margin:0 auto 30px;}
-
-  /* ---- Soporte ---- */
-  .support-box{
-    background:var(--ink-800);
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:44px;
-    display:grid;
-    grid-template-columns:0.85fr 1.15fr;
-    gap:44px;
-  }
-  .support-info h2{font-size:clamp(23px,2.6vw,28px);}
-  .support-info p{color:var(--paper-dim);font-size:15px;margin-top:14px;max-width:340px;}
-  .support-info .support-addr{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    margin-top:22px;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:13.5px;
-    color:var(--brass-light);
-    text-decoration:none;
-  }
-  .field{margin-bottom:16px;}
-  .field label{display:block;font-size:13px;color:var(--paper-dim);margin-bottom:7px;}
-  .field input,.field textarea{
-    width:100%;
-    background:var(--ink-900);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:12px 14px;
-    color:var(--paper);
-    font-family:'IBM Plex Sans',sans-serif;
-    font-size:14.5px;
-  }
-  .field input:focus,.field textarea:focus{outline:none;border-color:var(--brass);}
-  .field textarea{resize:vertical;min-height:100px;}
-  .support-note{font-size:12.5px;color:var(--paper-dim);margin-top:4px;}
-  .form-status{font-size:13.5px;margin-top:14px;min-height:18px;}
-  .form-status.ok{color:var(--moss);}
-  .form-status.err{color:var(--clay);}
-
-  @media(max-width:800px){
-    .support-box{grid-template-columns:1fr;padding:32px;}
+  #page-privacidad{
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 12px;}
+    .priv-table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px;}
+    .priv-table th,.priv-table td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+    .priv-table th{color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;}
+    .priv-table td{color:var(--paper-dim);}
   }
 
-  footer{padding:44px 0 50px;border-top:1px solid var(--line);}
-  .footer-row{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;}
-  .footer-links{display:flex;gap:22px;list-style:none;margin:0;padding:0;}
-  .footer-links a{font-size:13.5px;color:var(--paper-dim);text-decoration:none;}
-  .footer-links a:hover{color:var(--paper);}
-  footer .muted{font-size:13.5px;margin-top:10px;}
+  /* ================= #page-codigos-error ================= */
+  #page-codigos-error{
+    .wrap{max-width:760px;}
+    .error-list{list-style:none;margin:0 0 40px;padding:0;}
+    .error-list li{border:1px solid var(--line);border-radius:var(--radius-card);padding:22px 24px;margin-bottom:14px;background:var(--ink-800);}
+    .error-list strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin-bottom:8px;}
+    .error-list p{color:var(--paper-dim);font-size:14.8px;margin:0 0 10px;}
+    .error-list p:last-child{margin-bottom:0;}
+    .error-list .fix-label{color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:4px;display:block;}
+    .tech-section{border-top:1px solid var(--line);padding-top:44px;margin-bottom:44px;}
+    .tech-section h2{font-size:clamp(20px,2.6vw,24px);margin-bottom:10px;}
+    .tech-section > p{color:var(--paper-dim);font-size:15px;margin:0 0 24px;max-width:560px;}
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 26px;border:1px solid var(--line);border-radius:var(--radius-card);}
+    .tech-table{width:100%;border-collapse:collapse;font-size:14px;min-width:600px;}
+    .tech-table th,.tech-table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+    .tech-table tr:last-child td{border-bottom:none;}
+    .tech-table th{color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;background:var(--ink-700);}
+    .tech-table td{color:var(--paper-dim);}
+    .tech-code{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--paper);white-space:nowrap;}
+    .cmd-label{font-size:13.5px;color:var(--paper-dim);margin:18px 0 8px;}
+    .cmd-label:first-child{margin-top:0;}
+    pre.cmd-block{background:var(--ink-700); border:1px solid var(--line); border-radius:8px;padding:14px 16px; margin:0 0 6px; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+    pre.cmd-block code{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--brass-light);white-space:pre;}
+    .cmd-note{font-size:13px;color:var(--paper-faint);margin:0 0 20px;}
+    .cta-box{background:var(--ink-800); border:1px solid var(--line); border-radius:20px;padding:32px; text-align:center;}
+    .cta-box h2{font-size:20px;margin-bottom:10px;}
+    .cta-box p{color:var(--paper-dim);font-size:15px;max-width:420px;margin:0 auto 20px;}
+    @media(max-width:600px){
+      .error-list li{padding:18px 18px;}
+      .cta-box{padding:24px 20px;}
+    }
+  }
+
+  /* ================= Plantilla compartida de las 8 notas/artículos ================= */
+  #page-pedidos-proveedores, #page-control-stock, #page-errores-precios, #page-devoluciones,
+  #page-liquidacion-stock, #page-mercado-libre-stock, #page-cuenta-corriente, #page-punto-equilibrio{
+    .wrap{max-width:1140px;}
+    article{padding:56px 0 84px;}
+    .art-head{max-width:700px;margin:0 auto 40px;}
+    .art-meta{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--brass-light);margin-bottom:18px;flex-wrap:wrap;}
+    .art-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--paper-faint);}
+    .art-head h1{font-size:clamp(28px,4.2vw,42px);line-height:1.15;}
+    .art-head .lead{margin-top:18px;font-size:17.5px;color:var(--paper-dim);}
+    .art-body{max-width:700px;margin:0 auto;}
+    .art-body p{font-size:16.5px;color:var(--paper);margin:0 0 22px;}
+    .art-body p.muted-p{color:var(--paper-dim);}
+    .art-body h2{font-size:clamp(21px,2.6vw,26px);margin:44px 0 16px;}
+    .art-body ul,.art-body ol{margin:0 0 22px;padding-left:22px;color:var(--paper);font-size:16.5px;}
+    .art-body li{margin-bottom:10px;}
+    .art-body strong{color:var(--brass-light);font-weight:600;}
+    .callout{background:var(--ink-800); border:1px solid var(--line); border-left:3px solid var(--brass);border-radius:10px; padding:22px 24px; margin:32px 0; font-size:15.5px; color:var(--paper-dim);}
+    .callout.callout-moss{border-left-color:var(--moss);}
+    .callout.callout-clay{border-left-color:var(--clay);}
+    .callout strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:16px;margin-bottom:6px;}
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:28px 0;}
+    .example-table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:460px;}
+    .example-table th,.example-table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);}
+    .example-table th{color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;}
+    .example-table td{color:var(--paper-dim);}
+    .cta-box{background:var(--ink-800); border:1px solid var(--line); border-radius:20px;padding:40px; text-align:center; margin-top:56px; max-width:700px; margin-left:auto; margin-right:auto;}
+    .cta-box h2{font-size:clamp(22px,3vw,27px);margin-bottom:12px;}
+    .cta-box p{color:var(--paper-dim);font-size:15.5px;max-width:420px;margin:0 auto 26px;}
+    .related{border-top:1px solid var(--line);padding:50px 0;}
+    .related-head{font-size:13px;color:var(--brass-light);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:22px;}
+    .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+    .related-card{border:1px solid var(--line);border-radius:var(--radius-card);padding:22px;text-decoration:none;display:block;cursor:pointer;}
+    .related-card .r-meta{font-size:12px;color:var(--brass-light);font-family:'IBM Plex Mono',monospace;margin-bottom:8px;}
+    .related-card h3{font-size:16px;color:var(--paper);line-height:1.3;}
+    footer{padding:36px 0 50px;}
+    @media(max-width:700px){
+      article{padding:40px 0 60px;}
+      .related-grid{grid-template-columns:1fr;}
+      .cta-box{padding:30px;}
+    }
+    @media(max-width:520px){
+      .art-meta{font-size:12px;}
+      .art-body p, .art-body ul, .art-body ol{font-size:15.5px;}
+      .callout{padding:16px 18px;}
+      .example-table th,.example-table td{padding:10px 8px;}
+      .cta-box{padding:26px 20px;}
+    }
+  }
+
+  /* errores-precios usa una lista propia (evita choque con .error-list de codigos-error) */
+  #page-errores-precios{
+    .mistake-list{list-style:none;margin:0 0 28px;padding:0;}
+    .mistake-list li{border:1px solid var(--line);border-radius:var(--radius-card);padding:20px 22px;margin-bottom:14px;}
+    .mistake-list .m-num{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--clay);margin-bottom:6px;}
+    .mistake-list strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin-bottom:6px;}
+    .mistake-list span{color:var(--paper-dim);font-size:14.8px;}
+    @media(max-width:520px){ .mistake-list li{padding:16px 18px;} }
+  }
 </style>
 </head>
 <body>
@@ -431,17 +385,17 @@
   <div class="wrap">
     <nav class="nav-bar">
       <div class="nav-left">
-        <div class="wordmark"><span class="tag-mark"></span>VentaFácil</div>
+        <a class="wordmark" data-page="index"><span class="tag-mark"></span>VentaFácil</a>
         <ul class="nav-links">
-          <li><a href="#modulos">Funciones</a></li>
-          <li><a href="#como-funciona">Cómo funciona</a></li>
-          <li><a href="#recursos">Recursos</a></li>
-          <li><a href="#preguntas">Preguntas</a></li>
-          <li><a href="#soporte">Soporte</a></li>
+          <li><a data-page="index" data-anchor="modulos">Funciones</a></li>
+          <li><a data-page="index" data-anchor="como-funciona">Cómo funciona</a></li>
+          <li><a data-page="index" data-anchor="recursos">Recursos</a></li>
+          <li><a data-page="index" data-anchor="preguntas">Preguntas</a></li>
+          <li><a data-page="index" data-anchor="soporte">Soporte</a></li>
         </ul>
       </div>
       <div class="nav-right">
-        <a href="descargas.html" class="btn btn-primary">Probar la app</a>
+        <a data-page="descargas" class="btn btn-primary">Probar la app</a>
         <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile-panel" aria-label="Abrir menú">
           <svg class="icon-menu" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6H21M3 12H21M3 18H21" stroke="#f4efdf" stroke-width="1.8" stroke-linecap="round"/></svg>
           <svg class="icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="#f4efdf" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -450,16 +404,18 @@
     </nav>
     <div class="nav-mobile-panel" id="nav-mobile-panel">
       <ul>
-        <li><a href="#modulos">Funciones</a></li>
-        <li><a href="#como-funciona">Cómo funciona</a></li>
-        <li><a href="#recursos">Recursos</a></li>
-        <li><a href="#preguntas">Preguntas</a></li>
-        <li><a href="#soporte">Soporte</a></li>
+        <li><a data-page="index" data-anchor="modulos">Funciones</a></li>
+        <li><a data-page="index" data-anchor="como-funciona">Cómo funciona</a></li>
+        <li><a data-page="index" data-anchor="recursos">Recursos</a></li>
+        <li><a data-page="index" data-anchor="preguntas">Preguntas</a></li>
+        <li><a data-page="index" data-anchor="soporte">Soporte</a></li>
+        <li class="nav-mobile-cta"><a data-page="descargas" class="btn btn-primary">Probar la app</a></li>
       </ul>
     </div>
   </div>
 </header>
 
+<section class="page is-active" id="page-index" data-title="VentaFácil — Sistema de gestión para comercios">
 <main>
   <section class="hero">
     <div class="wrap hero-grid">
@@ -467,8 +423,8 @@
         <h1>Manejá tu comercio sin perder de vista ni un producto</h1>
         <p class="lead">Cargá inventario, registrá ventas y coordiná pedidos con tus proveedores desde un solo lugar. Sin planillas sueltas, sin depender de la memoria.</p>
         <div class="hero-cta">
-          <a href="descargas.html" class="btn btn-primary">Probar la app</a>
-          <a href="#modulos" class="btn btn-ghost">Ver qué incluye</a>
+          <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+          <a href="javascript:void(0)" data-page="index" data-anchor="modulos" class="btn btn-ghost">Ver qué incluye</a>
         </div>
         <p class="hero-note">No pedimos tarjeta para probarlo.</p>
         <div class="hero-count">
@@ -609,49 +565,49 @@
           <div class="a-meta mono">6 min de lectura</div>
           <h3>Cómo controlar el stock sin perder ventas por faltantes</h3>
           <p>Señales tempranas de que un producto se va a agotar, y cómo fijar un punto de reposición sin sobre-stockear.</p>
-          <a href="control-stock.html" class="a-read">Leer la nota</a>
+          <a href="javascript:void(0)" data-page="control-stock" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">4 min de lectura</div>
           <h3>Cuándo pedirle mercadería a tus proveedores</h3>
           <p>Una forma simple de calcular cuánto pedir según lo que se vendió el mes anterior, sin planillas complicadas.</p>
-          <a href="pedidos-proveedores.html" class="a-read">Leer la nota</a>
+          <a href="javascript:void(0)" data-page="pedidos-proveedores" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">5 min de lectura</div>
           <h3>Errores comunes al fijar precios de venta</h3>
           <p>Por qué el margen fijo no siempre funciona igual para todas las categorías, y cómo ajustarlo por producto.</p>
-          <a href="errores-precios.html" class="a-read">Leer la nota</a>
+          <a href="javascript:void(0)" data-page="errores-precios" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">5 min de lectura</div>
           <h3>Cómo manejar el fiado sin que se te escape de las manos</h3>
           <p>Por qué el fiado sin límite ni seguimiento termina siendo plata que nunca vuelve, y cómo ponerle un método simple.</p>
-          <a href="cuenta-corriente.html" class="a-read">Leer la nota</a>
+          <a href="javascript:void(0)" data-page="cuenta-corriente" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">4 min de lectura</div>
           <h3>Devoluciones y cambios: cómo manejarlos sin descuadrar la caja</h3>
           <p>La diferencia entre anular una venta entera y devolver solo una parte, y por qué esa diferencia importa para tus reportes.</p>
-          <a href="devoluciones.html" class="a-read">Leer la nota</a>
+          <a href="javascript:void(0)" data-page="devoluciones" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">5 min de lectura</div>
           <h3>Punto de equilibrio: cuánto necesitás vender para no perder plata</h3>
           <p>La diferencia entre ganancia bruta y neta, y la cuenta simple que te dice si el mes ya se pagó solo.</p>
-          <a href="punto-equilibrio.html" class="a-read">Leer la nota</a>
+          <a href="javascript:void(0)" data-page="punto-equilibrio" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">5 min de lectura</div>
           <h3>Qué hacer con el stock que no se vende antes de perderlo del todo</h3>
           <p>Dos motivos distintos por los que un producto se convierte en candidato a liquidar, y cuándo conviene bajarle el precio a tiempo.</p>
-          <a href="liquidacion-stock.html" class="a-read">Leer la nota</a>
+          <a href="javascript:void(0)" data-page="liquidacion-stock" class="a-read">Leer la nota</a>
         </div>
         <div class="article-card">
           <div class="a-meta mono">4 min de lectura</div>
           <h3>Vender en el local y en Mercado Libre sin quedarte sin stock</h3>
           <p>Qué pasa con tu inventario cuando el mismo producto se vende por dos canales a la vez, y cómo evitar vender algo que ya no tenés.</p>
-          <a href="mercado-libre-stock.html" class="a-read">Leer la nota</a>
+          <a href="javascript:void(0)" data-page="mercado-libre-stock" class="a-read">Leer la nota</a>
         </div>
       </div>
     </div>
@@ -690,7 +646,7 @@
       <div class="cta-final">
         <h2>Dejá de anotar el stock en la cabeza</h2>
         <p>Armá tu cuenta ahora y cargá tu primer producto en menos de cinco minutos.</p>
-        <a href="descargas.html" class="btn btn-primary">Probar la app</a>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
       </div>
     </div>
   </section>
@@ -724,11 +680,934 @@
     </div>
   </section>
 </main>
+</section>
+
+<section class="page" id="page-descargas" data-title="Descargas — VentaFácil">
+<main>
+  <div class="wrap">
+    <div class="head">
+      <div class="kicker">Versión de prueba</div>
+      <h1>Descargá VentaFácil</h1>
+      <p>Elegí tu sistema operativo. La app se actualiza sola una vez instalada.</p>
+      <span class="ver mono">v0.0.1</span>
+      <span class="counter-box" id="contador-descargas">
+        <span class="counter-num mono" id="contador-num">—</span>
+        <span class="counter-label">descargas totales</span>
+      </span>
+    </div>
+
+    <div class="terms-gate">
+      <label class="terms-check">
+        <input type="checkbox" id="acepta-terminos">
+        <span>Leí y acepto los <a href="javascript:void(0)" data-page="terminos">Términos y Condiciones</a> de VentaFácil, incluyendo que esta es una versión de prueba.</span>
+      </label>
+      <p class="terms-warn" id="terms-warn" role="alert"></p>
+    </div>
+
+    <div class="platforms">
+      <div class="platform-card">
+        <div class="p-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 5.5L10.5 4.4V11.4H3V5.5Z" fill="#e7c37f"/><path d="M11.5 4.3L21 3V11.3H11.5V4.3Z" fill="#e7c37f"/><path d="M3 12.4H10.5V19.5L3 18.4V12.4Z" fill="#e7c37f"/><path d="M11.5 12.4H21V20.9L11.5 19.6V12.4Z" fill="#e7c37f"/></svg>
+        </div>
+        <h3>Windows</h3>
+        <div class="p-status">DISPONIBLE</div>
+        <p class="p-req">Windows 10 o superior, 64 bits.</p>
+        <a href="https://github.com/JuanMartinLadychuk/ventafacil.github.io/releases/download/0.0.1/VentaFacil-Instalador.exe" class="btn btn-primary" data-download>Descargar .exe</a>
+      </div>
+
+      <div class="platform-card is-disabled">
+        <div class="p-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M16.5 12.3C16.5 9.8 18.5 8.6 18.6 8.5C17.4 6.8 15.6 6.5 15 6.5C13.5 6.3 12 7.4 11.3 7.4C10.5 7.4 9.3 6.5 8 6.5C6.3 6.5 4.8 7.5 3.9 9C2.1 12.1 3.4 16.7 5.2 19.2C6 20.4 7 21.8 8.3 21.7C9.5 21.7 10 20.9 11.4 20.9C12.8 20.9 13.2 21.7 14.5 21.7C15.9 21.7 16.7 20.5 17.5 19.3C18.4 17.9 18.8 16.6 18.8 16.5C18.8 16.5 16.5 15.6 16.5 12.3Z" fill="#f4efdf"/><path d="M13.9 5C14.5 4.3 14.9 3.3 14.8 2.3C13.9 2.3 12.8 2.9 12.2 3.6C11.6 4.2 11.2 5.2 11.3 6.1C12.3 6.2 13.3 5.6 13.9 5Z" fill="#f4efdf"/></svg>
+        </div>
+        <h3>macOS</h3>
+        <div class="p-status">PRÓXIMAMENTE</div>
+        <p class="p-req">Todavía no hay build para macOS.</p>
+        <span class="btn btn-disabled">Avisamos cuando esté</span>
+      </div>
+
+      <div class="platform-card is-disabled">
+        <div class="p-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="13.5" rx="5" ry="6.5" fill="#f4efdf"/><circle cx="10" cy="12" r="0.8" fill="#171f18"/><circle cx="14" cy="12" r="0.8" fill="#171f18"/><path d="M9 20C9 21 10.3 22 12 22C13.7 22 15 21 15 20" stroke="#f4efdf" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Linux</h3>
+        <div class="p-status">PRÓXIMAMENTE</div>
+        <p class="p-req">Todavía no hay build para Linux.</p>
+        <span class="btn btn-disabled">Avisamos cuando esté</span>
+      </div>
+    </div>
+
+    <div class="steps-box">
+      <h2>Cómo instalarlo en Windows</h2>
+      <ol class="steps-list">
+        <li>Descargá el archivo <strong>VentaFacil-Instalador.exe</strong> con el botón de arriba.</li>
+        <li>Ejecutalo desde la carpeta de Descargas (no hace falta descomprimir nada).</li>
+        <li>Windows puede mostrar un aviso de "editor desconocido" la primera vez: elegí <strong>Más información → Ejecutar de todas formas</strong>.</li>
+      </ol>
+    </div>
+
+    <div class="note-box">
+      <strong>Sobre esta versión</strong>
+      VentaFácil está en etapa de prueba: podés encontrar errores o cambios frecuentes entre versiones. Una vez instalada, la app avisa sola cuando hay una actualización nueva disponible. Si la instalación falla, revisá el <a href="javascript:void(0)" data-page="codigos-error">detalle de códigos de error</a>.
+    </div>
+  </div>
+</main>
+</section>
+
+<section class="page" id="page-codigos-error" data-title="Problemas al instalar VentaFácil — VentaFácil">
+<main>
+  <div class="wrap">
+    <div class="doc-head">
+      <h1>Problemas al instalar VentaFácil</h1>
+      <p>Si al instalar VentaFácil te aparece algún cartel que no esperabas, buscalo acá abajo para saber qué significa y qué hacer.</p>
+    </div>
+
+    <ul class="error-list">
+      <li>
+        <strong>"Windows protegió su PC" (pantalla azul con ícono de escudo)</strong>
+        <p>No es un error: aparece porque VentaFácil todavía no tiene una firma digital de editor reconocida por Windows, algo normal en una app en etapa de prueba.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Tocá <strong style="display:inline;font-family:inherit;font-size:inherit;">Más información</strong> y después <strong style="display:inline;font-family:inherit;font-size:inherit;">Ejecutar de todas formas</strong>. El paso a paso completo está en la <a href="javascript:void(0)" data-page="descargas">página de Descargas</a>.</p>
+      </li>
+
+      <li>
+        <strong>"No hay suficiente espacio en disco"</strong>
+        <p>El instalador revisa antes de empezar si hay lugar en la unidad donde vas a instalar VentaFácil, y no encontró suficiente.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Liberá espacio en esa unidad (borrando archivos que no uses, o vaciando la papelera) y volvé a ejecutar el instalador.</p>
+      </li>
+
+      <li>
+        <strong>"VentaFácil ya se está ejecutando" / "Cierre la aplicación antes de continuar"</strong>
+        <p>Aparece si estás instalando una actualización mientras VentaFácil ya está abierto en tu equipo. El instalador suele ofrecerse a cerrarla él solo; si no puede, te lo pide a vos.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Dejá que el instalador la cierre, o cerrala vos por completo (revisá también la bandeja de íconos junto al reloj) y volvé a tocar el instalador.</p>
+      </li>
+
+      <li>
+        <strong>El instalador se cierra solo, sin avisos, apenas lo abrís</strong>
+        <p>Suele pasar cuando la descarga quedó incompleta o dañada, o cuando un antivirus lo bloqueó en silencio.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Volvé a descargar <strong style="display:inline;font-family:inherit;font-size:inherit;">VentaFacil-Instalador.exe</strong> desde la <a href="javascript:void(0)" data-page="descargas">página de Descargas</a> y revisá que tu antivirus no lo haya puesto en cuarentena.</p>
+      </li>
+
+      <li>
+        <strong>"No se pudo completar la instalación" (error genérico durante el proceso)</strong>
+        <p>Puede deberse a permisos insuficientes en la carpeta elegida, un antivirus bloqueando un archivo puntual, o la descarga dañada.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Probá instalar en otra carpeta (por ejemplo, dentro de <strong style="display:inline;font-family:inherit;font-size:inherit;">Documentos</strong> en vez de <strong style="display:inline;font-family:inherit;font-size:inherit;">Archivos de programa</strong>), o desactivá momentáneamente el antivirus durante la instalación.</p>
+      </li>
+
+      <li>
+        <strong>"Para completar la instalación, es necesario reiniciar el equipo"</strong>
+        <p>No es un error: algunos cambios del sistema quedan pendientes hasta el próximo reinicio.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Guardá lo que estés haciendo y reiniciá cuando puedas. VentaFácil va a quedar instalado correctamente.</p>
+      </li>
+    </ul>
+
+    <div class="tech-section">
+      <h2>Códigos de salida del instalador</h2>
+      <p>Esta sección es técnica: son los códigos reales que devuelve <code class="tech-code">VentaFacil-Instalador.exe</code> (Inno Setup) al terminar, útiles si necesitás cargarlos en una herramienta de distribución (Intune, Partner Center, etc.) o para diagnosticar un instalador que falló en un equipo.</p>
+
+      <div class="table-scroll">
+        <table class="tech-table">
+          <thead>
+            <tr><th>Código</th><th>Cuándo aparece</th><th>Qué significa</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="tech-code">0</td><td>Al terminar sin problemas</td><td>Instalación completa.</td></tr>
+            <tr><td class="tech-code">1</td><td>Setup no llegó a inicializarse</td><td>Por ejemplo, dos instancias del instalador corriendo a la vez, o el .exe descargado está dañado.</td></tr>
+            <tr><td class="tech-code">2</td><td>Cancelado antes de instalar</td><td>El usuario tocó Cancelar o "No" antes de que Setup empezara a copiar archivos.</td></tr>
+            <tr><td class="tech-code">3</td><td>Error preparando la siguiente etapa</td><td>Rarísimo: solo pasa por falta de memoria o recursos de Windows.</td></tr>
+            <tr><td class="tech-code">4</td><td>Error fatal durante la instalación</td><td>Por ejemplo, un antivirus bloqueó un archivo a mitad de la copia.</td></tr>
+            <tr><td class="tech-code">5</td><td>Cancelado durante la instalación</td><td>El usuario tocó Cancelar o Abortar mientras se copiaban los archivos.</td></tr>
+            <tr><td class="tech-code">6</td><td>Terminado por el depurador</td><td>Solo puede pasar compilando el instalador en una PC de desarrollo, nunca en la versión distribuida.</td></tr>
+            <tr><td class="tech-code">7</td><td>No se puede continuar (etapa de preparación)</td><td>Sin espacio en disco, o VentaFácil seguía abierto y no se pudo (o no se quiso) cerrarlo.</td></tr>
+            <tr><td class="tech-code">8</td><td>Igual que el 7, pero hace falta reiniciar</td><td>Poco común: Windows necesita un reinicio para poder resolver el problema detectado.</td></tr>
+            <tr><td class="tech-code">3010</td><td>Solo si se instala con el flag de abajo</td><td>No es un código nativo de Inno Setup: instalación terminada bien, pero falta reiniciar Windows para completarla.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="cmd-label">Comando de instalación (para que el 3010 funcione):</p>
+      <pre class="cmd-block"><code>VentaFacil-Instalador.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTEXITCODE=3010</code></pre>
+      <p class="cmd-note">Sin <code class="tech-code">/RESTARTEXITCODE=3010</code>, Setup no distingue "terminó bien pero falta reiniciar" con un código propio.</p>
+
+      <p class="cmd-label">Comando de desinstalación:</p>
+      <pre class="cmd-block"><code>"%ProgramFiles%\VentaFácil\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</code></pre>
+      <p class="cmd-note">Ajustar la ruta de desinstalación si el .iss instala en una carpeta distinta.</p>
+    </div>
+
+    <div class="cta-box">
+      <h2>¿Tu problema no está en esta lista?</h2>
+      <p>Escribinos y te ayudamos a resolverlo.</p>
+      <a href="javascript:void(0)" data-page="index" data-anchor="soporte" class="btn btn-primary">Ir a Soporte</a>
+    </div>
+  </div>
+</main>
+</section>
+
+<section class="page" id="page-terminos" data-title="Términos y Condiciones — VentaFácil">
+<main>
+  <div class="wrap">
+    <div class="doc-head">
+      <h1>Términos y Condiciones</h1>
+      <p class="updated">Última actualización: septiembre de 2026</p>
+    </div>
+
+    <section>
+      <h2>1. Aceptación de los términos</h2>
+      <p>Al descargar, instalar o usar VentaFácil ("la app", "el servicio") aceptás estos Términos y Condiciones. Si no estás de acuerdo, no debés instalar ni usar la app.</p>
+    </section>
+
+    <section>
+      <h2>2. Qué es VentaFácil</h2>
+      <p>VentaFácil es un sistema de gestión pensado para comercios (kioscos, boutiques y negocios de barrio) que permite cargar inventario, registrar ventas y coordinar pedidos con proveedores. Actualmente se distribuye como versión de prueba, para que puedas evaluarla antes de un eventual lanzamiento estable.</p>
+    </section>
+
+    <section>
+      <h2>3. Versión de prueba</h2>
+      <p>Al tocar "Probar la app" estás descargando una versión en desarrollo. Esto implica que:</p>
+      <ul>
+        <li>Puede contener errores, funciones incompletas o cambios frecuentes entre versiones.</li>
+        <li>No garantizamos disponibilidad continua ni ausencia de interrupciones.</li>
+        <li>Los datos que cargues (inventario, ventas, proveedores) pueden verse afectados por actualizaciones durante esta etapa de prueba. Te recomendamos no depender exclusivamente de la app para información crítica del negocio mientras dure esta fase.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Uso permitido</h2>
+      <p>Te comprometés a usar VentaFácil de forma lícita y a no intentar vulnerar su funcionamiento, realizar ingeniería inversa con fines de explotación comercial no autorizada, ni distribuir la app sin nuestro consentimiento.</p>
+    </section>
+
+    <section>
+      <h2>5. Cuenta y datos cargados</h2>
+      <p>Sos responsable de la información que cargues en la app (productos, precios, datos de proveedores, etc.) y de mantener la confidencialidad de tus credenciales de acceso, si aplica. Podés eliminar tu cuenta y tus datos en cualquier momento contactándonos por los medios indicados más abajo.</p>
+    </section>
+
+    <section>
+      <h2>6. Propiedad intelectual</h2>
+      <p>El código, diseño, nombre y marca de VentaFácil son propiedad de sus desarrolladores. Esta licencia de uso no transfiere ningún derecho de propiedad intelectual sobre la app.</p>
+    </section>
+
+    <section>
+      <h2>7. Límite de responsabilidad</h2>
+      <p>VentaFácil se ofrece "tal cual", sin garantías de ningún tipo durante esta etapa de prueba. No nos responsabilizamos por pérdidas de datos, interrupciones del servicio o decisiones comerciales tomadas en base a la información de la app.</p>
+    </section>
+
+    <section>
+      <h2>8. Cambios en estos términos</h2>
+      <p>Podemos actualizar estos Términos y Condiciones a medida que la app evolucione. Si hay cambios importantes, lo vamos a indicar en esta misma página con la fecha de actualización.</p>
+    </section>
+
+    <section>
+      <h2>9. Ley aplicable</h2>
+      <p>Estos términos se rigen por las leyes de la República Argentina.</p>
+    </section>
+
+    <section>
+      <h2>10. Contacto</h2>
+      <p>Ante cualquier consulta sobre estos términos, escribinos a <a href="mailto:ladychukjuanmartin@gmail.com">ladychukjuanmartin@gmail.com</a>.</p>
+    </section>
+  </div>
+</main>
+</section>
+
+<section class="page" id="page-privacidad" data-title="Política de Privacidad — VentaFácil">
+<main>
+  <div class="wrap">
+    <div class="doc-head">
+      <h1>Política de Privacidad</h1>
+      <p class="updated">Última actualización: septiembre de 2026</p>
+    </div>
+
+    <section>
+      <h2>1. Qué es este documento</h2>
+      <p>Esta política explica qué datos carga VentaFácil ("la app") cuando la instalás y usás, para qué se usan y qué control tenés sobre ellos. Se complementa con los <a href="javascript:void(0)" data-page="terminos">Términos y Condiciones</a>, que rigen el uso de la app en general.</p>
+    </section>
+
+    <section>
+      <h2>2. Dónde vive tu información</h2>
+      <p>VentaFácil es una aplicación de escritorio: el inventario, las ventas, los clientes y proveedores que cargás se guardan en la base de datos de tu propia instalación (local o en tu red), no en un servidor nuestro. No tenemos acceso de rutina a esos datos.</p>
+    </section>
+
+    <section>
+      <h2>3. Qué datos se cargan y con qué fin</h2>
+      <div class="table-scroll">
+        <table class="priv-table">
+          <thead><tr><th>Dato</th><th>Para qué se usa</th></tr></thead>
+          <tbody>
+            <tr><td>Inventario, precios y proveedores</td><td>Gestión de stock, márgenes y pedidos dentro de la app.</td></tr>
+            <tr><td>Ventas y cuenta corriente de clientes</td><td>Historial de ventas, fiado, devoluciones y reportes de rentabilidad.</td></tr>
+            <tr><td>Correo de clientes (si lo cargás)</td><td>Solo si activás el recordatorio de saldo vencido por correo; no se usa para nada más.</td></tr>
+            <tr><td>Credenciales de terceros (Mercado Libre, Mercado Pago, SMTP)</td><td>Conectar esas integraciones desde tu propia instalación; se guardan cifradas.</td></tr>
+            <tr><td>Correo y mensaje del formulario de soporte</td><td>Responder tu consulta por correo. No se almacena en ningún otro lado.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Integraciones con terceros</h2>
+      <p>Si activás la sincronización con Mercado Libre, el cobro con Mercado Pago Point u otra terminal, o el envío de correos por SMTP, esos datos (productos, ventas, mensajes) se comparten con esos servicios según lo que vos mismo configures. Cada uno tiene su propia política de privacidad; VentaFácil no controla qué hacen esos terceros con la información una vez enviada.</p>
+    </section>
+
+    <section>
+      <h2>5. Cómo se protegen las credenciales</h2>
+      <p>Los tokens y contraseñas de integraciones (Mercado Pago, SMTP) se guardan cifrados, no en texto plano, usando el gestor de credenciales de tu sistema operativo cuando está disponible. Sos responsable de la seguridad del equipo o red donde corre la app y de tus propias credenciales de acceso.</p>
+    </section>
+
+    <section>
+      <h2>6. Analítica y descargas</h2>
+      <p>La página de descargas muestra un contador público de descargas totales, calculado con datos de GitHub sobre los instaladores publicados. No identifica quién descarga ni recolecta datos personales para ese conteo.</p>
+    </section>
+
+    <section>
+      <h2>7. Menores de edad</h2>
+      <p>VentaFácil está pensado para uso comercial y no está dirigido a menores de edad. No solicitamos deliberadamente datos de menores.</p>
+    </section>
+
+    <section>
+      <h2>8. Tus derechos sobre los datos</h2>
+      <p>Como los datos de tu negocio quedan en tu propia instalación, tenés control directo para editarlos o eliminarlos en cualquier momento desde la app. Si nos escribiste por el formulario de soporte y querés que eliminemos ese intercambio de nuestro correo, pedilo por el mismo medio.</p>
+    </section>
+
+    <section>
+      <h2>9. Cambios en esta política</h2>
+      <p>Podemos actualizar esta Política de Privacidad a medida que la app sume funciones o integraciones nuevas. Los cambios importantes se van a indicar en esta misma página con la fecha de actualización.</p>
+    </section>
+
+    <section>
+      <h2>10. Contacto</h2>
+      <p>Ante cualquier consulta sobre privacidad o tus datos, escribinos a <a href="mailto:ladychukjuanmartin@gmail.com">ladychukjuanmartin@gmail.com</a>.</p>
+    </section>
+  </div>
+</main>
+</section>
+
+<section class="page" id="page-pedidos-proveedores" data-title="Cuándo pedirle mercadería a tus proveedores — VentaFácil">
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono"><span>NOTAS</span><span class="dot"></span><span>4 min de lectura</span></div>
+        <h1>Cuándo pedirle mercadería a tus proveedores</h1>
+        <p class="lead">Una forma simple de calcular cuánto pedir según lo que se vendió el mes anterior, sin planillas complicadas.</p>
+      </div>
+
+      <div class="art-body">
+        <p>Pedirle a un proveedor es una decisión que se toma dos veces mal: de más, y te queda plata parada en el depósito; de menos, y volvés a pedir antes de lo que conviene, con flete y tiempo de espera de nuevo. La forma más simple de acertar no es adivinar, es mirar hacia atrás.</p>
+
+        <h2>El mes pasado ya te dio la respuesta</h2>
+        <p>Lo que se vendió el mes anterior es, salvo un evento puntual (una promoción, una fecha especial), el mejor indicador de lo que se va a vender este mes. No hace falta un pronóstico complicado: alcanza con mirar cuánto salió de cada producto y usar ese número como base del próximo pedido.</p>
+
+        <div class="callout callout-moss">
+          <strong>Ojo con los productos estacionales</strong>
+          Esta lógica funciona bien para productos de venta pareja todo el año. Para algo estacional (por ejemplo, indumentaria de una temporada puntual), el mes anterior no sirve de referencia — ahí conviene mirar el mismo mes del año pasado si tenés ese dato.
+        </div>
+
+        <h2>Cómo armar el pedido</h2>
+        <p>Con tres datos por producto alcanza para tener un pedido razonable:</p>
+        <ul>
+          <li><strong>Unidades vendidas el mes pasado:</strong> el punto de partida del cálculo.</li>
+          <li><strong>Stock que te queda ahora:</strong> lo que ya tenés y no hace falta volver a pedir.</li>
+          <li><strong>Colchón de seguridad:</strong> un margen chico para no quedarte justo si el mes viene un poco mejor de lo esperado.</li>
+        </ul>
+        <p>La cuenta es simple: <strong>pedido = vendido el mes pasado − stock actual + colchón</strong>. Nada de fórmulas complejas, solo una resta y una suma que podés hacer producto por producto.</p>
+
+        <div class="table-scroll">
+          <table class="example-table">
+            <thead><tr><th>Producto</th><th>Vendido mes pasado</th><th>Stock actual</th><th>Pedido sugerido</th></tr></thead>
+            <tbody>
+              <tr><td>Remera básica M</td><td>60 un.</td><td>14 un.</td><td>46 un. + colchón</td></tr>
+              <tr><td>Buzo canguro L</td><td>15 un.</td><td>6 un.</td><td>9 un. + colchón</td></tr>
+              <tr><td>Medias pack x3</td><td>90 un.</td><td>22 un.</td><td>68 un. + colchón</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Cuándo conviene juntar varios pedidos en uno</h2>
+        <p>Si tenés más de un proveedor chico, agrupar productos en un solo pedido más grande casi siempre sale mejor que hacer pedidos sueltos y frecuentes: menos flete, menos tiempo administrativo, y menos posibilidades de olvidarte de algo. La contra es que tenés que anticipar un poco más el cálculo, así que conviene revisar el stock con algunos días de margen antes de la fecha en la que sueles pedir.</p>
+        <p class="muted-p">El objetivo no es un pedido perfecto la primera vez. Es tener un número de partida consistente, mes a mes, en vez de decidir a ojo cada vez que un proveedor te escribe.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Dejá que VentaFácil te muestre lo vendido por producto</h2>
+        <p>Con el historial de ventas cargado, armar el pedido del mes es mirar una lista, no reconstruir el mes de memoria.</p>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="javascript:void(0)" data-page="control-stock">
+          <div class="r-meta">6 min de lectura</div>
+          <h3>Cómo controlar el stock sin perder ventas por faltantes</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="errores-precios">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Errores comunes al fijar precios de venta</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="mercado-libre-stock">
+          <div class="r-meta">4 min de lectura</div>
+          <h3>Vender en el local y en Mercado Libre sin quedarte sin stock</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+</section>
+
+<section class="page" id="page-control-stock" data-title="Cómo controlar el stock sin perder ventas por faltantes — VentaFácil">
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono"><span>NOTAS</span><span class="dot"></span><span>6 min de lectura</span></div>
+        <h1>Cómo controlar el stock sin perder ventas por faltantes</h1>
+        <p class="lead">Señales tempranas de que un producto se va a agotar, y cómo fijar un punto de reposición sin sobre-stockear.</p>
+      </div>
+
+      <div class="art-body">
+        <p>El faltante de stock no avisa el día que pasa: avisa semanas antes, en la velocidad con la que un producto se mueve. El problema es que la mayoría de los comercios chicos se enteran recién cuando el cliente pregunta y la respuesta es "no queda". Para entonces ya perdiste la venta, y probablemente al cliente.</p>
+
+        <h2>La señal que casi nadie mira</h2>
+        <p>No es el stock actual lo que importa, es la <strong>velocidad de salida</strong>: cuántas unidades se venden por semana comparadas con lo que queda en el estante. Un producto con 10 unidades no está "bien" ni "mal" en el vacío; depende de si esas 10 unidades duran dos semanas o dos días.</p>
+
+        <div class="callout">
+          <strong>Regla rápida</strong>
+          Si el stock actual te alcanza para menos de lo que tarda tu proveedor en reponer, ya estás atrasado con el pedido, aunque el estante todavía se vea lleno.
+        </div>
+
+        <h2>Cómo fijar un punto de reposición real</h2>
+        <p>El punto de reposición es la cantidad de stock en la que tenés que hacer el pedido para que no llegues a cero. Se arma con dos datos que ya tenés, aunque no los hayas anotado en ningún lado:</p>
+        <ul>
+          <li><strong>Consumo diario promedio:</strong> unidades vendidas en las últimas semanas, dividido por los días transcurridos.</li>
+          <li><strong>Tiempo de reposición del proveedor:</strong> cuántos días pasan desde que hacés el pedido hasta que el producto está en el mostrador.</li>
+        </ul>
+        <p>El punto de reposición sale de multiplicar esos dos números. Si a eso le sumás un pequeño colchón para picos de demanda imprevistos, tenés un número que te avisa a tiempo, no cuando ya es tarde.</p>
+
+        <div class="table-scroll">
+          <table class="example-table">
+            <thead><tr><th>Producto</th><th>Consumo diario</th><th>Reposición proveedor</th><th>Punto de reposición</th></tr></thead>
+            <tbody>
+              <tr><td>Remera básica M</td><td>2 un./día</td><td>5 días</td><td>10 un. + colchón</td></tr>
+              <tr><td>Buzo canguro L</td><td>0.5 un./día</td><td>10 días</td><td>5 un. + colchón</td></tr>
+              <tr><td>Medias pack x3</td><td>4 un./día</td><td>3 días</td><td>12 un. + colchón</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>El otro lado: cuando el problema es sobre-stockear</h2>
+        <p>Pedir de más se siente más seguro que pedir de menos, pero tiene un costo silencioso: capital inmovilizado en productos que tardan meses en venderse, espacio de depósito ocupado y, en indumentaria, el riesgo de que el producto quede fuera de temporada antes de rotar.</p>
+        <p class="muted-p">Un punto de reposición bien calculado resuelve los dos problemas a la vez: te avisa antes de quedarte sin stock, y te evita pedir "por las dudas" cantidades que después no rotan.</p>
+
+        <h2>Ponelo en práctica sin planillas</h2>
+        <p>Esto que parece un cálculo de planilla es, en el fondo, lo que hace automáticamente un dashboard de inventario: cruza lo que se vendió con lo que queda y te marca el stock crítico antes de que se convierta en un "no tenemos" frente al cliente.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Dejá que VentaFácil calcule el stock crítico por vos</h2>
+        <p>Cargá tu inventario una vez y el dashboard te va a mostrar qué productos están por agotarse, sin que tengas que hacer la cuenta a mano.</p>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="javascript:void(0)" data-page="pedidos-proveedores">
+          <div class="r-meta">4 min de lectura</div>
+          <h3>Cuándo pedirle mercadería a tus proveedores</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="errores-precios">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Errores comunes al fijar precios de venta</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="liquidacion-stock">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Qué hacer con el stock que no se vende antes de perderlo del todo</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+</section>
+
+<section class="page" id="page-errores-precios" data-title="Errores comunes al fijar precios de venta — VentaFácil">
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono"><span>NOTAS</span><span class="dot"></span><span>5 min de lectura</span></div>
+        <h1>Errores comunes al fijar precios de venta</h1>
+        <p class="lead">Por qué el margen fijo no siempre funciona igual para todas las categorías, y cómo ajustarlo por producto.</p>
+      </div>
+
+      <div class="art-body">
+        <p>"Le pongo el mismo margen a todo" es la forma más rápida de arrancar a poner precios, y también la forma más rápida de perder plata sin darte cuenta. Un margen parejo trata igual a productos que se comportan muy distinto: los que rotan rápido, los que tardan en venderse, los que tienen mucha competencia cerca tuyo.</p>
+
+        <h2>Los errores que más se repiten</h2>
+
+        <ul class="mistake-list">
+          <li>
+            <div class="m-num mono">ERROR 01</div>
+            <strong>Usar el mismo margen para todas las categorías</strong>
+            <span>Un producto de alta rotación puede sostener un margen más bajo porque se vende en volumen; uno de rotación lenta necesita un margen mayor para justificar el capital que tiene inmovilizado en el estante.</span>
+          </li>
+          <li>
+            <div class="m-num mono">ERROR 02</div>
+            <strong>No actualizar el precio cuando sube el costo</strong>
+            <span>Si el margen se calcula una sola vez sobre el costo original y el costo de reposición sube, el margen real se va achicando en cada venta sin que nadie lo note hasta fin de mes.</span>
+          </li>
+          <li>
+            <div class="m-num mono">ERROR 03</div>
+            <strong>Ignorar el precio de la competencia directa</strong>
+            <span>Un margen "ideal" en la teoría no sirve de nada si el producto queda muy por encima del precio al que lo consigue el cliente a dos cuadras.</span>
+          </li>
+          <li>
+            <div class="m-num mono">ERROR 04</div>
+            <strong>No diferenciar productos de temporada</strong>
+            <span>Los productos que tienen una ventana corta de venta (temporada, moda, eventos puntuales) necesitan un margen que compense el riesgo de que sobren unidades sin vender cuando termine la temporada.</span>
+          </li>
+        </ul>
+
+        <div class="callout callout-clay">
+          <strong>Por qué pasa esto</strong>
+          Cargar precios a mano, producto por producto, hace que el margen fijo sea el camino de menor esfuerzo. El problema no es la idea de tener un margen base, es no poder ajustarlo fácil cuando un producto lo necesita.
+        </div>
+
+        <h2>Un margen base, con excepciones cuando hacen falta</h2>
+        <p>La solución no es abandonar el margen fijo, es usarlo como <strong>punto de partida</strong> y no como regla única. Definís un porcentaje general para calcular precios rápido, y lo ajustás producto por producto quirúrgicamente donde el contexto lo pide: alta rotación, temporada, competencia cercana o costo que subió.</p>
+
+        <div class="table-scroll">
+          <table class="example-table">
+            <thead><tr><th>Categoría</th><th>Margen base</th><th>Ajuste sugerido</th></tr></thead>
+            <tbody>
+              <tr><td>Alta rotación (medias, básicos)</td><td>35%</td><td>Bajar 5–8 pts para competir en volumen</td></tr>
+              <tr><td>Rotación lenta (talles especiales)</td><td>35%</td><td>Subir 8–12 pts para compensar el tiempo en estante</td></tr>
+              <tr><td>Temporada (verano/invierno)</td><td>35%</td><td>Subir mientras hay demanda, bajar para liquidar</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Lo importante es no perder de vista el margen real</h2>
+        <p class="muted-p">Más allá de qué porcentaje uses, lo que no podés perder de vista es el margen real que te queda después de vender, categoría por categoría. Ese número, mirado cada tanto, te dice si el criterio de precios que estás usando sigue teniendo sentido o si ya es hora de ajustarlo.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Definí el margen una vez, ajustalo cuando haga falta</h2>
+        <p>En VentaFácil configurás un margen automático general y lo modificás producto por producto sin tocar una fórmula.</p>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="javascript:void(0)" data-page="control-stock">
+          <div class="r-meta">6 min de lectura</div>
+          <h3>Cómo controlar el stock sin perder ventas por faltantes</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="pedidos-proveedores">
+          <div class="r-meta">4 min de lectura</div>
+          <h3>Cuándo pedirle mercadería a tus proveedores</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="punto-equilibrio">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Punto de equilibrio: cuánto necesitás vender para no perder plata</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+</section>
+
+<section class="page" id="page-devoluciones" data-title="Devoluciones y cambios: cómo manejarlos sin descuadrar la caja — VentaFácil">
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono"><span>NOTAS</span><span class="dot"></span><span>4 min de lectura</span></div>
+        <h1>Devoluciones y cambios: cómo manejarlos sin descuadrar la caja</h1>
+        <p class="lead">La diferencia entre anular una venta entera y devolver solo una parte, y por qué esa diferencia importa para tus reportes.</p>
+      </div>
+
+      <div class="art-body">
+        <p>Un cliente devuelve un solo producto de una compra de diez, y la reacción más común es anular toda la venta para "arreglarla". El problema es que anular entero borra el detalle de qué se vendió bien y qué se devolvió, y deja el historial de ventas menos preciso de lo que era antes de intentar corregirlo.</p>
+
+        <h2>Anular no es lo mismo que devolver una parte</h2>
+        <p>Son dos situaciones distintas que conviene no mezclar:</p>
+        <ul>
+          <li><strong>Anular una venta:</strong> tiene sentido cuando la venta entera fue un error — se cobró de más, se cargó mal, no correspondía. Deja la venta completa sin efecto.</li>
+          <li><strong>Devolver parte de una venta:</strong> el cliente se queda con la mayoría de lo que compró y devuelve solo uno o dos productos, o parte de la cantidad de uno. La venta sigue vigente por el resto.</li>
+        </ul>
+        <p>Forzar el primer camino para resolver el segundo caso te obliga después a recrear a mano la venta "buena" que quedó, con el riesgo de cargarla distinto a como fue en realidad.</p>
+
+        <div class="callout callout-moss">
+          <strong>Por qué importa para tus números</strong>
+          Una devolución parcial bien registrada repone el stock del producto devuelto y descuenta ese monto puntual del total de la venta, sin tocar el resto. Así tus reportes de rentabilidad y tu caja del día siguen reflejando lo que realmente pasó, sin un agujero ni un doble conteo.
+        </div>
+
+        <h2>Qué dejar anotado en cada devolución</h2>
+        <p>Más allá de qué producto y cuánta cantidad, vale la pena registrar el motivo. No cambia el número de la caja, pero con el tiempo te dice cosas que un total no muestra:</p>
+        <ul>
+          <li>Si un producto puntual se devuelve mucho más que el resto (posible problema de calidad o de talle mal indicado).</li>
+          <li>Si las devoluciones se concentran en un vendedor o turno en particular.</li>
+          <li>Si hay un patrón de "compra de más, devuelve después" que valga la pena conversar con ese cliente.</li>
+        </ul>
+
+        <h2>Lo que la devolución parcial no resuelve sola</h2>
+        <p class="muted-p">Si la venta original tuvo factura electrónica, la devolución en el sistema no genera por sí sola la nota de crédito correspondiente ante el organismo fiscal — eso sigue siendo un trámite aparte que hay que gestionar en paralelo. La devolución en el sistema ordena tu stock y tu caja; la parte impositiva todavía te toca a vos.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Registrá devoluciones parciales sin anular toda la venta</h2>
+        <p>Devolvé solo los ítems que corresponde, con el stock y los reportes actualizados solos.</p>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="javascript:void(0)" data-page="cuenta-corriente">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Cómo manejar el fiado sin que se te escape de las manos</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="punto-equilibrio">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Punto de equilibrio: cuánto necesitás vender para no perder plata</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+</section>
+
+<section class="page" id="page-liquidacion-stock" data-title="Qué hacer con el stock que no se vende antes de perderlo del todo — VentaFácil">
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono"><span>NOTAS</span><span class="dot"></span><span>5 min de lectura</span></div>
+        <h1>Qué hacer con el stock que no se vende antes de perderlo del todo</h1>
+        <p class="lead">Dos motivos distintos por los que un producto se convierte en candidato a liquidar, y cuándo conviene bajarle el precio a tiempo.</p>
+      </div>
+
+      <div class="art-body">
+        <p>Hay un momento en el que un producto deja de ser "stock" y pasa a ser "plata quieta que se va a perder". El error más común no es no darse cuenta de que un producto no se mueve, es darse cuenta demasiado tarde, cuando la única opción que queda es tirarlo o regalarlo.</p>
+
+        <h2>Dos motivos distintos, dos alertas distintas</h2>
+        <p>Conviene separarlos porque no se resuelven igual:</p>
+        <ul>
+          <li><strong>Por vencimiento:</strong> el producto tiene una fecha límite real (perecederos, cosmética, algunos insumos) y se acerca. Acá el tiempo corre en contra sí o sí, haya vendido bien hasta ahora o no.</li>
+          <li><strong>Por falta de rotación:</strong> el producto no tiene fecha de vencimiento, pero hace mucho que no se vende ni una unidad. No se va a "pudrir", pero sigue ocupando espacio y plata inmovilizada que podría estar en otra cosa.</li>
+        </ul>
+        <p>Un producto puede caer en los dos motivos a la vez, o en ninguno. Tratarlos como el mismo problema hace que termines liquidando por vencimiento algo que en realidad rota bien, o dejando pasar de fecha algo que rota lento pero todavía tenía margen para venderse a tiempo.</p>
+
+        <div class="callout callout-clay">
+          <strong>Definí umbrales, no lo decidas a ojo cada vez</strong>
+          "Por vencer" y "sin ventas hace mucho" son relativos a tu rubro: 30 días sin venta puede ser normal para un producto de nicho y una alarma para uno de consumo diario. Fijar un número de días para cada motivo, una sola vez, evita tener que juzgarlo producto por producto cada semana.
+        </div>
+
+        <h2>La oferta como herramienta, no como último recurso</h2>
+        <p>Bajarle el precio a un producto candidato a liquidar no es "perder": es elegir recuperar parte del margen ahora en vez de arriesgarte a no recuperar nada después. Cuanto antes se aplique la oferta sobre un producto por vencer, más margen todavía queda para jugar con el precio; cuanto más se espera, menos opciones quedan.</p>
+        <p>Si además vendés en un canal como Mercado Libre, tiene sentido que esa oferta se refleje ahí también sin trabajo extra — así no terminás con un precio distinto en el local y en la publicación online por haberte olvidado de actualizar uno de los dos lados.</p>
+
+        <p class="muted-p">La idea no es liquidar todo lo que se mueve lento, es tener una lista corta y a tiempo de qué está en riesgo real, para decidir con margen de maniobra en vez de reaccionar cuando ya no queda otra opción.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Detectá a tiempo qué liquidar, antes de perderlo del todo</h2>
+        <p>VentaFácil te marca solo los productos por vencer o sin ventas hace rato, para que decidas la oferta con tiempo.</p>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="javascript:void(0)" data-page="punto-equilibrio">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Punto de equilibrio: cuánto necesitás vender para no perder plata</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="mercado-libre-stock">
+          <div class="r-meta">4 min de lectura</div>
+          <h3>Vender en el local y en Mercado Libre sin quedarte sin stock</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+</section>
+
+<section class="page" id="page-mercado-libre-stock" data-title="Vender en el local y en Mercado Libre sin quedarte sin stock — VentaFácil">
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono"><span>NOTAS</span><span class="dot"></span><span>4 min de lectura</span></div>
+        <h1>Vender en el local y en Mercado Libre sin quedarte sin stock</h1>
+        <p class="lead">Qué pasa con tu inventario cuando el mismo producto se vende por dos canales a la vez, y cómo evitar vender algo que ya no tenés.</p>
+      </div>
+
+      <div class="art-body">
+        <p>Tener el mismo producto publicado en Mercado Libre y disponible en el mostrador es, en general, una buena noticia: más lugares donde te pueden comprar. El riesgo aparece cuando los dos canales no se enteran en tiempo real de lo que vendió el otro, y terminás vendiendo online algo que ya se fue por el mostrador esa misma mañana.</p>
+
+        <h2>El problema no es vender en dos lados, es no avisarse entre ellos</h2>
+        <p>Si el stock de un producto vive en dos planillas o sistemas separados que alguien tiene que sincronizar a mano, tarde o temprano se desincronizan. La solución no es elegir un solo canal, es que una venta en cualquiera de los dos descuente del mismo stock, sin que nadie tenga que actualizar nada manualmente.</p>
+
+        <div class="callout callout-moss">
+          <strong>Avisos, no solo descuentos silenciosos</strong>
+          Que el stock se descuente solo está bien, pero no reemplaza enterarte de que pasó algo: una venta nueva por Mercado Libre, un mensaje de un comprador sin responder, o un error al sincronizar son cosas que conviene ver en el momento, no descubrirlas días después revisando la plataforma.
+        </div>
+
+        <h2>Qué revisar si vendés en más de un local además de online</h2>
+        <p>Si tenés más de un local físico y también vendés online, aparece una pregunta extra: cuando entra una venta de Mercado Libre, ¿de qué depósito sale esa mercadería en el sistema? Si no queda claro, el stock se puede descontar del local equivocado, dejando ese local con un número que no coincide con lo que realmente tiene en el estante. Vale la pena definir de antemano a qué sucursal queda asociada cada publicación online, en vez de dejar que se resuelva solo por dónde estaba prendida la computadora ese día.</p>
+
+        <h2>La alerta que más plata ahorra</h2>
+        <p class="muted-p">De todas las alertas posibles, la que evita el dolor de cabeza más grande es la de stock agotado disparada también por una venta online, no solo por una del mostrador. Prometerle a un comprador algo que ya no tenés cuesta más en reputación que la venta que ganaste al tenerlo publicado en dos lados.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Vendé en dos canales con un solo stock actualizado</h2>
+        <p>Cuando algo se vende en el local o en Mercado Libre, el stock se descuenta solo en los dos lados.</p>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="javascript:void(0)" data-page="liquidacion-stock">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Qué hacer con el stock que no se vende antes de perderlo del todo</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="cuenta-corriente">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Cómo manejar el fiado sin que se te escape de las manos</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+</section>
+
+<section class="page" id="page-cuenta-corriente" data-title="Cómo manejar el fiado sin que se te escape de las manos — VentaFácil">
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono"><span>NOTAS</span><span class="dot"></span><span>5 min de lectura</span></div>
+        <h1>Cómo manejar el fiado sin que se te escape de las manos</h1>
+        <p class="lead">Por qué el fiado sin límite ni seguimiento termina siendo plata que nunca vuelve, y cómo ponerle un método simple.</p>
+      </div>
+
+      <div class="art-body">
+        <p>El fiado es casi una obligación en un comercio de barrio: el cliente de siempre pide "anotámelo" y decís que sí porque cortar esa relación cuesta más que el riesgo. El problema no es fiar, es fiar sin ningún límite ni forma de darte cuenta cuándo un cliente se pasó de lo razonable.</p>
+
+        <h2>Los dos momentos en los que el fiado se te va de las manos</h2>
+        <p>Casi siempre pasa por una de estas dos cosas, y ninguna avisa sola si no la mirás a propósito:</p>
+        <ul>
+          <li><strong>El cliente supera el límite que le dabas de palabra.</strong> Sin un tope cargado en algún lado, cada venta nueva es una decisión aislada, y es fácil decir que sí una vez más.</li>
+          <li><strong>Dejó de pagar hace rato y nadie lo notó.</strong> Un cliente puede tener saldo relativamente bajo pero llevar meses sin acercar un pago, y eso pesa igual que una deuda grande.</li>
+        </ul>
+
+        <div class="callout callout-clay">
+          <strong>Un límite de crédito no es desconfianza</strong>
+          Ponerle un tope al fiado de cada cliente no es tratarlo como sospechoso, es la única forma de que una venta fiada nueva no pueda superar lo que ya definiste como razonable para esa persona.
+        </div>
+
+        <h2>Qué mirar además del saldo total</h2>
+        <p>El número de saldo por sí solo dice poco. Lo que de verdad importa es cruzarlo con dos cosas más:</p>
+        <ul>
+          <li><strong>Límite de crédito asignado:</strong> lo que definiste vos para ese cliente en particular, ya sea por confianza, por volumen de compra o por antigüedad.</li>
+          <li><strong>Días sin registrar ningún pago:</strong> no hace falta un vencimiento por factura para darte cuenta de que alguien dejó de acercarse a pagar; alcanza con contar los días desde el último pago registrado.</li>
+        </ul>
+        <p>Un cliente que superó su límite necesita una conversación distinta a uno que está dentro del límite pero lleva 40 días sin pagar nada. Tratarlos igual, o peor, no mirar ninguno de los dos casos hasta fin de mes, es donde se pierde plata de verdad.</p>
+
+        <h2>Avisale al cliente, no solo a vos</h2>
+        <p>Un recordatorio para vos está bien, pero muchas veces alcanza con que el cliente mismo reciba un aviso amable de que tiene un saldo vencido para que se acerque a pagar sin que tengas que llamarlo o esperar a que vuelva a comprar. Esto conviene reservarlo solo para saldo vencido, no para exceso de límite: ese segundo caso es una decisión interna tuya, no algo para comunicarle al cliente.</p>
+
+        <p class="muted-p">El fiado bien llevado no es más estricto, es simplemente visible: un límite por cliente y un aviso cuando se pasa de días sin pagar te ahorran la sorpresa de descubrir, meses después, cuánta plata quedó afuera del mostrador.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Dejá que VentaFácil te avise antes de que el fiado se acumule</h2>
+        <p>Cargá un límite de crédito por cliente y recibí un aviso apenas alguien lo supera o deja de pagar.</p>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="javascript:void(0)" data-page="liquidacion-stock">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Qué hacer con el stock que no se vende antes de perderlo del todo</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="punto-equilibrio">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Punto de equilibrio: cuánto necesitás vender para no perder plata</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+</section>
+
+<section class="page" id="page-punto-equilibrio" data-title="Punto de equilibrio: cuánto necesitás vender para no perder plata — VentaFácil">
+<main>
+  <article>
+    <div class="wrap">
+      <div class="art-head">
+        <div class="art-meta mono"><span>NOTAS</span><span class="dot"></span><span>5 min de lectura</span></div>
+        <h1>Punto de equilibrio: cuánto necesitás vender para no perder plata</h1>
+        <p class="lead">La diferencia entre ganancia bruta y neta, y la cuenta simple que te dice si el mes ya se pagó solo.</p>
+      </div>
+
+      <div class="art-body">
+        <p>"Este mes vendí bien" y "este mes gané plata" no son la misma frase, aunque suelen confundirse. La primera mira las ventas o la ganancia bruta; la segunda descuenta el alquiler, los sueldos y los gastos fijos que hay que pagar exista o no exista una sola venta ese mes.</p>
+
+        <h2>Bruta vs. neta, en criollo</h2>
+        <ul>
+          <li><strong>Ganancia bruta:</strong> lo que vendiste menos lo que te costó esa mercadería. Es el número que la mayoría mira primero, y el único que muestra un dashboard básico.</li>
+          <li><strong>Ganancia neta:</strong> la bruta menos alquiler, sueldos y demás gastos fijos del período. Es el número que realmente te dice si el mes te dejó algo en el bolsillo.</li>
+        </ul>
+        <p>Un mes puede tener una ganancia bruta que se ve sólida y, aun así, terminar en rojo apenas se restan los gastos fijos. Sin mirar la neta, ese rojo se descubre recién cuando falta plata para algo, no cuando todavía se puede reaccionar.</p>
+
+        <div class="callout">
+          <strong>El punto de equilibrio, en una frase</strong>
+          Es cuánto tenés que vender (con tu margen bruto real) para que esa ganancia bruta alcance justo para cubrir los gastos fijos del período. Por debajo de ese número, perdés; por encima, empieza la ganancia neta de verdad.
+        </div>
+
+        <h2>Los tres datos que hacen falta</h2>
+        <ol>
+          <li><strong>Gastos fijos del período:</strong> alquiler, sueldos y otros gastos que no dependen de cuánto vendas.</li>
+          <li><strong>Margen bruto real:</strong> no el margen "de lista" de cada producto, sino el que efectivamente te queda después de vender la mezcla real de productos del período.</li>
+          <li><strong>Ventas del período:</strong> para comparar contra el punto de equilibrio y saber si ya lo cruzaste o cuánto falta.</li>
+        </ol>
+        <p>Con esos tres números, el punto de equilibrio sale de dividir los gastos fijos por el margen bruto (en porcentaje). El resultado es el monto de ventas que necesitás para no perder ni ganar en ese período.</p>
+
+        <h2>Mirarlo una vez al mes no alcanza si no lo comparás</h2>
+        <p class="muted-p">El número aislado dice poco; lo que ayuda a decidir es compararlo contra el período anterior — ¿vendiste más o menos que el mes pasado?, ¿mejoró o empeoró el margen? — y contra el producto o categoría que más ganancia bruta te dejó. Esa comparación, mes a mes, es la que te avisa a tiempo si el negocio va para un lado o para el otro.</p>
+      </div>
+
+      <div class="cta-box">
+        <h2>Mirá tu ganancia neta, no solo la bruta</h2>
+        <p>Cargá tus gastos fijos una vez y VentaFácil calcula solo cuánto te falta vender para cubrir el mes.</p>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-primary">Probar la app</a>
+      </div>
+    </div>
+  </article>
+
+  <section class="related">
+    <div class="wrap">
+      <div class="related-head">Seguí leyendo</div>
+      <div class="related-grid">
+        <a class="related-card" href="javascript:void(0)" data-page="cuenta-corriente">
+          <div class="r-meta">5 min de lectura</div>
+          <h3>Cómo manejar el fiado sin que se te escape de las manos</h3>
+        </a>
+        <a class="related-card" href="javascript:void(0)" data-page="devoluciones">
+          <div class="r-meta">4 min de lectura</div>
+          <h3>Devoluciones y cambios: cómo manejarlos sin descuadrar la caja</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>
+      <a class="wordmark" style="font-size:16px;" data-page="index"><span class="tag-mark"></span>VentaFácil</a>
+      <p class="muted">© 2026 VentaFácil — Sistema de gestión para comercios.</p>
+    </div>
+    <ul class="footer-links">
+      <li><a data-page="descargas">Descargas</a></li>
+      <li><a data-page="codigos-error">Códigos de error</a></li>
+      <li><a data-page="privacidad">Privacidad</a></li>
+      <li><a data-page="terminos">Términos</a></li>
+      <li><a data-page="index" data-anchor="soporte">Contacto</a></li>
+    </ul>
+  </div>
+</footer>
 
 <script>
-  // Menú mobile: togglea una clase en <body> que abre el panel desplegable
-  // (el CSS hace el resto vía max-height). Se cierra solo al elegir un
-  // link, tocar fuera del panel o con Escape, para no dejarlo pegado.
+  /* ===================== Router de una sola página ===================== 
+     Todo el sitio vive en un único documento. Nunca se cambia la URL:
+     siempre queda en "/", sin .html y sin #. Se usa history.pushState
+     con la MISMA url ("/") pero guardando la página en el "state", así
+     el botón atrás/adelante del navegador sigue funcionando aunque la
+     barra de direcciones no cambie nunca. */
+  (function(){
+    var pages = document.querySelectorAll('.page');
+
+    function showPage(page, anchor){
+      var target = document.getElementById('page-' + page);
+      if(!target){ target = document.getElementById('page-index'); page = 'index'; }
+      pages.forEach(function(s){ s.classList.remove('is-active'); });
+      target.classList.add('is-active');
+      document.title = target.getAttribute('data-title') || 'VentaFácil';
+      document.body.classList.remove('nav-open');
+      var toggle = document.getElementById('nav-toggle');
+      if(toggle) toggle.setAttribute('aria-expanded','false');
+
+      if(anchor){
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            var el = document.getElementById(anchor);
+            if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+          });
+        });
+      } else {
+        window.scrollTo(0,0);
+      }
+    }
+
+    function navigate(page, anchor){
+      showPage(page, anchor);
+      history.pushState({page:page, anchor:anchor || null}, '', '/');
+    }
+
+    document.addEventListener('click', function(e){
+      var el = e.target.closest('[data-page], [data-anchor]');
+      if(!el) return;
+      e.preventDefault();
+      var page = el.getAttribute('data-page');
+      var anchor = el.getAttribute('data-anchor');
+      if(!page) return;
+      navigate(page, anchor);
+    });
+
+    window.addEventListener('popstate', function(e){
+      var st = e.state || {page:'index', anchor:null};
+      showPage(st.page, st.anchor);
+    });
+
+    history.replaceState({page:'index', anchor:null}, '', '/');
+    showPage('index', null);
+  })();
+
+  /* ===================== Menú mobile ===================== */
   (function(){
     var toggle = document.getElementById('nav-toggle');
     var panel = document.getElementById('nav-mobile-panel');
@@ -744,10 +1623,6 @@
       setOpen(!document.body.classList.contains('nav-open'));
     });
 
-    panel.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){ setOpen(false); });
-    });
-
     document.addEventListener('keydown', function(e){
       if(e.key === 'Escape') setOpen(false);
     });
@@ -761,44 +1636,83 @@
     });
   })();
 
-  document.getElementById('support-form').addEventListener('submit', function(e){
-    e.preventDefault();
-    var name = document.getElementById('s-name').value.trim();
-    var email = document.getElementById('s-email').value.trim();
-    var msg = document.getElementById('s-msg').value.trim();
-    var status = document.getElementById('s-status');
+  /* ===================== Formulario de soporte ===================== */
+  (function(){
+    var form = document.getElementById('support-form');
+    if(!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var name = document.getElementById('s-name').value.trim();
+      var email = document.getElementById('s-email').value.trim();
+      var msg = document.getElementById('s-msg').value.trim();
+      var status = document.getElementById('s-status');
 
-    if(!name || !email || !msg){
-      status.textContent = 'Completá nombre, correo y mensaje antes de enviar.';
-      status.className = 'form-status err';
-      return;
+      if(!name || !email || !msg){
+        status.textContent = 'Completá nombre, correo y mensaje antes de enviar.';
+        status.className = 'form-status err';
+        return;
+      }
+
+      var subject = 'Soporte VentaFácil — ' + name;
+      var body = 'Nombre: ' + name + '\nCorreo: ' + email + '\n\n' + msg;
+      var mailto = 'mailto:ladychukjuanmartin@gmail.com'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+
+      window.location.href = mailto;
+      status.textContent = 'Abriendo tu programa de correo…';
+      status.className = 'form-status ok';
+    });
+  })();
+
+  /* ===================== Gate de Términos (descargas) ===================== */
+  (function(){
+    var checkbox = document.getElementById('acepta-terminos');
+    var warn = document.getElementById('terms-warn');
+    if(!checkbox) return;
+    var downloadLinks = document.querySelectorAll('[data-download]');
+
+    function actualizarEstado(){
+      downloadLinks.forEach(function(a){
+        a.classList.toggle('is-locked', !checkbox.checked);
+      });
+      if(checkbox.checked){ warn.textContent = ''; }
     }
 
-    var subject = 'Soporte VentaFácil — ' + name;
-    var body = 'Nombre: ' + name + '\nCorreo: ' + email + '\n\n' + msg;
-    var mailto = 'mailto:ladychukjuanmartin@gmail.com'
-      + '?subject=' + encodeURIComponent(subject)
-      + '&body=' + encodeURIComponent(body);
+    checkbox.addEventListener('change', actualizarEstado);
 
-    window.location.href = mailto;
-    status.textContent = 'Abriendo tu programa de correo…';
-    status.className = 'form-status ok';
-  });
+    downloadLinks.forEach(function(a){
+      a.addEventListener('click', function(e){
+        if(!checkbox.checked){
+          e.preventDefault();
+          warn.textContent = 'Tenés que aceptar los Términos y Condiciones antes de descargar.';
+          checkbox.focus();
+        }
+      });
+    });
+
+    actualizarEstado();
+  })();
+
+  /* ===================== Contador de descargas (GitHub) ===================== */
+  (function(){
+    var numEl = document.getElementById('contador-num');
+    var boxEl = document.getElementById('contador-descargas');
+    if(!numEl) return;
+    fetch('https://api.github.com/repos/JuanMartinLadychuk/ventafacil.github.io/releases')
+      .then(function(r){ if(!r.ok) throw new Error('respuesta no ok'); return r.json(); })
+      .then(function(releases){
+        var total = 0;
+        (releases || []).forEach(function(rel){
+          (rel.assets || []).forEach(function(asset){ total += asset.download_count || 0; });
+        });
+        numEl.textContent = total.toLocaleString('es-AR');
+      })
+      .catch(function(){
+        boxEl.style.display = 'none';
+      });
+  })();
 </script>
-
-<footer>
-  <div class="wrap footer-row">
-    <div>
-      <div class="wordmark" style="font-size:16px;"><span class="tag-mark"></span>VentaFácil</div>
-      <p class="muted">© 2026 VentaFácil — Sistema de gestión para comercios.</p>
-    </div>
-    <ul class="footer-links">
-      <li><a href="privacidad.html">Privacidad</a></li>
-      <li><a href="terminos.html">Términos</a></li>
-      <li><a href="#soporte">Contacto</a></li>
-    </ul>
-  </div>
-</footer>
 
 </body>
 </html>
