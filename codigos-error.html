@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problemas al instalar VentaFácil — VentaFácil</title>
+<meta name="description" content="Qué significa cada cartel que puede aparecer al instalar VentaFácil y qué hacer en cada caso.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#171f18; --ink-800:#1f2a20; --ink-700:#2a382b;
+    --paper:#f4efdf; --paper-dim:rgba(244,239,223,0.66); --paper-faint:rgba(244,239,223,0.4);
+    --brass:#cf9a45; --brass-light:#e7c37f; --clay:#b5573a; --moss:#8ea076;
+    --line:rgba(244,239,223,0.14); --radius-card:14px;
+  }
+  *{box-sizing:border-box;}
+  html{overflow-x:hidden;}
+  body{overflow-wrap:break-word;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--ink-900); color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2{font-family:'Fraunces', serif; margin:0; letter-spacing:-0.01em; font-weight:600;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:var(--brass-light);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+  .muted{color:var(--paper-dim);}
+  a:focus-visible{outline:2px solid var(--brass-light); outline-offset:3px; border-radius:4px;}
+  @media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}}
+
+  header.site-nav{padding:22px 0;border-bottom:1px solid var(--line);}
+  .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;max-width:760px;margin:0 auto;padding:0 24px;}
+  .wordmark{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--paper);}
+  .wordmark .tag-mark{width:12px;height:12px;border:1.6px solid var(--brass);border-radius:2px;position:relative;transform:rotate(45deg);}
+  .wordmark .tag-mark::after{content:"";position:absolute;top:-3px;left:2.5px;width:3px;height:3px;border-radius:50%;background:var(--brass);}
+  .back-link{font-size:14px;color:var(--paper-dim);text-decoration:none;}
+  .back-link:hover{color:var(--paper);}
+
+  main{padding:64px 0 90px;}
+  .doc-head{margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid var(--line);}
+  .doc-head h1{font-size:clamp(28px,4vw,38px);}
+  .doc-head p{margin-top:14px;color:var(--paper-dim);font-size:15.5px;max-width:560px;}
+
+  .error-list{list-style:none;margin:0 0 40px;padding:0;}
+  .error-list li{border:1px solid var(--line);border-radius:var(--radius-card);padding:22px 24px;margin-bottom:14px;background:var(--ink-800);}
+  .error-list strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin-bottom:8px;}
+  .error-list p{color:var(--paper-dim);font-size:14.8px;margin:0 0 10px;}
+  .error-list p:last-child{margin-bottom:0;}
+  .error-list .fix-label{color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:4px;display:block;}
+
+  .note-box{
+    background:var(--ink-800); border:1px solid var(--line); border-left:3px solid var(--brass);
+    border-radius:10px; padding:20px 22px; margin:0 0 40px; font-size:14.5px; color:var(--paper-dim);
+  }
+  .note-box strong{display:block;color:var(--paper);font-family:'Fraunces',serif;font-size:15.5px;margin-bottom:6px;}
+
+  .tech-section{border-top:1px solid var(--line);padding-top:44px;margin-bottom:44px;}
+  .tech-section h2{font-size:clamp(20px,2.6vw,24px);margin-bottom:10px;}
+  .tech-section > p{color:var(--paper-dim);font-size:15px;margin:0 0 24px;max-width:560px;}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 26px;border:1px solid var(--line);border-radius:var(--radius-card);}
+  .tech-table{width:100%;border-collapse:collapse;font-size:14px;min-width:600px;}
+  .tech-table th,.tech-table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .tech-table tr:last-child td{border-bottom:none;}
+  .tech-table th{color:var(--brass-light);font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;background:var(--ink-700);}
+  .tech-table td{color:var(--paper-dim);}
+  .tech-code{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--paper);white-space:nowrap;}
+  .cmd-label{font-size:13.5px;color:var(--paper-dim);margin:18px 0 8px;}
+  .cmd-label:first-child{margin-top:0;}
+  pre.cmd-block{
+    background:var(--ink-700); border:1px solid var(--line); border-radius:8px;
+    padding:14px 16px; margin:0 0 6px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  pre.cmd-block code{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--brass-light);white-space:pre;}
+  .cmd-note{font-size:13px;color:var(--paper-faint);margin:0 0 20px;}
+
+  .cta-box{
+    background:var(--ink-800); border:1px solid var(--line); border-radius:20px;
+    padding:32px; text-align:center;
+  }
+  .cta-box h2{font-size:20px;margin-bottom:10px;}
+  .cta-box p{color:var(--paper-dim);font-size:15px;max-width:420px;margin:0 auto 20px;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:8px;border:none;font-family:'IBM Plex Sans', sans-serif;font-size:14.5px;font-weight:600;cursor:pointer;text-decoration:none;}
+  .btn-primary{background:var(--brass); color:#241a08;}
+  .btn-primary:hover{background:var(--brass-light);}
+
+  footer{padding:36px 0 50px;border-top:1px solid var(--line);}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;max-width:760px;margin:0 auto;padding:0 24px;}
+  .footer-links{display:flex;gap:22px;list-style:none;margin:0;padding:0;}
+  .footer-links a{font-size:13.5px;color:var(--paper-dim);text-decoration:none;}
+  .footer-links a:hover{color:var(--paper);}
+  footer .muted{font-size:13.5px;}
+
+  @media(max-width:600px){
+    main{padding:44px 0 60px;}
+    .doc-head{margin-bottom:30px;padding-bottom:22px;}
+    .error-list li{padding:18px 18px;}
+    .cta-box{padding:24px 20px;}
+    .footer-row{flex-direction:column;align-items:flex-start;gap:14px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-bar">
+    <a href="index.html" class="wordmark"><span class="tag-mark"></span>VentaFácil</a>
+    <a href="descargas.html" class="back-link">← Volver a Descargas</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="doc-head">
+      <h1>Problemas al instalar VentaFácil</h1>
+      <p>Si al instalar VentaFácil te aparece algún cartel que no esperabas, buscalo acá abajo para saber qué significa y qué hacer.</p>
+    </div>
+
+    <ul class="error-list">
+      <li>
+        <strong>"Windows protegió su PC" (pantalla azul con ícono de escudo)</strong>
+        <p>No es un error: aparece porque VentaFácil todavía no tiene una firma digital de editor reconocida por Windows, algo normal en una app en etapa de prueba.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Tocá <strong style="display:inline;font-family:inherit;font-size:inherit;">Más información</strong> y después <strong style="display:inline;font-family:inherit;font-size:inherit;">Ejecutar de todas formas</strong>. El paso a paso completo está en la <a href="descargas.html">página de Descargas</a>.</p>
+      </li>
+
+      <li>
+        <strong>"No hay suficiente espacio en disco"</strong>
+        <p>El instalador revisa antes de empezar si hay lugar en la unidad donde vas a instalar VentaFácil, y no encontró suficiente.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Liberá espacio en esa unidad (borrando archivos que no uses, o vaciando la papelera) y volvé a ejecutar el instalador.</p>
+      </li>
+
+      <li>
+        <strong>"VentaFácil ya se está ejecutando" / "Cierre la aplicación antes de continuar"</strong>
+        <p>Aparece si estás instalando una actualización mientras VentaFácil ya está abierto en tu equipo.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Cerrá la app por completo (revisá también la bandeja de íconos junto al reloj) y volvé a tocar el instalador.</p>
+      </li>
+
+      <li>
+        <strong>El instalador se cierra solo, sin avisos, apenas lo abrís</strong>
+        <p>Suele pasar cuando la descarga quedó incompleta o dañada, o cuando un antivirus lo bloqueó en silencio.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Volvé a descargar <strong style="display:inline;font-family:inherit;font-size:inherit;">VentaFacil-Instalador.exe</strong> desde la <a href="descargas.html">página de Descargas</a> y revisá que tu antivirus no lo haya puesto en cuarentena.</p>
+      </li>
+
+      <li>
+        <strong>"No se pudo completar la instalación" (error genérico durante el proceso)</strong>
+        <p>Puede deberse a permisos insuficientes en la carpeta elegida, un antivirus bloqueando un archivo puntual, o la descarga dañada.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Probá instalar en otra carpeta (por ejemplo, dentro de <strong style="display:inline;font-family:inherit;font-size:inherit;">Documentos</strong> en vez de <strong style="display:inline;font-family:inherit;font-size:inherit;">Archivos de programa</strong>), o desactivá momentáneamente el antivirus durante la instalación.</p>
+      </li>
+
+      <li>
+        <strong>"Para completar la instalación, es necesario reiniciar el equipo"</strong>
+        <p>No es un error: algunos cambios del sistema quedan pendientes hasta el próximo reinicio.</p>
+        <span class="fix-label">Qué hacer</span>
+        <p>Guardá lo que estés haciendo y reiniciá cuando puedas. VentaFácil va a quedar instalado correctamente.</p>
+      </li>
+    </ul>
+
+    <div class="tech-section">
+      <h2>Códigos de retorno para publicación en Microsoft Partner Center</h2>
+      <p>Esta sección es técnica: sirve para completar el formulario de Partner Center al publicar VentaFácil como app Win32. VentaFácil usa Inno Setup, así que estos son los valores reales que devuelve el instalador en cada escenario.</p>
+
+      <div class="table-scroll">
+        <table class="tech-table">
+          <thead>
+            <tr><th>Escenario (Partner Center)</th><th>Código</th><th>Por qué</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>La instalación se realizó correctamente</td>
+              <td class="tech-code">0</td>
+              <td>Código nativo de Inno Setup para éxito.</td>
+            </tr>
+            <tr>
+              <td>Reinicio requerido</td>
+              <td class="tech-code">3010</td>
+              <td>Inno no lo devuelve solo: hace falta agregar <code class="tech-code">/RESTARTEXITCODE=3010</code> al comando de instalación (ver más abajo).</td>
+            </tr>
+            <tr>
+              <td>El usuario ha cancelado la instalación</td>
+              <td class="tech-code">2</td>
+              <td>Canceló antes de empezar a copiar archivos. (El código <code class="tech-code">5</code> cubre cancelar durante la instalación, si el formulario permite más de un valor.)</td>
+            </tr>
+            <tr>
+              <td>La instalación ya está en curso</td>
+              <td class="tech-code">1</td>
+              <td>Inno usa este código genérico de "no se pudo inicializar" para este caso, entre otros.</td>
+            </tr>
+            <tr>
+              <td>El espacio en disco está lleno</td>
+              <td class="tech-code">3</td>
+              <td>Código de Inno para error fatal preparando la instalación (incluye falta de espacio).</td>
+            </tr>
+            <tr>
+              <td>Se ha rechazado el paquete durante la instalación</td>
+              <td class="tech-code">4</td>
+              <td>Código de Inno para error fatal durante la instalación real (por ejemplo, un antivirus bloqueando un archivo).</td>
+            </tr>
+            <tr>
+              <td>La aplicación ya existe</td>
+              <td class="tech-code">—</td>
+              <td>Inno no distingue este caso de forma nativa. Dejar en blanco si el campo es opcional; si es obligatorio, usar <code class="tech-code">0</code>, ya que reinstalar encima no falla.</td>
+            </tr>
+            <tr>
+              <td>Error de red</td>
+              <td class="tech-code">—</td>
+              <td>El instalador no depende de conexión a internet, así que este escenario no debería ocurrir. Dejar en blanco.</td>
+            </tr>
+            <tr>
+              <td>Escenarios varios / otros</td>
+              <td class="tech-code">—</td>
+              <td>Completar solo los que Partner Center marque como obligatorios.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="cmd-label">Comando de instalación (para que el 3010 funcione):</p>
+      <pre class="cmd-block"><code>VentaFacil-Instalador.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTEXITCODE=3010</code></pre>
+
+      <p class="cmd-label">Comando de desinstalación:</p>
+      <pre class="cmd-block"><code>"%ProgramFiles%\VentaFácil\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</code></pre>
+      <p class="cmd-note">Ajustar la ruta de desinstalación si el .iss instala en una carpeta distinta.</p>
+    </div>
+
+    <div class="cta-box">
+      <h2>¿Tu problema no está en esta lista?</h2>
+      <p>Escribinos y te ayudamos a resolverlo.</p>
+      <a href="index.html#soporte" class="btn btn-primary">Ir a Soporte</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-row">
+    <p class="muted">© 2026 VentaFácil</p>
+    <ul class="footer-links">
+      <li><a href="descargas.html">Descargas</a></li>
+      <li><a href="terminos.html">Términos</a></li>
+      <li><a href="privacidad.html">Privacidad</a></li>
+      <li><a href="index.html">Inicio</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
