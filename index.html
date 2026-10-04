@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4HJJENYXH6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4HJJENYXH6');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VentaFácil — Sistema de gestión para comercios</title>
@@ -31,7 +40,7 @@
 
   /* Restaura el color de link "brass" que usaban las páginas de texto/artículos */
   .art-body a, .callout a, .note-box a, .cmd-note a,
-  #page-terminos a, #page-privacidad a, #page-codigos-error .doc-head a{
+  #page-terminos a, #page-privacidad a, #page-cookies a, #page-codigos-error .doc-head a{
     color:var(--brass-light);
   }
 
@@ -294,7 +303,7 @@
   }
 
   /* ================= #page-terminos y #page-privacidad (y doc-head compartido con codigos-error) ================= */
-  #page-terminos, #page-privacidad, #page-codigos-error{
+  #page-terminos, #page-privacidad, #page-cookies, #page-codigos-error{
     main{padding:64px 0 90px;}
     .doc-head{margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid var(--line);}
     .doc-head h1{font-size:clamp(28px,4vw,38px);}
@@ -302,7 +311,7 @@
     .doc-head p{margin-top:14px;color:var(--paper-dim);font-size:15.5px;max-width:560px;}
     @media(max-width:600px){ main{padding:44px 0 60px;} .doc-head{margin-bottom:30px;padding-bottom:22px;} }
   }
-  #page-terminos, #page-privacidad{
+  #page-terminos, #page-privacidad, #page-cookies{
     .wrap{max-width:760px;}
     section{margin-bottom:38px;}
     section h2{font-size:19px;margin-bottom:14px;}
@@ -312,7 +321,7 @@
     section strong{color:var(--paper);font-weight:600;}
     @media(max-width:600px){ section{margin-bottom:30px;} }
   }
-  #page-privacidad{
+  #page-privacidad, #page-cookies{
     .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 12px;}
     .priv-table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px;}
     .priv-table th,.priv-table td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
@@ -721,6 +730,44 @@ body #page-index .step.on .step-num{color:var(--brass);}
 @media(hover:hover) and (pointer:fine){.tour-viewport,.tour-viewport.is-dragging{cursor:none;}.tour-viewport .tour-nav{cursor:pointer;}}
 @media (prefers-reduced-motion:reduce){.tour-progress{display:none;}}
 </style>
+<style>
+/* Windows / Microsoft Store */
+.btn-store{justify-content:flex-start;gap:12px;padding:10px 18px;background:var(--paper);color:var(--ink-900);text-align:left;line-height:1.15;border-radius:12px;}
+.btn-store:hover{background:#fff;color:var(--ink-900);}
+.btn-store svg{flex-shrink:0;}
+.btn-store small{display:block;font-size:11px;font-weight:500;opacity:.7;}
+.btn-store strong{display:block;font-size:16px;font-weight:600;}
+.btn-store.is-soon{background:transparent;border:1px solid var(--line);color:var(--paper-dim);pointer-events:none;}
+.store-direct{margin:14px 0 0;font-size:13px;color:var(--paper-dim);}
+.store-direct a{color:var(--brass-light);text-decoration:underline;}
+.store-direct[hidden]{display:none;}
+.store-pill{display:inline-flex;align-items:center;gap:8px;margin:16px 0 0;padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--brass-light);}
+.store-pill[hidden]{display:none;}
+
+.nf{min-height:calc(100vh - 230px);display:flex;align-items:center;padding:72px 0 96px;}
+.nf-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center;width:100%;}
+.nf h1{font-size:clamp(32px,4.4vw,52px);line-height:1.1;max-width:560px;}
+.nf .lead{margin-top:22px;font-size:17.5px;color:var(--paper-dim);max-width:460px;}
+.nf-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+.nf-scene{position:relative;min-height:380px;display:flex;align-items:center;justify-content:center;}
+.nf-tag{position:relative;width:250px;background:var(--brass-light);color:var(--ink-900);padding:22px 26px 22px 40px;clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 50%);transform:rotate(-6deg);animation:nf-tag .6s cubic-bezier(.2,.8,.3,1) both;}
+.nf-tag::before{content:"";position:absolute;left:9px;top:50%;width:8px;height:8px;border-radius:50%;background:var(--ink-900);transform:translateY(-50%);}
+.nf-tag .l{font-size:12px;color:rgba(17,20,24,.62);margin-bottom:6px;}
+.nf-tag .n{font-weight:600;font-size:19px;line-height:1.2;}
+.nf-tag .p{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:34px;margin-top:10px;}
+.nf-tag .s{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:rgba(17,20,24,.62);margin-top:2px;}
+.nf-receipt{position:relative;width:230px;background:var(--ink-800);font-family:'IBM Plex Mono',monospace;border:1px solid var(--line);padding:20px 20px 28px;margin:-30px 0 0 170px;transform:rotate(4deg);box-shadow:0 24px 40px rgba(0,0,0,.35);animation:nf-rec .6s .12s cubic-bezier(.2,.8,.3,1) both;}
+.nf-receipt::after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:18px;background:radial-gradient(circle at 9px 0,transparent 9px,var(--ink-800) 9.5px);background-size:18px 18px;background-repeat:repeat-x;}
+.nf-receipt .h{font-size:11px;letter-spacing:.08em;text-align:center;text-transform:uppercase;color:var(--paper-dim);border-bottom:1px dashed var(--line);padding-bottom:10px;margin-bottom:10px;}
+.nf-receipt .r{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:4px 0;}
+.nf-receipt .r .k{color:var(--paper-dim);}
+.nf-receipt .r .v{text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;}
+.nf-receipt .t{display:flex;justify-content:space-between;font-size:13px;font-weight:600;border-top:1px dashed var(--line);margin-top:8px;padding-top:8px;}
+@keyframes nf-tag{from{opacity:0;transform:rotate(-6deg) translateY(-14px);}to{opacity:1;transform:rotate(-6deg);}}
+@keyframes nf-rec{from{opacity:0;transform:rotate(4deg) translateY(14px);}to{opacity:1;transform:rotate(4deg);}}
+@media(max-width:900px){.nf-grid{grid-template-columns:1fr;gap:40px;}.nf-receipt{margin-left:120px;}}
+@media(max-width:520px){.nf{padding:48px 0 64px;}.nf-scene{flex-direction:column;gap:22px;min-height:0;}.nf-tag{width:min(250px,78vw);}.nf-receipt{margin:6px 0 0;width:min(230px,72vw);}.nf-cta .btn{flex:1 1 auto;}}
+</style>
 </head>
 <body>
 
@@ -754,7 +801,6 @@ body #page-index .step.on .step-num{color:var(--brass);}
         <li><a data-page="index" data-anchor="recursos">Recursos</a></li>
         <li><a data-page="index" data-anchor="preguntas">Preguntas</a></li>
         <li><a data-page="index" data-anchor="soporte">Soporte</a></li>
-        <li class="nav-mobile-cta"><a data-page="descargas" class="btn btn-primary">Probar la app</a></li>
       </ul>
     </div>
   </div>
@@ -772,6 +818,7 @@ body #page-index .step.on .step-num{color:var(--brass);}
           <a href="javascript:void(0)" data-page="index" data-anchor="modulos" class="btn btn-ghost">Ver qué incluye</a>
         </div>
         <p class="hero-note">No pedimos tarjeta para probarlo. Funciona sin conexión a internet.</p>
+        <p class="store-pill" data-store-soon><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7h14l-1 13H6L5 7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 7V6a3 3 0 0 1 6 0v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Próximamente en Microsoft Store</p>
         <div class="hero-count">
           <div><div class="n mono">248</div><div class="l">productos en un inventario típico</div></div>
           <div><div class="n mono">5</div><div class="l">minutos para cargar el primero</div></div>
@@ -1149,7 +1196,7 @@ body #page-index .step.on .step-num{color:var(--brass);}
     <div class="head">
       <div class="kicker">Versión de prueba</div>
       <h1>Descargá VentaFácil</h1>
-      <p>Elegí tu sistema operativo. Una vez instalada funciona sin internet; la conexión solo se usa para avisarte de versiones nuevas y para las funciones opcionales.</p>
+      <p>Elegí tu sistema operativo. Muy pronto vas a poder instalarla también desde la Microsoft Store. Una vez instalada funciona sin internet; la conexión solo se usa para avisarte de versiones nuevas y para las funciones opcionales.</p>
       <span class="ver mono">v0.0.1</span>
       <span class="counter-box" id="contador-descargas">
         <span class="counter-num mono" id="contador-num">—</span>
@@ -1171,9 +1218,13 @@ body #page-index .step.on .step-num{color:var(--brass);}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 5.5L10.5 4.4V11.4H3V5.5Z" fill="var(--brass-light)"/><path d="M11.5 4.3L21 3V11.3H11.5V4.3Z" fill="var(--brass-light)"/><path d="M3 12.4H10.5V19.5L3 18.4V12.4Z" fill="var(--brass-light)"/><path d="M11.5 12.4H21V20.9L11.5 19.6V12.4Z" fill="var(--brass-light)"/></svg>
         </div>
         <h3>Windows</h3>
-        <div class="p-status">DISPONIBLE</div>
-        <p class="p-req">Windows 10 o superior, 64 bits.</p>
-        <a href="https://github.com/JuanMartinLadychuk/ventafacil.github.io/releases/download/0.0.1/VentaFacil-Instalador.exe" class="btn btn-primary" data-download>Descargar .exe</a>
+        <div class="p-status">MICROSOFT STORE</div>
+        <p class="p-req">Windows 10 o superior, 64 bits. Se instala y se actualiza desde la Microsoft Store.</p>
+        <a id="store-btn" class="btn btn-store is-soon" data-download aria-disabled="true" rel="noopener">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7h14l-1 13H6L5 7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 7V6a3 3 0 0 1 6 0v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9.5 10.5h2.4v2.4H9.5zM12.1 10.5h2.4v2.4h-2.4zM9.5 13.1h2.4v2.4H9.5zM12.1 13.1h2.4v2.4h-2.4z" fill="currentColor"/></svg>
+          <span><small id="store-small">Muy pronto en</small><strong>Microsoft Store</strong></span>
+        </a>
+        <p class="store-direct" id="store-direct">Mientras tanto, la versión de prueba está en <a href="https://github.com/JuanMartinLadychuk/ventafacil.github.io/releases/download/0.0.1/VentaFacil-Instalador.exe" data-download>instalador directo (.exe)</a>.</p>
       </div>
 
       <div class="platform-card is-disabled">
@@ -1200,11 +1251,12 @@ body #page-index .step.on .step-num{color:var(--brass);}
     <div class="steps-box">
       <h2>Cómo instalarlo en Windows</h2>
       <ol class="steps-list">
-        <li>Descargá el archivo <strong>VentaFacil-Instalador.exe</strong> con el botón de arriba.</li>
-        <li>Ejecutalo desde la carpeta de Descargas (no hace falta descomprimir nada).</li>
-        <li>Windows puede mostrar un aviso de "editor desconocido" la primera vez: elegí <strong>Más información → Ejecutar de todas formas</strong>.</li>
+        <li>Aceptá los términos y tocá <strong>Obtener en Microsoft Store</strong>: se abre la ficha de VentaFácil en la Store.</li>
+        <li>Elegí <strong>Obtener</strong> o <strong>Instalar</strong>. La Store descarga e instala todo sola, sin avisos de "editor desconocido".</li>
+        <li>Abrí VentaFácil desde el menú Inicio. Las actualizaciones nuevas se instalan automáticamente desde la Store.</li>
         <li>Al abrir la app por primera vez, creá tu usuario con un correo y una contraseña. Se guardan solo en tu equipo, no necesitás internet y no recibís ningún mail de confirmación.</li>
       </ol>
+      <p class="muted" style="font-size:13.5px;margin-top:6px;">¿Usás el instalador directo (.exe)? Windows puede mostrar el aviso "editor desconocido": elegí <strong style="color:var(--paper)">Más información → Ejecutar de todas formas</strong>.</p>
     </div>
 
     <div class="note-box">
@@ -1286,18 +1338,9 @@ body #page-index .step.on .step-num{color:var(--brass);}
             <tr><td class="tech-code">6</td><td>Terminado por el depurador</td><td>Solo puede pasar compilando el instalador en una PC de desarrollo, nunca en la versión distribuida.</td></tr>
             <tr><td class="tech-code">7</td><td>No se puede continuar (etapa de preparación)</td><td>Sin espacio en disco, o VentaFácil seguía abierto y no se pudo (o no se quiso) cerrarlo.</td></tr>
             <tr><td class="tech-code">8</td><td>Igual que el 7, pero hace falta reiniciar</td><td>Poco común: Windows necesita un reinicio para poder resolver el problema detectado.</td></tr>
-            <tr><td class="tech-code">3010</td><td>Solo si se instala con el flag de abajo</td><td>No es un código nativo de Inno Setup: instalación terminada bien, pero falta reiniciar Windows para completarla.</td></tr>
           </tbody>
         </table>
       </div>
-
-      <p class="cmd-label">Comando de instalación (para que el 3010 funcione):</p>
-      <pre class="cmd-block"><code>VentaFacil-Instalador.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTEXITCODE=3010</code></pre>
-      <p class="cmd-note">Sin <code class="tech-code">/RESTARTEXITCODE=3010</code>, Setup no distingue "terminó bien pero falta reiniciar" con un código propio.</p>
-
-      <p class="cmd-label">Comando de desinstalación:</p>
-      <pre class="cmd-block"><code>"%ProgramFiles%\VentaFácil\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</code></pre>
-      <p class="cmd-note">Ajustar la ruta de desinstalación si el .iss instala en una carpeta distinta.</p>
     </div>
 
     <div class="cta-box">
@@ -1472,7 +1515,7 @@ body #page-index .step.on .step-num{color:var(--brass);}
 
     <section>
       <h2>8. Este sitio web</h2>
-      <p>Este sitio no usa cuentas ni cookies propias de seguimiento. Para funcionar carga tipografías desde Google Fonts, por lo que tu navegador se comunica con Google al abrir la página. La página de descargas muestra un contador público de descargas totales calculado con datos de GitHub sobre los instaladores publicados, y el instalador se descarga desde GitHub. No identificamos quién descarga ni recolectamos datos personales para ese conteo.</p>
+      <p>Este sitio no usa cuentas y mide las visitas con Google Analytics, que guarda cookies de medición en tu navegador (más detalle en la <a href="javascript:void(0)" data-page="cookies">Política de Cookies</a>). Para funcionar carga tipografías desde Google Fonts, por lo que tu navegador se comunica con Google al abrir la página. La página de descargas muestra un contador público de descargas totales calculado con datos de GitHub sobre los instaladores publicados, y el instalador se descarga desde GitHub. No identificamos quién descarga ni recolectamos datos personales para ese conteo.</p>
     </section>
 
     <section>
@@ -2053,6 +2096,74 @@ body #page-index .step.on .step-num{color:var(--brass);}
 </main>
 </section>
 
+<section class="page" id="page-404" data-title="Página no encontrada — VentaFácil">
+<main>
+  <div class="wrap nf"><div class="nf-grid">
+    <div>
+      <h1>Esta página se quedó sin stock.</h1>
+      <p class="lead">El link que seguiste no existe o cambió de lugar. Pasa hasta en las mejores casas: volvé al inicio y seguí desde ahí.</p>
+      <div class="nf-cta">
+        <a href="javascript:void(0)" data-page="index" class="btn btn-primary">Volver al inicio</a>
+        <a href="javascript:void(0)" data-page="descargas" class="btn btn-ghost">Ir a Descargas</a>
+      </div>
+    </div>
+    <div class="nf-scene" aria-hidden="true">
+      <div class="nf-tag"><div class="l">Artículo</div><div class="n">Página no encontrada</div><div class="p">404</div><div class="s">Código de error HTTP</div></div>
+      <div class="nf-receipt"><div class="h">Comprobante de búsqueda</div>
+        <div class="r"><span class="k">Página</span><span class="v" id="nf-path">pedida</span></div>
+        <div class="r"><span class="k">Stock</span><span class="v">0</span></div>
+        <div class="r"><span class="k">Resultado</span><span class="v">no existe</span></div>
+        <div class="t"><span>Total</span><span>$0,00</span></div></div>
+    </div>
+  </div></div>
+</main>
+</section>
+
+<section class="page" id="page-cookies" data-title="Política de Cookies — VentaFácil">
+<main>
+  <div class="wrap">
+    <div class="doc-head">
+      <h1>Política de Cookies</h1>
+      <p class="updated">Última actualización: 3 de octubre de 2026</p>
+    </div>
+
+    <section>
+      <h2>1. Qué son las cookies</h2>
+      <p>Las cookies son archivos pequeños que un sitio web guarda en tu navegador para recordar algo: una preferencia, una sesión iniciada o, en algunos casos, tu actividad para medirla o mostrarte publicidad. Esta política explica cuáles usa este sitio y cuáles no. Se complementa con la <a href="javascript:void(0)" data-page="privacidad">Política de Privacidad</a>.</p>
+    </section>
+
+    <section>
+      <h2>2. Lo que usa este sitio</h2>
+      <p>Este sitio usa <strong>Google Analytics</strong> (a través de la etiqueta de Google) para medir cómo se usa: qué páginas se visitan, cuánto tiempo, desde qué tipo de dispositivo y navegador, y desde qué zona aproximada. Para eso Google guarda cookies de medición en tu navegador (por ejemplo <span class="mono">_ga</span> y <span class="mono">_ga_G-4HJJENYXH6</span>), que sirven para distinguir visitas y sesiones.</p>
+      <p>Usamos esos datos solo para mejorar el sitio. No hay cuentas, no mostramos publicidad y no cruzamos esta información con datos personales tuyos. Fuera de lo de Google, el sitio no instala cookies propias ni guarda datos en el almacenamiento local del navegador.</p>
+    </section>
+
+    <section>
+      <h2>3. Servicios de terceros</h2>
+      <p>Para funcionar, el sitio carga recursos de otros servicios. Al hacerlo, tu navegador se comunica con ellos y cada uno aplica su propia política, que no controlamos.</p>
+      <div class="table-scroll"><table class="priv-table">
+        <tr><th>Servicio</th><th>Para qué se usa</th></tr>
+        <tr><td>Google Analytics</td><td>Medir las visitas al sitio mediante cookies de medición.</td></tr>
+        <tr><td>Google Fonts</td><td>Cargar las tipografías del sitio (Roboto e IBM Plex Mono).</td></tr>
+        <tr><td>cdnjs (Cloudflare)</td><td>Cargar bibliotecas de código que dan los efectos visuales de la página.</td></tr>
+        <tr><td>GitHub</td><td>Calcular el contador público de descargas y alojar el instalador directo.</td></tr>
+        <tr><td>Microsoft Store</td><td>Instalar y actualizar la app. Rige la política de Microsoft, no esta.</td></tr>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>4. Cómo controlarlas</h2>
+      <p>Podés ver, bloquear o borrar cookies desde la configuración de tu navegador (Chrome, Edge, Firefox y Safari lo permiten). Si bloqueás las de terceros, el sitio sigue funcionando; lo más probable es que solo cambie la tipografía. Para no ser medido por Google Analytics en ningún sitio, también podés instalar el <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">complemento de inhabilitación de Google</a>.</p>
+    </section>
+
+    <section>
+      <h2>5. Cambios y contacto</h2>
+      <p>Si sumamos o cambiamos herramientas que usen cookies, vamos a actualizar esta página. Para consultas escribinos a <a href="mailto:soporteventafacil@proton.me">soporteventafacil@proton.me</a>.</p>
+    </section>
+  </div>
+</main>
+</section>
+
 <footer>
   <div class="wrap footer-row">
     <div>
@@ -2063,6 +2174,7 @@ body #page-index .step.on .step-num{color:var(--brass);}
       <li><a data-page="descargas">Descargas</a></li>
       <li><a data-page="codigos-error">Códigos de error</a></li>
       <li><a data-page="privacidad">Privacidad</a></li>
+      <li><a data-page="cookies">Cookies</a></li>
       <li><a data-page="terminos">Términos</a></li>
       <li><a data-page="index" data-anchor="soporte">Contacto</a></li>
     </ul>
@@ -2081,7 +2193,7 @@ body #page-index .step.on .step-num{color:var(--brass);}
 
     function showPage(page, anchor){
       var target = document.getElementById('page-' + page);
-      if(!target){ target = document.getElementById('page-index'); page = 'index'; }
+      if(!target){ target = document.getElementById('page-404'); page = '404'; }
       pages.forEach(function(s){ s.classList.remove('is-active'); });
       target.classList.add('is-active');
       document.title = target.getAttribute('data-title') || 'VentaFácil';
@@ -2295,6 +2407,22 @@ body #page-index .step.on .step-num{color:var(--brass);}
   })();
 </script>
 
+
+<script>
+  /* Microsoft Store: pegá acá el ID de producto (ej. 9NXXXXXXXXXX) cuando la app esté publicada. */
+  (function(){
+    var STORE_PRODUCT_ID = '';
+    var btn = document.getElementById('store-btn');
+    if(!btn || !STORE_PRODUCT_ID) return;
+    btn.href = 'https://apps.microsoft.com/detail/' + STORE_PRODUCT_ID;
+    btn.target = '_blank';
+    btn.classList.remove('is-soon');
+    btn.removeAttribute('aria-disabled');
+    document.getElementById('store-small').textContent = 'Obtener en';
+    document.getElementById('store-direct').hidden = true;
+    document.querySelectorAll('[data-store-soon]').forEach(function(e){ e.hidden = true; });
+  })();
+</script>
 
 <div id="react-root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
